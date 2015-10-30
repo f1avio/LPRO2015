@@ -7,7 +7,7 @@ package scrabble;
 
 /**
  *
- * @author ee11270
+ * @author ee11270 && Flávio Dias
  */
 public class Scrabble {
 
