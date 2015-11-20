@@ -98,7 +98,7 @@ public class Scrabble_Server {
     public static void main(String args[]) {
         
         /*Step One: Initialize database*/
-        boolean Connect = DBInterface.connect("jdbc:postgresql://vdbm.fe.up.pt/lpro1513", "lpro1513", "C4bh X7aai");
+        boolean Connect = DBInterface.connect("jdbc:postgresql://vdbm.fe.up.pt/lpro1513", "lpro1513", "C4bhX7aai");
         if(false == Connect)
         {
             System.out.println("Failed to connect to the database. Exiting now.");
