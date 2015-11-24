@@ -87,7 +87,7 @@ class ClientThread extends Thread{
 
 public class Scrabble_Server {
 
-    private static int port= 1513;
+    private static int port= 0;
     private ServerSocket sk = null;
     
     
@@ -97,8 +97,38 @@ public class Scrabble_Server {
      */
     public static void main(String args[]) {
         
+        /*Step 0: Initialize the files*/
+        BufferedReader inputStream = null;
+        int i = 0;
+        String aux[] = new String[5];
+        String file = "config.txt";
+       try {
+            inputStream = new BufferedReader(new FileReader(file));
+            while ((aux[i] = inputStream.readLine()) != null) {
+                i++;
+            }
+        }catch (FileNotFoundException f)
+              {
+            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+            } 
+       
+        catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+            }  
+        finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException ex) {
+                    System.err.println("Caught IOException: " + ex.getMessage());
+                }
+            }
+        }
+       
+           port = Integer.parseInt(aux[0]);
+    
         /*Step One: Initialize database*/
-        boolean Connect = DBInterface.connect("jdbc:postgresql://vdbm.fe.up.pt/lpro1513", "lpro1513", "C4bhX7aai");
+        boolean Connect = DBInterface.connect(aux[1], aux[2], aux[3]);
         if(false == Connect)
         {
             System.out.println("Failed to connect to the database. Exiting now.");

@@ -1,0 +1,4 @@
+1513
+jdbc:postgresql://vdbm.fe.up.pt/lpro1513
+lpro1513
+C4bhX7aai
