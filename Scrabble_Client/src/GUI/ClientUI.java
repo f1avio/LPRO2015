@@ -1,4 +1,4 @@
-package scrabble_client;
+package GUI;
 
 /**@author Adam Kopnicky
  * @author Ewa Godlewska
@@ -12,6 +12,7 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import scrabble_client.*;
 
 public class ClientUI extends javax.swing.JFrame {
 
@@ -111,48 +112,17 @@ public class ClientUI extends javax.swing.JFrame {
      * @param evt the event received
      */
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        String hostname = "localhost";
-        Socket clientSocket = null;
-        int port = 1513;
-        Cipher hash = new Cipher();
-       
-        
-         try{
-            clientSocket = new Socket(hostname, port);
-           
             
+            logControl logIn =  new logControl();
             /*Read what the user inputs*/
             String username = (String)((userTextField.getText()));
             String password = new String(PasswordField.getPassword());
-            /*Passes the password through the MD5Hash*/
-            String hashpass = hash.convert(password);
-            /*Delivers the user input to the server*/
-            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            outToServer.writeBytes(username + "\n");
-            outToServer.writeBytes(hashpass + "\n");
             
-            /*Read the response from the server*/
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            if(inFromServer.readLine().equals("ok"))
+            if(logIn.login(username, password))
                 JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
             else
                 JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
-            
-             } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostname);
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " +
-                hostname);
-            System.exit(1);
-        } finally {
-             if(null != clientSocket)
-                try {
-                    clientSocket.close();
-             } catch (IOException ex) {
-                 Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
-             }
-         }
+  
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
