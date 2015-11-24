@@ -5,6 +5,7 @@ import java.net.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Properties;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -97,6 +98,36 @@ public class Scrabble_Server {
      */
     public static void main(String args[]) {
         
+        
+	Properties prop = new Properties();
+	InputStream input = null;
+        
+        
+
+	try {
+
+		input = new FileInputStream("config.properties");
+
+		// load a properties file
+		prop.load(input);
+
+		// get the property value and print it out
+		System.out.println(prop.getProperty("database"));
+		System.out.println(prop.getProperty("dbuser"));
+		System.out.println(prop.getProperty("dbpassword"));
+
+	} catch (IOException ex) {
+		ex.printStackTrace();
+	} finally {
+		if (input != null) {
+			try {
+				input.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+       
         /*Step One: Initialize database*/
         boolean Connect = DBInterface.connect("jdbc:postgresql://vdbm.fe.up.pt/lpro1513", "lpro1513", "C4bhX7aai");
         if(false == Connect)
@@ -117,5 +148,18 @@ public class Scrabble_Server {
             System.exit(-1);
         }  
             
+    }
+    public String getPath() {
+        String path = NameOfYourClassHere.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String decodedPath = path;
+        try {
+            decodedPath = URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String absolutePath = decodedPath.substring(0, decodedPath.lastIndexOf("/"))+"\\";
+        return absolutePath;
     }
 }
