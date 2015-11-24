@@ -5,6 +5,7 @@ import java.net.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import dBInterface.*;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 
 class ClientThread extends Thread{
     private Socket connectionSocket = null;
-    private final DBInterface conn = new DBInterface();
+    private final DBconnection conn = new DBconnection();
     
     /**
      * ServiceClient constructor that stores the parameter socket
@@ -128,7 +129,7 @@ public class Scrabble_Server {
            port = Integer.parseInt(aux[0]);
     
         /*Step One: Initialize database*/
-        boolean Connect = DBInterface.connect(aux[1], aux[2], aux[3]);
+        boolean Connect = DBconnection.connect(aux[1], aux[2], aux[3]);
         if(false == Connect)
         {
             System.out.println("Failed to connect to the database. Exiting now.");

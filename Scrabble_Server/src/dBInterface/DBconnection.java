@@ -1,4 +1,4 @@
-package scrabble_server;
+package dBInterface;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author Jose Carvalho
  */
 
-public class DBInterface {
+public class DBconnection {
     
     private static boolean SuccessfulConn = true;
     private static Connection db = null;
@@ -30,7 +30,7 @@ public class DBInterface {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) {
             SuccessfulConn = false;
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
@@ -38,7 +38,7 @@ public class DBInterface {
             SuccessfulConn = true;
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -62,7 +62,7 @@ public class DBInterface {
             db.close();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -93,7 +93,7 @@ public class DBInterface {
             
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             success = false;
         }
         return success;
@@ -128,7 +128,7 @@ public class DBInterface {
 
         } catch (SQLException ex) {
             success = false;
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return success;
@@ -166,7 +166,7 @@ public class DBInterface {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             return -4;
         }
         
@@ -199,7 +199,7 @@ public class DBInterface {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             success = false;
             
         }
@@ -227,7 +227,7 @@ public class DBInterface {
                 st.close();
                 
             } catch (SQLException ex) {
-                Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
             
