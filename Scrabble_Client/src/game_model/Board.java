@@ -10,7 +10,7 @@ import java.util.Collections;
 
 /**
  *
- * @author jeremy.williamson
+ * @author Portatil
  */
 public class Board {
 
