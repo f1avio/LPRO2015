@@ -8,7 +8,8 @@ package GUI;
 /**
  *
  * @author Portatil
- */
+*/
+        
 public class MainPage extends javax.swing.JFrame {
 
     /**
