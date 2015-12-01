@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import static GUI.MainPage.MainPage;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
@@ -47,6 +48,7 @@ public class InicialFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         pagesPanel = new javax.swing.JPanel();
         homePanel = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         passInputText = new javax.swing.JPasswordField();
@@ -73,6 +75,7 @@ public class InicialFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
 
         MainPanel.setOpaque(false);
         MainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -146,6 +149,9 @@ public class InicialFrame extends javax.swing.JFrame {
 
         homePanel.setName(""); // NOI18N
         homePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jToggleButton1.setText("Server");
+        homePanel.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         homePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 550));
@@ -278,8 +284,10 @@ public class InicialFrame extends javax.swing.JFrame {
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
             
-        if(logIn.login(username, password))
-            JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
+        if(logIn.login(username, password)){
+            dispose();
+            MainPage();
+        }   //JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
         else
             JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
   
@@ -369,6 +377,7 @@ public class InicialFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton loginB;
     private javax.swing.JButton loginPageB;
     private javax.swing.JPanel loginPanel;

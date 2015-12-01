@@ -28,15 +28,10 @@ public class MainPage extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        mainPage = new javax.swing.JPanel();
         usernameL = new javax.swing.JLabel();
-        welcome = new javax.swing.JLabel();
-        joinB = new javax.swing.JButton();
-        createB = new javax.swing.JButton();
-        settingsB = new javax.swing.JButton();
-        logoutB = new javax.swing.JButton();
         rankingB = new javax.swing.JButton();
-        helpB = new javax.swing.JButton();
-        homeB = new javax.swing.JButton();
+        welcome = new javax.swing.JLabel();
         TabsTable2 = new javax.swing.JTabbedPane();
         chatPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -48,70 +43,40 @@ public class MainPage extends javax.swing.JFrame {
         sendmessageB = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         playerList = new javax.swing.JTable();
+        homeB = new javax.swing.JButton();
+        joinB = new javax.swing.JButton();
+        helpB = new javax.swing.JButton();
+        createB = new javax.swing.JButton();
+        settingsB = new javax.swing.JButton();
+        logoutB = new javax.swing.JButton();
         roomScrollPane = new javax.swing.JScrollPane();
         roomTable = new javax.swing.JTable();
-        backgroung = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLocation(new java.awt.Point(0, 0));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        getContentPane().setLayout(new java.awt.CardLayout());
+
+        mainPage.setMinimumSize(new java.awt.Dimension(800, 600));
+        mainPage.setOpaque(false);
+        mainPage.setPreferredSize(new java.awt.Dimension(800, 600));
+        mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         usernameL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         usernameL.setText("username");
-        getContentPane().add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
+        mainPage.add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
+
+        rankingB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        rankingB.setText("Ranking");
+        mainPage.add(rankingB, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 120, 40));
 
         welcome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         welcome.setText("Welcome");
-        getContentPane().add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, 30));
-
-        joinB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        joinB.setText("Join Room");
-        joinB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                joinBActionPerformed(evt);
-            }
-        });
-        getContentPane().add(joinB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 180, 40));
-
-        createB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        createB.setText("Create Room");
-        createB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createBActionPerformed(evt);
-            }
-        });
-        getContentPane().add(createB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 180, 40));
-
-        settingsB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        settingsB.setText("Settings");
-        settingsB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBActionPerformed(evt);
-            }
-        });
-        getContentPane().add(settingsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 120, 40));
-
-        logoutB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        logoutB.setText("Logout");
-        logoutB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutBActionPerformed(evt);
-            }
-        });
-        getContentPane().add(logoutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 110, 40));
-
-        rankingB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        rankingB.setText("Ranking");
-        getContentPane().add(rankingB, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 120, 40));
-
-        helpB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        helpB.setText("Help");
-        getContentPane().add(helpB, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 100, 40));
-
-        homeB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        homeB.setText("Home");
-        getContentPane().add(homeB, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 100, 40));
+        mainPage.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, 30));
 
         TabsTable2.setMinimumSize(new java.awt.Dimension(235, 260));
         TabsTable2.setPreferredSize(new java.awt.Dimension(235, 260));
@@ -215,7 +180,51 @@ public class MainPage extends javax.swing.JFrame {
 
         TabsTable2.addTab("Jogadores", playersPanel);
 
-        getContentPane().add(TabsTable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 220, 380));
+        mainPage.add(TabsTable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 220, 380));
+
+        homeB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        homeB.setText("Home");
+        mainPage.add(homeB, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 100, 40));
+
+        joinB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        joinB.setText("Join Room");
+        joinB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinBActionPerformed(evt);
+            }
+        });
+        mainPage.add(joinB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 180, 40));
+
+        helpB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        helpB.setText("Help");
+        mainPage.add(helpB, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 100, 40));
+
+        createB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        createB.setText("Create Room");
+        createB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createBActionPerformed(evt);
+            }
+        });
+        mainPage.add(createB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 180, 40));
+
+        settingsB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        settingsB.setText("Settings");
+        settingsB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsBActionPerformed(evt);
+            }
+        });
+        mainPage.add(settingsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 120, 40));
+
+        logoutB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        logoutB.setText("Logout");
+        logoutB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBActionPerformed(evt);
+            }
+        });
+        mainPage.add(logoutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 110, 40));
 
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -236,12 +245,12 @@ public class MainPage extends javax.swing.JFrame {
         roomTable.getTableHeader().setReorderingAllowed(false);
         roomScrollPane.setViewportView(roomTable);
 
-        getContentPane().add(roomScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 370, 180));
+        mainPage.add(roomScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 370, 180));
 
-        backgroung.setBackground(new java.awt.Color(255, 255, 255));
-        backgroung.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        backgroung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/scrabbleRabble.jpg"))); // NOI18N
-        getContentPane().add(backgroung, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/scrabbleRabble.png"))); // NOI18N
+        mainPage.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 580));
+
+        getContentPane().add(mainPage, "mainP");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -324,7 +333,6 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane TabsTable2;
-    private javax.swing.JLabel backgroung;
     public javax.swing.JPanel chatPanel2;
     public javax.swing.JTextArea chatarea2;
     private javax.swing.JTextField chatinput2;
@@ -332,10 +340,12 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton helpB;
     private javax.swing.JButton homeB;
     private javax.swing.JButton inviteB;
+    private javax.swing.JLabel jLabel1;
     public javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton joinB;
     private javax.swing.JButton logoutB;
+    private javax.swing.JPanel mainPage;
     public javax.swing.JTable playerList;
     private javax.swing.JPanel playersPanel;
     private javax.swing.JPanel profsOptPanel;
