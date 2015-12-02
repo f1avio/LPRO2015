@@ -16,6 +16,9 @@ import javax.swing.JPanel;
  */
 public class BoardWindow extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public static java.awt.Color DEFAULT_BUTTON_COLOR;
 
     /**
@@ -270,7 +273,12 @@ public class BoardWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_challengeButtonActionPerformed
 
     //create our own game gameBoard window based on our gameBoard model
-    public void initBasicComponents(Board gameBoard) {
+
+    /**
+     *
+     * @param gameBoard
+     */
+        public void initBasicComponents(Board gameBoard) {
         //components
         boardPanel = new JPanel();
         controlPanel = new javax.swing.JPanel();
@@ -493,46 +501,91 @@ public class BoardWindow extends javax.swing.JFrame {
     }//end initCustomComponents
 
     //ACTION LISTENERS//////////////////////////////////////////
-    public void addStartNewGameButtonActionListener(ActionListener listener) {
+
+    /**
+     *
+     * @param listener
+     */
+        public void addStartNewGameButtonActionListener(ActionListener listener) {
         startNewGameButton.addActionListener(listener);
     }//end addStartNewGameButtonActionListener()
 
+    /**
+     *
+     * @param listener
+     */
     public void addChallengeButtonActionListener(ActionListener listener) {
         challengeButton.addActionListener(listener);
     }//end addChallengeButtonActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addEndTurnButtonActionListener(ActionListener listener) {
         endTurnButton.addActionListener(listener);
     }//end addEndTurnButtonActionListener()
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton1ActionListener(ActionListener listener) {
         rackButton1.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton2ActionListener(ActionListener listener) {
         rackButton2.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton3ActionListener(ActionListener listener) {
         rackButton3.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton4ActionListener(ActionListener listener) {
         rackButton4.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton5ActionListener(ActionListener listener) {
         rackButton5.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton6ActionListener(ActionListener listener) {
         rackButton6.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addRackButton7ActionListener(ActionListener listener) {
         rackButton7.addActionListener(listener);
     }//end addRackButton1ActionListener
 
+    /**
+     *
+     * @param listener
+     */
     public void addSpaceButtonListActionListener(ActionListener listener) {
         for (int i = 0; i < 225; i++) {
             spaceButtonList.get(i).addActionListener(listener);
@@ -541,7 +594,13 @@ public class BoardWindow extends javax.swing.JFrame {
 
     ////END ACTION LISTENERS/////////////////////////////////////
     //Update Views//////////////////////////////////////////////////////////////////
-    public void updateRack(Player player) throws IndexOutOfBoundsException {
+
+    /**
+     *
+     * @param player
+     * @throws IndexOutOfBoundsException
+     */
+        public void updateRack(Player player) throws IndexOutOfBoundsException {
         //make all rack buttons invisible
         for (SpaceButton currentButton : buttonRack) {
             currentButton.setVisible(false);
@@ -564,6 +623,10 @@ public class BoardWindow extends javax.swing.JFrame {
 
     }//end updateRack()
 
+    /**
+     *
+     * @param gameBoard
+     */
     public void updateBoard(Board gameBoard) {
         for (int i = 0; i < gameBoard.spaces.size(); i++) {
 
@@ -599,43 +662,84 @@ public class BoardWindow extends javax.swing.JFrame {
         }//end for
     }//end updateBoard
 
+    /**
+     *
+     * @param newButtonRack
+     */
     public void setButtonRack(ArrayList<SpaceButton> newButtonRack) {
         buttonRack = newButtonRack;
     }//end setter
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<SpaceButton> getButtonRack() {
         return buttonRack;
     }//end getter
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<SpaceButton> getSpaceButtonList() {
         return spaceButtonList;
     }//end getter
 
     //enable or disable rack buttons
-    public void setRackButton1Enabled(boolean enabled) {
+
+    /**
+     *
+     * @param enabled
+     */
+        public void setRackButton1Enabled(boolean enabled) {
         rackButton1.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton2Enabled(boolean enabled) {
         rackButton2.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton3Enabled(boolean enabled) {
         rackButton3.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton4Enabled(boolean enabled) {
         rackButton4.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton5Enabled(boolean enabled) {
         rackButton5.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton6Enabled(boolean enabled) {
         rackButton6.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setRackButton7Enabled(boolean enabled) {
         rackButton7.setEnabled(enabled);
     }//end set button
@@ -644,55 +748,110 @@ public class BoardWindow extends javax.swing.JFrame {
      @author Paul
      @date Sep 19 2015
      */
+
+    /**
+     *
+     * @param color
+     */
+    
     public void setRackButton1bg(java.awt.Color color) {
         rackButton1.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton2bg(java.awt.Color color) {
         rackButton2.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton3bg(java.awt.Color color) {
         rackButton3.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton4bg(java.awt.Color color) {
         rackButton4.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton5bg(java.awt.Color color) {
         rackButton5.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton6bg(java.awt.Color color) {
         rackButton6.setBackground(color);
     }// end background set
 
+    /**
+     *
+     * @param color
+     */
     public void setRackButton7bg(java.awt.Color color) {
         rackButton7.setBackground(color);
     }// end background set
 
     /* This function will enable the start new game button */
+
+    /**
+     *
+     * @param enabled
+     */
+    
     public void setStartNewGameButton1Enabled(boolean enabled) {
         startNewGameButton.setEnabled(enabled);
     }//end set button
 
+    /**
+     *
+     * @param enabled
+     */
     public void setChallengeButtonEnabled(boolean enabled) {
         challengeButton.setEnabled(enabled);
     }//end setChallengeButtonEnabled
 
     //show instructions
-    public void showInstructions(boolean enabled) {
+
+    /**
+     *
+     * @param enabled
+     */
+        public void showInstructions(boolean enabled) {
         instructionLabel.setVisible(enabled);
     }//end showInstructions
 
     //Set Player 1 score
-    public void setPlayer1Score(int newScore) {
+
+    /**
+     *
+     * @param newScore
+     */
+        public void setPlayer1Score(int newScore) {
         player1ScoreLabel.setText(String.valueOf(newScore));
     }
 
     //Set Player 2 score
-    public void setPlayer2Score(int newScore) {
+
+    /**
+     *
+     * @param newScore
+     */
+        public void setPlayer2Score(int newScore) {
         player2ScoreLabel.setText(String.valueOf(newScore));
     }
 

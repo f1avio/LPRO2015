@@ -5,28 +5,33 @@
  */
 package GUI;
 
-import static GUI.MainPage.MainPage;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
-/*
- *
- * @author Hugo Pereira <your.name at your.org>
- */
-public class InicialFrame extends javax.swing.JFrame {
+import GUI.MainFrame;
 
-    static private String page = "loginP";
+/**@author  Adam Kopnicky
+ *          Ewa Godlewska
+ *          Flavio Dias
+ *          Hugo Pereira
+ *          Jose Carvalho
+ */
+
+public class InitialFrame extends javax.swing.JFrame {
+
+    static private String page = "homeP";
+    MainFrame mainF;
     /**
      * Creates new form InicialFrame
-     * @param selectedPage
+     * @param selectedPage Stores the string with the name of the windows do present
      */
-    public InicialFrame(String selectedPage) {
+    public InitialFrame(String selectedPage) {
         initComponents();
-        InicialFrame.page = selectedPage;
+        InitialFrame.page = selectedPage;
         selectPage(page);
     }
 
-    private InicialFrame() {
+    private InitialFrame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -76,6 +81,7 @@ public class InicialFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setName("MainFrame"); // NOI18N
 
         MainPanel.setOpaque(false);
         MainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -267,6 +273,8 @@ public class InicialFrame extends javax.swing.JFrame {
 
         getContentPane().add(MainPanel, java.awt.BorderLayout.PAGE_START);
 
+        getAccessibleContext().setAccessibleName("mainF");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -279,14 +287,15 @@ public class InicialFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_userInputTextActionPerformed
 
     private void loginBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBActionPerformed
-        logControl logIn =  new logControl();
+        ClientService logIn =  new ClientService();
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
             
         if(logIn.login(username, password)){
-            dispose();
-            MainPage();
+            /*this.MainPanel.setVisible(false);
+            this.add(mainF);
+            this.mainF.setVisible(true);*/
         }   //JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
         else
             JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
@@ -343,20 +352,21 @@ public class InicialFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InicialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InicialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InicialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InicialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InicialFrame().setVisible(true);
+                new InitialFrame().setVisible(true);
             }
         });
     }
