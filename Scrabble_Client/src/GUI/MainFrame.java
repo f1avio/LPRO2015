@@ -5,17 +5,19 @@
  */
 package GUI;
 
-/**
- *
- * @author Portatil
-*/
-        
-public class MainPage extends javax.swing.JFrame {
+/**@author  Adam Kopnicky
+ *          Ewa Godlewska
+ *          Flavio Dias
+ *          Hugo Pereira
+ *          Jose Carvalho
+ */
+
+public class MainFrame extends javax.swing.JPanel {
 
     /**
-     * Creates new form Home
+     * Creates new form Main
      */
-    public MainPage() {
+    public MainFrame() {
         initComponents();
     }
 
@@ -54,11 +56,8 @@ public class MainPage extends javax.swing.JFrame {
         roomTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().setLayout(new java.awt.CardLayout());
+        setLayout(new java.awt.CardLayout());
 
         mainPage.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPage.setOpaque(false);
@@ -249,20 +248,10 @@ public class MainPage extends javax.swing.JFrame {
         mainPage.add(roomScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 370, 180));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/scrabbleRabble.png"))); // NOI18N
-        mainPage.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 580));
+        mainPage.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        getContentPane().add(mainPage, "mainP");
-
-        pack();
+        add(mainPage, "mainP");
     }// </editor-fold>//GEN-END:initComponents
-
-    private void settingsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_settingsBActionPerformed
-
-    private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logoutBActionPerformed
 
     private void chatinput2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput2FocusGained
         //
@@ -276,61 +265,34 @@ public class MainPage extends javax.swing.JFrame {
         //
     }//GEN-LAST:event_chatinput2ActionPerformed
 
-    private void sendmessageBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageBActionPerformed
-
-        //Codigo para enviar mensagem
-    }//GEN-LAST:event_sendmessageBActionPerformed
-
-    private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
-       //Codigo para selecionar jogador da lista
-    }//GEN-LAST:event_playerListMouseReleased
-
     private void inviteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inviteBActionPerformed
 
-    private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
+    private void sendmessageBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageBActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_createBActionPerformed
+    }//GEN-LAST:event_sendmessageBActionPerformed
+
+    private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerListMouseReleased
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_joinBActionPerformed
 
-    
-    
-    public static void MainPage() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-/*        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createBActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainPage().setVisible(true);
-            }
-        });
-    }
+    private void settingsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsBActionPerformed
+
+    private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutBActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane TabsTable2;

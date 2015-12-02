@@ -27,7 +27,12 @@ public class ClientService {
         int port = 1513;
         boolean Success = false;
         MD5 hash = new MD5();
-       
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
          try{
             clientSocket = new Socket(hostname, port);
            

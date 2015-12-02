@@ -5,7 +5,11 @@
  */
 package scrabble_client;
 
+
 import GUI.InicialFrame;
+import java.io.IOException;
+
+import GUI.InitialFrame;
 import java.io.IOException;
 
 /**
@@ -13,8 +17,14 @@ import java.io.IOException;
  * @author Hugo Pereira <your.name at your.org>
  */
 public class Client {
+
+    /**
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String args[]) throws IOException {
-        InicialFrame scrabblegui = new InicialFrame("homeP");
+        InitialFrame scrabblegui = new InitialFrame("homeP");
         scrabblegui.pack();
         scrabblegui.setVisible(true);
     }
