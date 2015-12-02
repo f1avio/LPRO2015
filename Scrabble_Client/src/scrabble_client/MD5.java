@@ -1,20 +1,16 @@
 package scrabble_client;
 
-/**@author Adam Kopnicky
- * @author Ewa Godlewska
- * @author Flavio Dias 
- * @author Hugo Pereira
- * @author Jose Carvalho
- */
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Portatil
+/**@author  Adam Kopnicky
+ *          Ewa Godlewska
+ *          Flavio Dias
+ *          Hugo Pereira
+ *          Jose Carvalho
  */
 public class MD5 {
        private MessageDigest md;
