@@ -7,13 +7,9 @@ package scrabble_client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,16 +19,15 @@ import java.util.logging.Logger;
  *
  * @author Flávio
  */
-public class logControl {
-    
+public class ClientService {
     
     public boolean login(String username, String password){
-        String hostname= "localhost";
+        String hostname = "gnomo.fe.up.pt";
         Socket clientSocket = null;
-        int port=1513;
+        int port = 1513;
         boolean Success = false;
-        Cipher hash = new Cipher();
-        
+        MD5 hash = new MD5();
+       
          try{
             clientSocket = new Socket(hostname, port);
            
@@ -61,7 +56,7 @@ public class logControl {
                 try {
                     clientSocket.close();
              } catch (IOException ex) {
-                 Logger.getLogger(logControl.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(ClientService.class.getName()).log(Level.SEVERE, null, ex);
              }
          }    
          return Success;

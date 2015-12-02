@@ -12,17 +12,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cipher {
+public class MD5 {
        private MessageDigest md;
 
     /**
      * Constructor that initiates the md MessageDigest
      */   
-    public Cipher() {
+    public MD5() {
         try {
             this.md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Cipher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MD5.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
