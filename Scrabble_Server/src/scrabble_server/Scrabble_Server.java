@@ -13,8 +13,6 @@ import dBInterface.*;
  *          Hugo Pereira
  *          Jose Carvalho
  */
-
-
 class ClientThread extends Thread{
     private Socket connectionSocket = null;
     private final DBconnection conn = new DBconnection();
@@ -70,7 +68,7 @@ class ClientThread extends Thread{
                     }
                     else
                     {
-                        System.out.print("Something went wrong. Client didn't logged in");
+                        System.out.print("Something went wrong. Client didn't log in");
                         outToClient.writeBytes("not ok\n");
                     }
                 }

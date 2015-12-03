@@ -6,7 +6,7 @@
 package scrabble_client;
 
 
-import GUI.InicialFrame;
+import GUI.*;
 import java.io.IOException;
 
 import GUI.InitialFrame;

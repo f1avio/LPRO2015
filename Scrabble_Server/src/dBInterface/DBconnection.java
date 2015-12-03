@@ -34,7 +34,7 @@ public class DBconnection {
         }
         
         try {
-            db = DriverManager.getConnection( url,username,password);
+            db = DriverManager.getConnection(url,username,password);
             SuccessfulConn = true;
             return true;
         } catch (SQLException ex) {
