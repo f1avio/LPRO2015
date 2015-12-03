@@ -40,6 +40,7 @@ public class MD5 {
         for (int i = 0; i < byteData.length; i++) {
          sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
+        //System.out.println("MD5:"+ sb.toString()); //Print the md5 code to make tests
         return sb.toString();
     }
 }
