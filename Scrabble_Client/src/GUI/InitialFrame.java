@@ -19,9 +19,16 @@ import scrabble_client.*;
 public class InitialFrame extends javax.swing.JFrame {
 
     static private String page = "homeP";
+    static String identifier;  //mudar para uma int
     MainFrame mainF;
      /*Establishes connection to the controller*/
     static ClientService ctrl = new ClientService();
+    
+    static String getIdentifier()
+    {
+        return identifier;
+    }
+    
     /**
      * Creates new form InicialFrame
      * @param selectedPage Stores the string with the name of the windows do present
@@ -307,7 +314,8 @@ public class InitialFrame extends javax.swing.JFrame {
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
-            
+        identifier = username;    
+        
         if(ctrl.login(username, password)){
             this.MainPanel.setVisible(false);
             this.add(mainF);

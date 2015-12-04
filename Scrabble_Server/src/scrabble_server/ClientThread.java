@@ -54,7 +54,7 @@ class ClientThread extends Thread{
                                 break;
                     }
                 }
-                else /*Para teste de aplicação */
+                /*else 
                 {
                     if(true == conn.isOnline("accounts", username))
                     {   
@@ -66,7 +66,7 @@ class ClientThread extends Thread{
                         System.out.print("Something went wrong. Client didn't logged in");
                         status = -5;
                     }
-                }
+                }*/
        
        return status;
    }
@@ -79,6 +79,12 @@ class ClientThread extends Thread{
        return status;
    }
    
+   public int logoutClient(String username)
+   {
+       int status = conn.logoutUser("accounts", username);
+       return status;
+   }
+   
     @Override public void run()
     {
         String operation;
@@ -86,11 +92,9 @@ class ClientThread extends Thread{
         
         String username, password, email;
         
-        
         while(true)
         {
             try {
-           
                 /*Instructs the client to insert his name*/
                 DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
                 
@@ -99,9 +103,8 @@ class ClientThread extends Thread{
                 operation = inFromClient.readLine(); //Dictates the operation that will be applied
                    
                 switch(operation)
-                {
-                    case "login":    
-                                        username = inFromClient.readLine();
+                {  
+                    case "login":       username = inFromClient.readLine();
                                         password = inFromClient.readLine();
                                         aux = logClient(username, password);
                                         outToClient.writeBytes(Integer.toString(aux)+ '\n');
@@ -112,6 +115,11 @@ class ClientThread extends Thread{
                                         email = inFromClient.readLine();
                                         aux = signClient(username, password, email);
                                         outToClient.writeBytes(Integer.toString(aux)+ '\n');
+                                        break;
+                        
+                    case "logout":      username = inFromClient.readLine();
+                                        aux = logoutClient(username);
+                                        outToClient.writeBytes(Integer.toString(aux)+'\n');
                                         break;
                         
                     default:            break;     

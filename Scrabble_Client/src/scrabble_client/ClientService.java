@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
@@ -67,7 +69,6 @@ public class ClientService {
         }
     }
     /**
-     * 
      * @param username
      * @param password
      * @param email
@@ -153,5 +154,26 @@ public class ClientService {
    return result;
 }
     
-    
+    /*Yeah, we have a problem. We don't know who the user is!"*/
+    public int logout(String username) 
+    {
+        int status = -2;
+        DataOutputStream outToServer;
+        BufferedReader inFromServer;
+        
+        try {
+            outToServer = new DataOutputStream(clientSocket.getOutputStream());
+            outToServer.writeBytes("logout\n"); //Command
+            outToServer.writeBytes(username+"\n");
+            
+            inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            status = Integer.parseInt(inFromServer.readLine());
+        } catch (IOException ex) {
+            Logger.getLogger(ClientService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+            
+        
+        return status;
+    }
 }

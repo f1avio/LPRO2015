@@ -233,7 +233,7 @@ public class DBconnection {
      * @param username the user's name that needs to log out
      * @return true if the operation was successful; false if it's unsuccessful
      */
-    public boolean logoutUser(String table, String username)
+    public int logoutUser(String table, String username)
     {
         if(searchUser(table, username) && isOnline(table, username)) //o utilizador tem de existir e estar online
         {
@@ -248,11 +248,11 @@ public class DBconnection {
                 
             } catch (SQLException ex) {
                 Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                return -1;
             }
             
-            return true;
+            return 0;
         }
-        return false;
+        return -2;
     }
 }

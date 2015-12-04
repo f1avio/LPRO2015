@@ -6,6 +6,9 @@
 package GUI;
 
 import java.awt.CardLayout;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
+import scrabble_client.ClientService;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -15,8 +18,8 @@ import java.awt.CardLayout;
  */
 
 public class MainFrame extends javax.swing.JPanel {
-    
-    
+    /*Don't know if this is a good idea */
+    ClientService ctrl = InitialFrame.ctrl;
     /**
      * Creates new form Main
      */
@@ -279,7 +282,6 @@ public class MainFrame extends javax.swing.JPanel {
         basePanel.setPreferredSize(new java.awt.Dimension(500, 550));
         basePanel.setLayout(new java.awt.CardLayout());
 
-        mainPage.setMaximumSize(null);
         mainPage.setMinimumSize(new java.awt.Dimension(500, 550));
         mainPage.setOpaque(false);
         mainPage.setPreferredSize(new java.awt.Dimension(500, 550));
@@ -560,7 +562,20 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_settingsB1ActionPerformed
 
     private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
-        // TODO add your handling code here:
+       
+        int OperationStatus = ctrl.logout(InitialFrame.getIdentifier());
+        
+        if(-1 == OperationStatus)
+            JOptionPane.showMessageDialog(null,"Communication with the server was compromised. Try again!","Operation Failed",JOptionPane.WARNING_MESSAGE);
+        else if(0 == OperationStatus)
+        {
+            JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
+            System.exit(0);   
+        }    
+        else
+            JOptionPane.showMessageDialog(null,"You are attempting an action that you shouldn't have access to!","How?",JOptionPane.WARNING_MESSAGE);
+        
+
     }//GEN-LAST:event_logoutB1ActionPerformed
 
     private void confirmPassInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPassInputActionPerformed
@@ -639,9 +654,9 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JTabbedPane TabsTableRank1;
     private javax.swing.JPanel basePanel;
     public javax.swing.JPanel chatPanel;
-    private javax.swing.JPanel chatPanel1;
+    public javax.swing.JPanel chatPanel1;
     public javax.swing.JTextArea chatarea3;
-    private javax.swing.JTextArea chatarea4;
+    public javax.swing.JTextArea chatarea4;
     private javax.swing.JTextField chatinput3;
     private javax.swing.JTextField chatinput4;
     private javax.swing.JPasswordField confirmPassInput;
@@ -661,7 +676,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     public javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
+    public javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JButton joinB;
     private javax.swing.JButton logoutB1;
@@ -672,7 +687,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPasswordField newPassInput;
     private javax.swing.JLabel newPassL;
     public javax.swing.JTable playerList1;
-    private javax.swing.JTable playerList2;
+    public javax.swing.JTable playerList2;
     private javax.swing.JPanel playersPanel1;
     private javax.swing.JPanel playersPanel2;
     private javax.swing.JPanel profsOptPanel1;
