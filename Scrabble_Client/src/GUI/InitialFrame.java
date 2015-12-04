@@ -20,6 +20,8 @@ public class InitialFrame extends javax.swing.JFrame {
 
     static private String page = "homeP";
     MainFrame mainF;
+     /*Establishes connection to the controller*/
+    static ClientService ctrl = new ClientService();
     /**
      * Creates new form InicialFrame
      * @param selectedPage Stores the string with the name of the windows do present
@@ -257,6 +259,11 @@ public class InitialFrame extends javax.swing.JFrame {
 
         signupB.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         signupB.setText("SIGN UP");
+        signupB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupBActionPerformed(evt);
+            }
+        });
         signupPanel.add(signupB, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 370, 200, 90));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
@@ -297,12 +304,11 @@ public class InitialFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_userInputTextActionPerformed
 
     private void loginBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBActionPerformed
-        ClientService logIn =  new ClientService();
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
             
-        if(logIn.login(username, password)){
+        if(ctrl.login(username, password)){
             this.MainPanel.setVisible(false);
             this.add(mainF);
             this.mainF.setVisible(true);
@@ -332,6 +338,46 @@ public class InitialFrame extends javax.swing.JFrame {
     private void passInputTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passInputTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passInputTextActionPerformed
+
+    private void signupBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupBActionPerformed
+     int OperationStatus;
+        
+
+        String username = (String)((userInputSignupT.getText()));
+        String password = new String(passInputPassT.getPassword());
+        String Cpassword = new String(pass2InputText.getPassword());
+        String email = (String)((emailInputText.getText()));
+        
+         /*Step 1: Check if the password is correct */
+        if(!password.equals(Cpassword))
+            JOptionPane.showMessageDialog(null,"The passwords do not match. Please try again!","Wrong password",JOptionPane.WARNING_MESSAGE);
+        /*Step 2: Check if the email address is valid */
+        else if(!ClientService.isValidEmailAddress(email))
+            JOptionPane.showMessageDialog(null," Invalid email address format!","Invalid Email",JOptionPane.WARNING_MESSAGE);
+        /*Step 3:Attempts to finally register the new user */ 
+        else
+        {
+            OperationStatus = ctrl.register(username, password, email);
+            switch(OperationStatus)
+            {
+            case -4: JOptionPane.showMessageDialog(null,"The server is in trouble! Contact the administrator to check if this operation was successful","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
+                    break;
+            case -3: JOptionPane.showMessageDialog(null,"Failed to try again. If this error persists, contact imediately the Administrator.","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
+                    break;
+            case -2: JOptionPane.showMessageDialog(null,"Your username was already been taken by someone else.","Username duplicated",JOptionPane.WARNING_MESSAGE);
+                    break;
+            case -1: JOptionPane.showMessageDialog(null,"The system is unresponsive. Try again","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
+                    break;
+            case 0: JOptionPane.showMessageDialog(null,"You have succesfully signed up. Login to your account to complete the process","Success!",JOptionPane.WARNING_MESSAGE);
+                    this.MainPanel.setVisible(false); //TO BE REVIEWED
+                    this.add(mainF);                  
+                    this.mainF.setVisible(true);
+                    break; 
+            default: JOptionPane.showMessageDialog(null,"A wild bug has appeared.","??",JOptionPane.WARNING_MESSAGE);
+                    break;     
+            }               
+        }
+    }//GEN-LAST:event_signupBActionPerformed
 
     
     /**
@@ -415,4 +461,5 @@ public class InitialFrame extends javax.swing.JFrame {
     private javax.swing.JLabel userLabel;
     private javax.swing.JLabel userSignupLabel;
     // End of variables declaration//GEN-END:variables
+
 }

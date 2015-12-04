@@ -5,10 +5,6 @@
  */
 package scrabble_client;
 
-
-import GUI.*;
-import java.io.IOException;
-
 import GUI.InitialFrame;
 import java.io.IOException;
 

@@ -34,7 +34,7 @@ public class DBconnection {
         }
         
         try {
-            db = DriverManager.getConnection(url,username,password);
+            db = DriverManager.getConnection( url,username,password);
             SuccessfulConn = true;
             return true;
         } catch (SQLException ex) {
@@ -142,8 +142,6 @@ public class DBconnection {
      */
     public int logUser(String table, String username, String password)
     {
-
-        
             if(!searchUser(table, username))
                 return -1; //The player doesn't exist!
             
@@ -168,6 +166,36 @@ public class DBconnection {
         } catch (SQLException ex) {
             Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
             return -4;
+        }
+        
+        return 0;
+    }
+    
+    public int signUser(String table, String username, String password, String email)
+    {
+
+        
+            if(searchUser(table, username))
+                return -2; //The user already exists
+            
+            //Everything checks out, activate isOnline flag
+        try {    
+            //PreparedStatement st;
+            //String stmnt = "INSERT INTO "+table+" VALUES ("+username+", "+password+", SET isOnline = TRUE WHERE  username = '"+username+"';";
+            //st = db.prepareStatement(stmnt);
+            
+            PreparedStatement st = db.prepareStatement("INSERT INTO ? Values(?, ?, FALSE, ?);");
+            st.setString(1,table);
+            st.setString(2, username);
+            st.setString(3, password);
+            st.setString(4, email);
+            st.execute();
+            st.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
         
         return 0;
