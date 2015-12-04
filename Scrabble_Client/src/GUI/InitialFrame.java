@@ -369,9 +369,7 @@ public class InitialFrame extends javax.swing.JFrame {
             case -1: JOptionPane.showMessageDialog(null,"The system is unresponsive. Try again","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
                     break;
             case 0: JOptionPane.showMessageDialog(null,"You have succesfully signed up. Login to your account to complete the process","Success!",JOptionPane.WARNING_MESSAGE);
-                    this.MainPanel.setVisible(false); //TO BE REVIEWED
-                    this.add(mainF);                  
-                    this.mainF.setVisible(true);
+                    selectPage("loginP");
                     break; 
             default: JOptionPane.showMessageDialog(null,"A wild bug has appeared.","??",JOptionPane.WARNING_MESSAGE);
                     break;     

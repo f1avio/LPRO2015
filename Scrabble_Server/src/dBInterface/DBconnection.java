@@ -172,24 +172,16 @@ public class DBconnection {
     }
     
     public int signUser(String table, String username, String password, String email)
-    {
-
-        
+    {        
             if(searchUser(table, username))
                 return -2; //The user already exists
             
             //Everything checks out, activate isOnline flag
         try {    
-            //PreparedStatement st;
-            //String stmnt = "INSERT INTO "+table+" VALUES ("+username+", "+password+", SET isOnline = TRUE WHERE  username = '"+username+"';";
-            //st = db.prepareStatement(stmnt);
-            
-            PreparedStatement st = db.prepareStatement("INSERT INTO ? Values(?, ?, FALSE, ?);");
-            st.setString(1,table);
-            st.setString(2, username);
-            st.setString(3, password);
-            st.setString(4, email);
-            st.execute();
+            PreparedStatement st;
+            String stmnt = "INSERT INTO "+table+" VALUES ('"+username+"', '"+password+"', FALSE, '"+email+"');";
+            st = db.prepareStatement(stmnt);
+            st.executeUpdate();
             st.close();
             
             
