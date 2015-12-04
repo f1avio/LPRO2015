@@ -15,10 +15,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-/**
- *
- * @author Flávio
+/**@author  Adam Kopnicky
+ *          Ewa Godlewska
+ *          Flavio Dias
+ *          Hugo Pereira
+ *          Jose Carvalho
  */
+
 public class ClientService {
     
     public boolean login(String username, String password){

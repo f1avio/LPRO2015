@@ -12,10 +12,13 @@ import java.io.IOException;
 import GUI.InitialFrame;
 import java.io.IOException;
 
-/**
- *
- * @author Hugo Pereira <your.name at your.org>
+/**@author  Adam Kopnicky
+ *          Ewa Godlewska
+ *          Flavio Dias
+ *          Hugo Pereira
+ *          Jose Carvalho
  */
+
 public class Client {
 
     /**

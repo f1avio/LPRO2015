@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import java.awt.CardLayout;
+
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
  *          Flavio Dias
@@ -13,7 +15,8 @@ package GUI;
  */
 
 public class MainFrame extends javax.swing.JPanel {
-
+    
+    
     /**
      * Creates new form Main
      */
@@ -31,63 +34,79 @@ public class MainFrame extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        ChatP = new javax.swing.JPanel();
+        TabsTableRank1 = new javax.swing.JTabbedPane();
+        chatPanel1 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        chatarea4 = new javax.swing.JTextArea();
+        chatinput4 = new javax.swing.JTextField();
+        playersPanel2 = new javax.swing.JPanel();
+        profsOptPanel2 = new javax.swing.JPanel();
+        inviteB2 = new javax.swing.JButton();
+        sendmessageB2 = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        playerList2 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        menuBarSettings = new javax.swing.JPanel();
+        homeB1 = new javax.swing.JButton();
+        rankingB1 = new javax.swing.JButton();
+        helpB1 = new javax.swing.JButton();
+        settingsB1 = new javax.swing.JButton();
+        logoutB1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        basePanel = new javax.swing.JPanel();
         mainPage = new javax.swing.JPanel();
         usernameL = new javax.swing.JLabel();
-        rankingB = new javax.swing.JButton();
         welcome = new javax.swing.JLabel();
-        TabsTable2 = new javax.swing.JTabbedPane();
-        chatPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        chatarea2 = new javax.swing.JTextArea();
-        chatinput2 = new javax.swing.JTextField();
-        playersPanel = new javax.swing.JPanel();
-        profsOptPanel = new javax.swing.JPanel();
-        inviteB = new javax.swing.JButton();
-        sendmessageB = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        playerList = new javax.swing.JTable();
-        homeB = new javax.swing.JButton();
         joinB = new javax.swing.JButton();
-        helpB = new javax.swing.JButton();
         createB = new javax.swing.JButton();
-        settingsB = new javax.swing.JButton();
-        logoutB = new javax.swing.JButton();
         roomScrollPane = new javax.swing.JScrollPane();
         roomTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        rankingP = new javax.swing.JPanel();
+        TabsTableRank = new javax.swing.JTabbedPane();
+        chatPanel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        chatarea3 = new javax.swing.JTextArea();
+        chatinput3 = new javax.swing.JTextField();
+        playersPanel1 = new javax.swing.JPanel();
+        profsOptPanel1 = new javax.swing.JPanel();
+        inviteB1 = new javax.swing.JButton();
+        sendmessageB1 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        playerList1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        settingsPage = new javax.swing.JPanel();
+        volumeL = new javax.swing.JLabel();
+        volumeSlider = new javax.swing.JSlider();
+        newEmailL = new javax.swing.JLabel();
+        newEmailInput = new javax.swing.JTextField();
+        confirmPassL = new javax.swing.JLabel();
+        currentPassL = new javax.swing.JLabel();
+        newPassL = new javax.swing.JLabel();
+        currentPassInput = new javax.swing.JPasswordField();
+        newPassInput = new javax.swing.JPasswordField();
+        confirmPassInput = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setLayout(new java.awt.CardLayout());
+        setLayout(new java.awt.BorderLayout());
 
-        mainPage.setMinimumSize(new java.awt.Dimension(800, 600));
-        mainPage.setOpaque(false);
-        mainPage.setPreferredSize(new java.awt.Dimension(800, 600));
-        mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        ChatP.setMinimumSize(new java.awt.Dimension(300, 550));
+        ChatP.setPreferredSize(new java.awt.Dimension(300, 550));
+        ChatP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        usernameL.setText("username");
-        mainPage.add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
+        TabsTableRank1.setMinimumSize(new java.awt.Dimension(235, 260));
+        TabsTableRank1.setPreferredSize(new java.awt.Dimension(235, 260));
 
-        rankingB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        rankingB.setText("Ranking");
-        mainPage.add(rankingB, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 120, 40));
+        chatPanel1.setLayout(new java.awt.GridBagLayout());
 
-        welcome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        welcome.setText("Welcome");
-        mainPage.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, 30));
-
-        TabsTable2.setMinimumSize(new java.awt.Dimension(235, 260));
-        TabsTable2.setPreferredSize(new java.awt.Dimension(235, 260));
-
-        chatPanel2.setLayout(new java.awt.GridBagLayout());
-
-        chatarea2.setEditable(false);
-        chatarea2.setColumns(20);
-        chatarea2.setRows(5);
-        chatarea2.setWrapStyleWord(true);
-        jScrollPane3.setViewportView(chatarea2);
+        chatarea4.setEditable(false);
+        chatarea4.setColumns(20);
+        chatarea4.setRows(5);
+        chatarea4.setWrapStyleWord(true);
+        jScrollPane7.setViewportView(chatarea4);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -96,19 +115,19 @@ public class MainFrame extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        chatPanel2.add(jScrollPane3, gridBagConstraints);
+        chatPanel1.add(jScrollPane7, gridBagConstraints);
 
-        chatinput2.addFocusListener(new java.awt.event.FocusAdapter() {
+        chatinput4.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                chatinput2FocusGained(evt);
+                chatinput4FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                chatinput2FocusLost(evt);
+                chatinput4FocusLost(evt);
             }
         });
-        chatinput2.addActionListener(new java.awt.event.ActionListener() {
+        chatinput4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatinput2ActionPerformed(evt);
+                chatinput4ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -116,37 +135,37 @@ public class MainFrame extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        chatPanel2.add(chatinput2, gridBagConstraints);
+        chatPanel1.add(chatinput4, gridBagConstraints);
 
-        TabsTable2.addTab("Chat", chatPanel2);
+        TabsTableRank1.addTab("Chat", chatPanel1);
 
-        playersPanel.setLayout(new java.awt.BorderLayout());
+        playersPanel2.setLayout(new java.awt.BorderLayout());
 
-        profsOptPanel.setMinimumSize(new java.awt.Dimension(222, 25));
-        profsOptPanel.setOpaque(false);
-        profsOptPanel.setPreferredSize(new java.awt.Dimension(232, 35));
-        profsOptPanel.setLayout(new java.awt.BorderLayout());
+        profsOptPanel2.setMinimumSize(new java.awt.Dimension(222, 25));
+        profsOptPanel2.setOpaque(false);
+        profsOptPanel2.setPreferredSize(new java.awt.Dimension(232, 35));
+        profsOptPanel2.setLayout(new java.awt.BorderLayout());
 
-        inviteB.setText("Invite To Play");
-        inviteB.addActionListener(new java.awt.event.ActionListener() {
+        inviteB2.setText("Invite To Play");
+        inviteB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inviteBActionPerformed(evt);
+                inviteB2ActionPerformed(evt);
             }
         });
-        profsOptPanel.add(inviteB, java.awt.BorderLayout.CENTER);
+        profsOptPanel2.add(inviteB2, java.awt.BorderLayout.CENTER);
 
-        sendmessageB.setText("Send Message");
-        sendmessageB.setOpaque(false);
-        sendmessageB.addActionListener(new java.awt.event.ActionListener() {
+        sendmessageB2.setText("Send Message");
+        sendmessageB2.setOpaque(false);
+        sendmessageB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendmessageBActionPerformed(evt);
+                sendmessageB2ActionPerformed(evt);
             }
         });
-        profsOptPanel.add(sendmessageB, java.awt.BorderLayout.LINE_START);
+        profsOptPanel2.add(sendmessageB2, java.awt.BorderLayout.LINE_START);
 
-        playersPanel.add(profsOptPanel, java.awt.BorderLayout.PAGE_END);
+        playersPanel2.add(profsOptPanel2, java.awt.BorderLayout.PAGE_END);
 
-        playerList.setModel(new javax.swing.table.DefaultTableModel(
+        playerList2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -169,22 +188,112 @@ public class MainFrame extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        playerList.addMouseListener(new java.awt.event.MouseAdapter() {
+        playerList2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                playerListMouseReleased(evt);
+                playerList2MouseReleased(evt);
             }
         });
-        jScrollPane4.setViewportView(playerList);
+        jScrollPane8.setViewportView(playerList2);
 
-        playersPanel.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+        playersPanel2.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        TabsTable2.addTab("Jogadores", playersPanel);
+        TabsTableRank1.addTab("Jogadores", playersPanel2);
 
-        mainPage.add(TabsTable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 220, 380));
+        ChatP.add(TabsTableRank1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 220, 380));
 
-        homeB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        homeB.setText("Home");
-        mainPage.add(homeB, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 100, 40));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel5.setMaximumSize(new java.awt.Dimension(300, 550));
+        jLabel5.setMinimumSize(new java.awt.Dimension(300, 550));
+        jLabel5.setPreferredSize(new java.awt.Dimension(300, 550));
+        ChatP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        add(ChatP, java.awt.BorderLayout.EAST);
+
+        menuBarSettings.setMinimumSize(new java.awt.Dimension(800, 50));
+        menuBarSettings.setOpaque(false);
+        menuBarSettings.setPreferredSize(new java.awt.Dimension(800, 50));
+        menuBarSettings.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        homeB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        homeB1.setText("Home");
+        homeB1.setMaximumSize(new java.awt.Dimension(140, 40));
+        homeB1.setMinimumSize(new java.awt.Dimension(140, 40));
+        homeB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        homeB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeB1ActionPerformed(evt);
+            }
+        });
+        menuBarSettings.add(homeB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 5, -1, -1));
+
+        rankingB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        rankingB1.setText("Ranking");
+        rankingB1.setMaximumSize(new java.awt.Dimension(140, 40));
+        rankingB1.setMinimumSize(new java.awt.Dimension(140, 40));
+        rankingB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        rankingB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rankingB1ActionPerformed(evt);
+            }
+        });
+        menuBarSettings.add(rankingB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 5, -1, -1));
+
+        helpB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        helpB1.setText("Help");
+        helpB1.setMaximumSize(new java.awt.Dimension(140, 40));
+        helpB1.setMinimumSize(new java.awt.Dimension(140, 40));
+        helpB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        menuBarSettings.add(helpB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 5, -1, -1));
+
+        settingsB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        settingsB1.setText("Settings");
+        settingsB1.setMaximumSize(new java.awt.Dimension(140, 40));
+        settingsB1.setMinimumSize(new java.awt.Dimension(140, 40));
+        settingsB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        settingsB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsB1ActionPerformed(evt);
+            }
+        });
+        menuBarSettings.add(settingsB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 5, -1, -1));
+
+        logoutB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        logoutB1.setText("Logout");
+        logoutB1.setMaximumSize(new java.awt.Dimension(140, 40));
+        logoutB1.setMinimumSize(new java.awt.Dimension(140, 40));
+        logoutB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        logoutB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutB1ActionPerformed(evt);
+            }
+        });
+        menuBarSettings.add(logoutB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 5, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/barBackground.png"))); // NOI18N
+        menuBarSettings.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 50));
+
+        add(menuBarSettings, java.awt.BorderLayout.PAGE_START);
+
+        basePanel.setMinimumSize(new java.awt.Dimension(500, 550));
+        basePanel.setPreferredSize(new java.awt.Dimension(500, 550));
+        basePanel.setLayout(new java.awt.CardLayout());
+
+        mainPage.setMaximumSize(null);
+        mainPage.setMinimumSize(new java.awt.Dimension(500, 550));
+        mainPage.setOpaque(false);
+        mainPage.setPreferredSize(new java.awt.Dimension(500, 550));
+        mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameL.setText("username");
+        mainPage.add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
+
+        welcome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        welcome.setText("Welcome");
+        mainPage.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 80, 30));
 
         joinB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         joinB.setText("Join Room");
@@ -195,10 +304,6 @@ public class MainFrame extends javax.swing.JPanel {
         });
         mainPage.add(joinB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 180, 40));
 
-        helpB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        helpB.setText("Help");
-        mainPage.add(helpB, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 100, 40));
-
         createB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         createB.setText("Create Room");
         createB.addActionListener(new java.awt.event.ActionListener() {
@@ -207,24 +312,6 @@ public class MainFrame extends javax.swing.JPanel {
             }
         });
         mainPage.add(createB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 180, 40));
-
-        settingsB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        settingsB.setText("Settings");
-        settingsB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBActionPerformed(evt);
-            }
-        });
-        mainPage.add(settingsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 120, 40));
-
-        logoutB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        logoutB.setText("Logout");
-        logoutB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutBActionPerformed(evt);
-            }
-        });
-        mainPage.add(logoutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 110, 40));
 
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -247,35 +334,214 @@ public class MainFrame extends javax.swing.JPanel {
 
         mainPage.add(roomScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 370, 180));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/scrabbleRabble.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel1.setMaximumSize(new java.awt.Dimension(500, 550));
+        jLabel1.setMinimumSize(new java.awt.Dimension(500, 550));
+        jLabel1.setPreferredSize(new java.awt.Dimension(500, 550));
         mainPage.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        add(mainPage, "mainP");
+        basePanel.add(mainPage, "mainP");
+
+        rankingP.setMinimumSize(new java.awt.Dimension(500, 550));
+        rankingP.setPreferredSize(new java.awt.Dimension(500, 550));
+        rankingP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        TabsTableRank.setMinimumSize(new java.awt.Dimension(235, 260));
+        TabsTableRank.setPreferredSize(new java.awt.Dimension(235, 260));
+
+        chatPanel.setLayout(new java.awt.GridBagLayout());
+
+        chatarea3.setEditable(false);
+        chatarea3.setColumns(20);
+        chatarea3.setRows(5);
+        chatarea3.setWrapStyleWord(true);
+        jScrollPane5.setViewportView(chatarea3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        chatPanel.add(jScrollPane5, gridBagConstraints);
+
+        chatinput3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                chatinput3FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                chatinput3FocusLost(evt);
+            }
+        });
+        chatinput3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatinput3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        chatPanel.add(chatinput3, gridBagConstraints);
+
+        TabsTableRank.addTab("Chat", chatPanel);
+
+        playersPanel1.setLayout(new java.awt.BorderLayout());
+
+        profsOptPanel1.setMinimumSize(new java.awt.Dimension(222, 25));
+        profsOptPanel1.setOpaque(false);
+        profsOptPanel1.setPreferredSize(new java.awt.Dimension(232, 35));
+        profsOptPanel1.setLayout(new java.awt.BorderLayout());
+
+        inviteB1.setText("Invite To Play");
+        inviteB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inviteB1ActionPerformed(evt);
+            }
+        });
+        profsOptPanel1.add(inviteB1, java.awt.BorderLayout.CENTER);
+
+        sendmessageB1.setText("Send Message");
+        sendmessageB1.setOpaque(false);
+        sendmessageB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendmessageB1ActionPerformed(evt);
+            }
+        });
+        profsOptPanel1.add(sendmessageB1, java.awt.BorderLayout.LINE_START);
+
+        playersPanel1.add(profsOptPanel1, java.awt.BorderLayout.PAGE_END);
+
+        playerList1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "User"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        playerList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                playerList1MouseReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(playerList1);
+
+        playersPanel1.add(jScrollPane6, java.awt.BorderLayout.CENTER);
+
+        TabsTableRank.addTab("Jogadores", playersPanel1);
+
+        rankingP.add(TabsTableRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 220, 380));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        rankingP.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 550));
+
+        basePanel.add(rankingP, "rankP");
+
+        settingsPage.setMinimumSize(new java.awt.Dimension(500, 550));
+        settingsPage.setOpaque(false);
+        settingsPage.setPreferredSize(new java.awt.Dimension(500, 550));
+        settingsPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        volumeL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        volumeL.setText("Volume");
+        volumeL.setMinimumSize(new java.awt.Dimension(110, 30));
+        volumeL.setPreferredSize(new java.awt.Dimension(110, 30));
+        settingsPage.add(volumeL, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 80, -1));
+
+        volumeSlider.setOrientation(javax.swing.JSlider.VERTICAL);
+        volumeSlider.setMinimumSize(new java.awt.Dimension(200, 40));
+        volumeSlider.setPreferredSize(new java.awt.Dimension(200, 40));
+        settingsPage.add(volumeSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 40, 230));
+
+        newEmailL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        newEmailL.setText("New Email");
+        newEmailL.setMaximumSize(new java.awt.Dimension(110, 30));
+        newEmailL.setMinimumSize(new java.awt.Dimension(110, 30));
+        newEmailL.setPreferredSize(new java.awt.Dimension(110, 30));
+        settingsPage.add(newEmailL, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, 200, -1));
+
+        newEmailInput.setMinimumSize(new java.awt.Dimension(200, 40));
+        newEmailInput.setPreferredSize(new java.awt.Dimension(200, 40));
+        newEmailInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newEmailInputActionPerformed(evt);
+            }
+        });
+        settingsPage.add(newEmailInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, -1, -1));
+
+        confirmPassL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        confirmPassL.setText("Confirm Password");
+        confirmPassL.setMaximumSize(new java.awt.Dimension(110, 30));
+        confirmPassL.setMinimumSize(new java.awt.Dimension(110, 30));
+        confirmPassL.setPreferredSize(new java.awt.Dimension(110, 30));
+        settingsPage.add(confirmPassL, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 200, -1));
+
+        currentPassL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        currentPassL.setText("Current Password");
+        currentPassL.setMaximumSize(new java.awt.Dimension(110, 30));
+        currentPassL.setMinimumSize(new java.awt.Dimension(110, 30));
+        currentPassL.setPreferredSize(new java.awt.Dimension(110, 30));
+        settingsPage.add(currentPassL, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 190, -1));
+
+        newPassL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        newPassL.setText("New Password");
+        newPassL.setMaximumSize(new java.awt.Dimension(110, 30));
+        newPassL.setMinimumSize(new java.awt.Dimension(110, 30));
+        newPassL.setPreferredSize(new java.awt.Dimension(110, 30));
+        settingsPage.add(newPassL, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 190, -1));
+
+        currentPassInput.setMinimumSize(new java.awt.Dimension(200, 40));
+        currentPassInput.setPreferredSize(new java.awt.Dimension(200, 40));
+        settingsPage.add(currentPassInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, -1, -1));
+
+        newPassInput.setMinimumSize(new java.awt.Dimension(200, 40));
+        newPassInput.setPreferredSize(new java.awt.Dimension(200, 40));
+        settingsPage.add(newPassInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, -1, -1));
+
+        confirmPassInput.setMinimumSize(new java.awt.Dimension(200, 40));
+        confirmPassInput.setPreferredSize(new java.awt.Dimension(200, 40));
+        confirmPassInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmPassInputActionPerformed(evt);
+            }
+        });
+        settingsPage.add(confirmPassInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButton1.setText("Confirm Changes");
+        jButton1.setMaximumSize(new java.awt.Dimension(130, 60));
+        jButton1.setMinimumSize(new java.awt.Dimension(130, 60));
+        jButton1.setPreferredSize(new java.awt.Dimension(130, 60));
+        settingsPage.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 220, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel3.setMaximumSize(new java.awt.Dimension(500, 550));
+        jLabel3.setMinimumSize(new java.awt.Dimension(500, 550));
+        jLabel3.setPreferredSize(new java.awt.Dimension(500, 550));
+        settingsPage.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        basePanel.add(settingsPage, "settingP");
+
+        add(basePanel, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void chatinput2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput2FocusGained
-        //
-    }//GEN-LAST:event_chatinput2FocusGained
-
-    private void chatinput2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput2FocusLost
-        //
-    }//GEN-LAST:event_chatinput2FocusLost
-
-    private void chatinput2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput2ActionPerformed
-        //
-    }//GEN-LAST:event_chatinput2ActionPerformed
-
-    private void inviteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inviteBActionPerformed
-
-    private void sendmessageBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sendmessageBActionPerformed
-
-    private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playerListMouseReleased
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
         // TODO add your handling code here:
@@ -285,39 +551,143 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_createBActionPerformed
 
-    private void settingsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_settingsBActionPerformed
+    private void homeB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeB1ActionPerformed
+        selectPage("mainP");
+    }//GEN-LAST:event_homeB1ActionPerformed
 
-    private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logoutBActionPerformed
+    private void settingsB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsB1ActionPerformed
+        selectPage("settingP");
+    }//GEN-LAST:event_settingsB1ActionPerformed
 
+    private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutB1ActionPerformed
+
+    private void confirmPassInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPassInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPassInputActionPerformed
+
+    private void newEmailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEmailInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newEmailInputActionPerformed
+
+    private void rankingB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankingB1ActionPerformed
+        
+    }//GEN-LAST:event_rankingB1ActionPerformed
+
+    private void chatinput3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3FocusGained
+
+    private void chatinput3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3FocusLost
+
+    private void chatinput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3ActionPerformed
+
+    private void inviteB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inviteB1ActionPerformed
+
+    private void sendmessageB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendmessageB1ActionPerformed
+
+    private void playerList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerList1MouseReleased
+
+    private void chatinput4FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput4FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput4FocusGained
+
+    private void chatinput4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput4FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput4FocusLost
+
+    private void chatinput4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput4ActionPerformed
+
+    private void inviteB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inviteB2ActionPerformed
+
+    private void sendmessageB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendmessageB2ActionPerformed
+
+    private void playerList2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList2MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerList2MouseReleased
+
+    /**
+     * Changes homegui front Page (selects card to show from CardLayout)
+     * 
+     * @param page The page you want to show. Choose between one of these strings: "homeP", "signupP", "loginP", helpP".
+     */
+    private void selectPage(String page){
+        CardLayout card = (CardLayout) basePanel.getLayout();
+        card.show(basePanel, page);   
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane TabsTable2;
-    public javax.swing.JPanel chatPanel2;
-    public javax.swing.JTextArea chatarea2;
-    private javax.swing.JTextField chatinput2;
+    private javax.swing.JPanel ChatP;
+    private javax.swing.JTabbedPane TabsTableRank;
+    private javax.swing.JTabbedPane TabsTableRank1;
+    private javax.swing.JPanel basePanel;
+    public javax.swing.JPanel chatPanel;
+    private javax.swing.JPanel chatPanel1;
+    public javax.swing.JTextArea chatarea3;
+    private javax.swing.JTextArea chatarea4;
+    private javax.swing.JTextField chatinput3;
+    private javax.swing.JTextField chatinput4;
+    private javax.swing.JPasswordField confirmPassInput;
+    private javax.swing.JLabel confirmPassL;
     private javax.swing.JButton createB;
-    private javax.swing.JButton helpB;
-    private javax.swing.JButton homeB;
-    private javax.swing.JButton inviteB;
+    private javax.swing.JPasswordField currentPassInput;
+    private javax.swing.JLabel currentPassL;
+    private javax.swing.JButton helpB1;
+    private javax.swing.JButton homeB1;
+    private javax.swing.JButton inviteB1;
+    private javax.swing.JButton inviteB2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    public javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    public javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JButton joinB;
-    private javax.swing.JButton logoutB;
+    private javax.swing.JButton logoutB1;
     private javax.swing.JPanel mainPage;
-    public javax.swing.JTable playerList;
-    private javax.swing.JPanel playersPanel;
-    private javax.swing.JPanel profsOptPanel;
-    private javax.swing.JButton rankingB;
+    private javax.swing.JPanel menuBarSettings;
+    private javax.swing.JTextField newEmailInput;
+    private javax.swing.JLabel newEmailL;
+    private javax.swing.JPasswordField newPassInput;
+    private javax.swing.JLabel newPassL;
+    public javax.swing.JTable playerList1;
+    private javax.swing.JTable playerList2;
+    private javax.swing.JPanel playersPanel1;
+    private javax.swing.JPanel playersPanel2;
+    private javax.swing.JPanel profsOptPanel1;
+    private javax.swing.JPanel profsOptPanel2;
+    private javax.swing.JButton rankingB1;
+    private javax.swing.JPanel rankingP;
     private javax.swing.JScrollPane roomScrollPane;
     private javax.swing.JTable roomTable;
-    private javax.swing.JButton sendmessageB;
-    private javax.swing.JButton settingsB;
+    private javax.swing.JButton sendmessageB1;
+    private javax.swing.JButton sendmessageB2;
+    private javax.swing.JButton settingsB1;
+    private javax.swing.JPanel settingsPage;
     private javax.swing.JLabel usernameL;
+    private javax.swing.JLabel volumeL;
+    private javax.swing.JSlider volumeSlider;
     private javax.swing.JLabel welcome;
     // End of variables declaration//GEN-END:variables
 }

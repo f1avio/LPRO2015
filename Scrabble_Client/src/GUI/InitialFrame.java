@@ -8,7 +8,6 @@ package GUI;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
-import GUI.MainFrame;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -26,12 +25,14 @@ public class InitialFrame extends javax.swing.JFrame {
      * @param selectedPage Stores the string with the name of the windows do present
      */
     public InitialFrame(String selectedPage) {
+        this.mainF = new MainFrame();
         initComponents();
         InitialFrame.page = selectedPage;
         selectPage(page);
     }
 
     private InitialFrame() {
+        this.mainF = new MainFrame();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -192,20 +193,29 @@ public class InitialFrame extends javax.swing.JFrame {
 
         passLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         passLabel.setText("Password");
+        passLabel.setMaximumSize(new java.awt.Dimension(110, 30));
+        passLabel.setMinimumSize(new java.awt.Dimension(110, 30));
+        passLabel.setPreferredSize(new java.awt.Dimension(110, 30));
         loginPanel.add(passLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
 
         userLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         userLabel.setText("Username");
+        userLabel.setMaximumSize(new java.awt.Dimension(110, 30));
+        userLabel.setMinimumSize(new java.awt.Dimension(110, 30));
+        userLabel.setPreferredSize(new java.awt.Dimension(110, 30));
         loginPanel.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
 
         loginB.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
         loginB.setText("Login");
+        loginB.setMaximumSize(new java.awt.Dimension(130, 60));
+        loginB.setMinimumSize(new java.awt.Dimension(130, 60));
+        loginB.setPreferredSize(new java.awt.Dimension(130, 60));
         loginB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBActionPerformed(evt);
             }
         });
-        loginPanel.add(loginB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, 160, -1));
+        loginPanel.add(loginB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         loginPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 550));
@@ -293,9 +303,9 @@ public class InitialFrame extends javax.swing.JFrame {
         String password = new String(passInputText.getPassword());
             
         if(logIn.login(username, password)){
-            /*this.MainPanel.setVisible(false);
+            this.MainPanel.setVisible(false);
             this.add(mainF);
-            this.mainF.setVisible(true);*/
+            this.mainF.setVisible(true);
         }   //JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
         else
             JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
@@ -331,9 +341,7 @@ public class InitialFrame extends javax.swing.JFrame {
      */
     private void selectPage(String page){
         CardLayout card = (CardLayout) pagesPanel.getLayout();
-        
-        card.show(pagesPanel, page);
-        
+        card.show(pagesPanel, page);   
     }
     /**
      * @param args the command line arguments
