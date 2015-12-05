@@ -14,12 +14,11 @@ import java.io.IOException;
  *          Hugo Pereira
  *          Jose Carvalho
  */
-
 public class Client {
 
     /**
-     *
-     * @param args
+     * Initiates the Graphical Interface, redirecting the client to the Homepage
+     * @param args Arguments passed from the command mine. They are ignored.
      * @throws IOException
      */
     public static void main(String args[]) throws IOException {

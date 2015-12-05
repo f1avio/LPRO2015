@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scrabble_client;
 
 import java.io.BufferedReader;
@@ -25,13 +20,14 @@ import javax.mail.internet.InternetAddress;
  *          Hugo Pereira
  *          Jose Carvalho
  */
-
 public class ClientService {
     
     static String hostname= "localhost";
     static Socket clientSocket = null;
     static int port=1513;
-   
+   /**
+    * Constructor that reads the config.txt file to set parameters to the connection
+    */
     public ClientService(){
         /*Attempts to read a configuration file */
         /*Step 0: Initialize the files*/
@@ -68,16 +64,17 @@ public class ClientService {
             }
         }
     }
-    /**
-     * @param username
-     * @param password
-     * @param email
-     * @return 
+    
+    /**Passes the command and the necessary arguments to the server to perform a sign up
+     * @param username The user username within the game
+     * @param password The password needed to login into the system
+     * @param email The user email, for administrative tasks
+     * @return  a standardized status value, notifying the degree of success of the implementation
      */
     public int register(String username, String password, String email)
     {
-        int status = 0;
-        DataOutputStream outToServer = null;
+        int status;
+        DataOutputStream outToServer;
         
         try {
             MD5 hash = new MD5();
@@ -104,13 +101,14 @@ public class ClientService {
     return status;
     }
     /**
-     * @param username 
-     * @param password 
-     * @return
+     * Passes the command and the necessary arguments to the server to perform a log in
+     * @param username the user's name that needs to log in
+     * @param password the user's password
+     * @return a standardized status value, notifying the degree of success of the implementation
      */
-    public boolean login(String username, String password){
-        boolean Success = false;
+    public int login(String username, String password){
         MD5 hash = new MD5();
+        int aux = 0;
         
          try{
             /*Passes the password through the MD5Hash*/
@@ -123,12 +121,8 @@ public class ClientService {
             
             /*Read the response from the server*/
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            int aux = Integer.parseInt(inFromServer.readLine());
-            if(0 == aux)
-                Success = true;
-            else
-                Success = false;
-          
+            aux = Integer.parseInt(inFromServer.readLine());
+            
              } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostname);
             System.exit(1);
@@ -136,12 +130,12 @@ public class ClientService {
             System.err.println("Couldn't get I/O for the connection to " + hostname);
             System.exit(1);
         }   
-         return Success;
+         return aux;
     }
     
-    /**
-     * @param email
-     * @return 
+    /** Verifies if the email address is a valid one
+     * @param email the email address to be verified
+     * @return a boolean indicating the email's validaty
      */
     public static boolean isValidEmailAddress(String email) {
    boolean result = true;
@@ -154,7 +148,11 @@ public class ClientService {
    return result;
 }
     
-    /*Yeah, we have a problem. We don't know who the user is!"*/
+    /**
+     * Passes the command and the necessary arguments to the server to perform a logout
+     * @param username the user's name that needs to log out
+     * @return a standardized status value, notifying the degree of success of the implementation
+     */
     public int logout(String username) 
     {
         int status = -2;
@@ -172,8 +170,6 @@ public class ClientService {
             Logger.getLogger(ClientService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-            
-        
         return status;
     }
 }

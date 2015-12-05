@@ -23,11 +23,7 @@ public class InitialFrame extends javax.swing.JFrame {
     MainFrame mainF;
      /*Establishes connection to the controller*/
     static ClientService ctrl = new ClientService();
-    
-    static String getIdentifier()
-    {
-        return identifier;
-    }
+    static User user = new User();
     
     /**
      * Creates new form InicialFrame
@@ -314,17 +310,27 @@ public class InitialFrame extends javax.swing.JFrame {
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
-        identifier = username;    
+       user.setName(username);
         
-        if(ctrl.login(username, password)){
-            this.MainPanel.setVisible(false);
-            this.add(mainF);
-            this.mainF.setVisible(true);
-        }   //JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
-        else
-            JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
-  
-
+        switch(ctrl.login(username, password))
+        {
+            case 0: JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
+                this.MainPanel.setVisible(false);
+                this.add(mainF);
+                this.mainF.setVisible(true);
+                break;
+            case -1: JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
+                break;
+            case -2: JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
+                break;
+            case -3:  JOptionPane.showMessageDialog(null,"You supposedly are already logged in.","Failed to Log In",JOptionPane.WARNING_MESSAGE);
+                break;
+            case -4: JOptionPane.showMessageDialog(null,"The connection to the server was lost.Please try again.","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
+                break;
+            default:System.out.println("Something went wrong!");
+                break;
+        }
+      
     }//GEN-LAST:event_loginBActionPerformed
 
     private void userInputSignupTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInputSignupTActionPerformed

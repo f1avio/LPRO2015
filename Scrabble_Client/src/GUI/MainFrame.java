@@ -6,9 +6,8 @@
 package GUI;
 
 import java.awt.CardLayout;
-import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
-import scrabble_client.ClientService;
+import scrabble_client.*;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -20,6 +19,7 @@ import scrabble_client.ClientService;
 public class MainFrame extends javax.swing.JPanel {
     /*Don't know if this is a good idea */
     ClientService ctrl = InitialFrame.ctrl;
+    User user = InitialFrame.user;
     /**
      * Creates new form Main
      */
@@ -563,13 +563,14 @@ public class MainFrame extends javax.swing.JPanel {
 
     private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
        
-        int OperationStatus = ctrl.logout(InitialFrame.getIdentifier());
+        int OperationStatus = ctrl.logout(user.getName());
         
         if(-1 == OperationStatus)
             JOptionPane.showMessageDialog(null,"Communication with the server was compromised. Try again!","Operation Failed",JOptionPane.WARNING_MESSAGE);
         else if(0 == OperationStatus)
         {
             JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
+            user.setName(null);
             System.exit(0);   
         }    
         else
