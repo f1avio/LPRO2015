@@ -10,7 +10,6 @@ import dBInterface.*;
  *          Hugo Pereira
  *          Jose Carvalho
  */
-
 public class Scrabble_Server {
 
     private static int port= 0;

@@ -10,7 +10,6 @@ import java.util.logging.Logger;
  * @author Hugo Pereira
  * @author Jose Carvalho
  */
-
 public class DBconnection {
     
     private static boolean SuccessfulConn = true;
@@ -138,7 +137,7 @@ public class DBconnection {
      * @param table the table where the user data is stored
      * @param username the user's name that needs to log in
      * @param password the user's password
-     * @return true if the operation was successful; false if it is unsuccessful
+     * @return a standardized status value, notifying the degree of success of the implementation
      */
     public int logUser(String table, String username, String password)
     {
@@ -170,7 +169,14 @@ public class DBconnection {
         
         return 0;
     }
-    
+    /**
+     * Attempts to signup a new user creating a new line on the specified database
+     * @param table The database table where the user registry will be added    
+     * @param username The user username within the game
+     * @param password The password needed to login into the system
+     * @param email The user email, for administrative tasks
+     * @return  a standardized status value, notifying the degree of success of the implementation
+     */
     public int signUser(String table, String username, String password, String email)
     {        
             if(searchUser(table, username))
@@ -231,7 +237,7 @@ public class DBconnection {
      * Logs out the user from the system, deactivating his flag "isOnline"
      * @param table the table where the user data is stored
      * @param username the user's name that needs to log out
-     * @return true if the operation was successful; false if it's unsuccessful
+     * @return a standardized status value, notifying the degree of success of the implementation
      */
     public int logoutUser(String table, String username)
     {
