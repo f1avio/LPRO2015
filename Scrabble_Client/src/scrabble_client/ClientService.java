@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 /**@author  Adam Kopnicky
@@ -25,45 +27,53 @@ public class ClientService {
     static String hostname= "localhost";
     static Socket clientSocket = null;
     static int port=1513;
-   /**
-    * Constructor that reads the config.txt file to set parameters to the connection
-    */
+    JOptionPane frame;
+    
+    
     public ClientService(){
-        /*Attempts to read a configuration file */
-        /*Step 0: Initialize the files*/
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[3];
-        String file = "config.txt";
-        
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
+    }
+        /**
+        * Constructor that reads the config.txt file to set parameters to the connection
+        */
+        public static void readServer(){
+            /*Attempts to read a configuration file */
+            /*Step 0: Initialize the files*/
+            BufferedReader inputStream = null;
+            int i = 0;
+            String aux[] = new String[3];
+            String file = "config.txt";
+            final JPanel frame = new JPanel();
+            try {
+                inputStream = new BufferedReader(new FileReader(file));
+                while ((aux[i] = inputStream.readLine()) != null) {
+                    i++;
+                }
             
-            port = Integer.parseInt(aux[0]);
-            hostname = aux[1];
-            clientSocket = new Socket(hostname, port);  
+                port = Integer.parseInt(aux[0]);
+                hostname = aux[1];
+                clientSocket = new Socket(hostname, port);
+                
+                //System.out.println("hostname:"+ hostname + "\nport:"+port);
             
-        }catch (FileNotFoundException f)
-              {
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+            }catch (FileNotFoundException f){
+                System.err.println("Caught FileNotFoundException: " + f.getMessage());
             } 
        
-        catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
+            catch (IOException e) {
+                System.err.println("Caught IOException: " + e.getMessage());
+                JOptionPane.showMessageDialog(frame, "Error: Server or Port");
             }  
-        finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    System.err.println("Caught IOException: " + ex.getMessage());
+            finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException ex) {
+                        System.err.println("Caught IOException: " + ex.getMessage());
+                    }
                 }
             }
         }
-    }
+    
     
     /**Passes the command and the necessary arguments to the server to perform a sign up
      * @param username The user username within the game

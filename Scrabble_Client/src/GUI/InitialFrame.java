@@ -6,6 +6,12 @@
 package GUI;
 
 import java.awt.CardLayout;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
 
@@ -34,6 +40,24 @@ public class InitialFrame extends javax.swing.JFrame {
         initComponents();
         InitialFrame.page = selectedPage;
         selectPage(page);
+        
+        BufferedReader inputStream = null;
+        int i = 0;
+        String aux[] = new String[3];
+        String file = "config.txt";
+        try {
+            inputStream = new BufferedReader(new FileReader(file));
+            while ((aux[i] = inputStream.readLine()) != null) {
+                i++;
+            }
+        }catch (FileNotFoundException f){
+            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+        }catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+        }
+        serverConfig.setVisible(true);
+        portField.setText(aux[0]);
+        serverField.setText(aux[1]);
     }
 
     private InitialFrame() {
@@ -50,6 +74,12 @@ public class InitialFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        serverConfig = new javax.swing.JDialog();
+        portField = new javax.swing.JTextField();
+        serverField = new javax.swing.JTextField();
+        serverLabel = new javax.swing.JLabel();
+        portLabel = new javax.swing.JLabel();
+        confirmB = new javax.swing.JButton();
         MainPanel = new javax.swing.JPanel();
         MenuBarPanel = new javax.swing.JPanel();
         signupPageB = new javax.swing.JButton();
@@ -84,6 +114,54 @@ public class InitialFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
+
+        serverConfig.setAlwaysOnTop(true);
+        serverConfig.setBackground(new java.awt.Color(0, 153, 0));
+        serverConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        serverConfig.setMinimumSize(new java.awt.Dimension(400, 200));
+        serverConfig.setResizable(false);
+        serverConfig.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        serverConfig.setLocationRelativeTo(null);
+
+        portField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        portField.setMinimumSize(new java.awt.Dimension(50, 25));
+        portField.setPreferredSize(new java.awt.Dimension(50, 25));
+        portField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portFieldActionPerformed(evt);
+            }
+        });
+        serverConfig.getContentPane().add(portField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
+
+        serverField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        serverField.setMinimumSize(new java.awt.Dimension(350, 25));
+        serverField.setPreferredSize(new java.awt.Dimension(350, 25));
+        serverField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverFieldActionPerformed(evt);
+            }
+        });
+        serverConfig.getContentPane().add(serverField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        serverLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        serverLabel.setText("Server:");
+        serverConfig.getContentPane().add(serverLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+
+        portLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        portLabel.setText("Port:");
+        serverConfig.getContentPane().add(portLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        confirmB.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        confirmB.setText("Confirm");
+        confirmB.setMaximumSize(new java.awt.Dimension(100, 30));
+        confirmB.setMinimumSize(new java.awt.Dimension(100, 30));
+        confirmB.setPreferredSize(new java.awt.Dimension(100, 30));
+        confirmB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmBActionPerformed(evt);
+            }
+        });
+        serverConfig.getContentPane().add(confirmB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 115, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -163,6 +241,11 @@ public class InitialFrame extends javax.swing.JFrame {
         homePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToggleButton1.setText("Server");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
         homePanel.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
@@ -391,9 +474,34 @@ public class InitialFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_signupBActionPerformed
 
+    private void serverFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverFieldActionPerformed
+
+    private void confirmBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBActionPerformed
+        try{
+            PrintWriter out = new PrintWriter(new FileWriter("config.txt"));
+            out.println(portField.getText());
+            out.println(serverField.getText());
+            out.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        serverConfig.setVisible(false);
+        ClientService.readServer();
+    }//GEN-LAST:event_confirmBActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        serverConfig.setVisible(true);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void portFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_portFieldActionPerformed
+
     
     /**
-     * Changes homegui front Page (selects card to show from CardLayout)
+     * Changes GUI front Page (selects card to show from CardLayout)
      * 
      * @param page The page you want to show. Choose between one of these strings: "homeP", "signupP", "loginP", helpP".
      */
@@ -440,6 +548,7 @@ public class InitialFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel MenuBarPanel;
+    private javax.swing.JButton confirmB;
     private javax.swing.JTextField emailInputText;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JButton helpPageB;
@@ -464,7 +573,12 @@ public class InitialFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField passInputText;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel passSignupLabel;
+    private javax.swing.JTextField portField;
+    private javax.swing.JLabel portLabel;
     private javax.swing.JCheckBox remembermeB;
+    private javax.swing.JDialog serverConfig;
+    private javax.swing.JTextField serverField;
+    private javax.swing.JLabel serverLabel;
     private javax.swing.JToggleButton signupB;
     private javax.swing.JButton signupPageB;
     private javax.swing.JPanel signupPanel;
