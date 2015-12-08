@@ -571,6 +571,7 @@ public class MainFrame extends javax.swing.JPanel {
         {
             JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
             user.setName(null);
+            ctrl.close();
             System.exit(0);   
         }    
         else

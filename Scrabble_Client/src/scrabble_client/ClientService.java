@@ -182,4 +182,18 @@ public class ClientService {
 
         return status;
     }
+    /**
+     * Attempts to close the socket
+     * @return true if the socket was closed
+     */
+    public boolean close()
+    {
+        try {
+            clientSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
 }
