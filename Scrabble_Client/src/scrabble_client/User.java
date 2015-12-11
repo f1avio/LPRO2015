@@ -1,5 +1,6 @@
 package scrabble_client;
 
+import game_model.Letter;
 import java.util.ArrayList;
 import java.util.List;
 
