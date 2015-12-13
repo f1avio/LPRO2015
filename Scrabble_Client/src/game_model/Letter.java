@@ -36,16 +36,62 @@ public class Letter {
     }
     
     /**
-    * @param letter Letter to check
+    * Returns amount of points represented by a letter
+    * @param l Letter to check
     * @return amount of points
     */
-    public static int GetLetterValue(Character letter)
+    public static int getValueForLetter(Character l)
     {
-        return letter = Character.toUpperCase(letter);
+        l = Character.toUpperCase(l);
+	return letterValues[ getIndexOfLetter(l) ];
+    }
+    
+    /**
+    * Returns amount of points represented by this letter
+    * @return Amount of points
+    */
+    public int getValueForLetter()
+    {
+        return letterValues[ getIndexOfLetter(Char) ];
+    }
+    
+    /**
+    * Returns number of letters of given kind in the pool when game begins
+    * 
+    * @param l - Letter
+    * @return - total number of letters
+    */
+    public static int getAmountOfLettersInPool(Character l)
+    {
+        l = Character.toUpperCase(l);
+        return amountInPool[ getIndexOfLetter(l) ];
+    }
+
+    /**
+    * Returns number of letters of given kind in the pool when game begins
+    * 
+    * @return - total number of letters
+    */
+    public int getAmountOfLettersInPool()
+    {
+        return amountInPool[ getIndexOfLetter(Char) ];
+    }	
+	
+    private static int getIndexOfLetter(Character l)
+    {
+        l = Character.toUpperCase(l);
+        for(int i=0; i<letters.length; i++)
+        {
+            if(letters[i].equals(l))
+            return i;
+        }
+        return -1;
     }
     
     public Character getChar()
     {
         return Char;
     }
+    
+    
 }

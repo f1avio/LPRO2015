@@ -28,7 +28,7 @@ public class Scrabble {
     public void firstLetters()
     {
         for(Player p : players)
-            for(int i=0; i<7,i++)
+            for(int i=0; i<7;i++)
                 p.addLetter(bag.getNext());
     }
     

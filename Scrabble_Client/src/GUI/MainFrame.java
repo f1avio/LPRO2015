@@ -19,7 +19,8 @@ import scrabble_client.*;
 public class MainFrame extends javax.swing.JPanel {
     /*Don't know if this is a good idea */
     ClientService ctrl = InitialFrame.ctrl;
-    User user = InitialFrame.user;
+    User user =new User();
+    
     /**
      * Creates new form Main
      */
@@ -92,6 +93,14 @@ public class MainFrame extends javax.swing.JPanel {
         confirmPassInput = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        newRoomPage = new javax.swing.JPanel();
+        roomNameLabel = new javax.swing.JLabel();
+        PlayersNumber = new javax.swing.JComboBox<>();
+        roomNameInput = new javax.swing.JTextField();
+        privateGameCheckBox = new javax.swing.JCheckBox();
+        backB = new javax.swing.JButton();
+        createRoomB = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
@@ -542,15 +551,95 @@ public class MainFrame extends javax.swing.JPanel {
 
         basePanel.add(settingsPage, "settingP");
 
+        newRoomPage.setToolTipText("");
+        newRoomPage.setMinimumSize(new java.awt.Dimension(500, 550));
+        newRoomPage.setPreferredSize(new java.awt.Dimension(500, 550));
+        newRoomPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        roomNameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        roomNameLabel.setText("Room Name");
+        roomNameLabel.setMaximumSize(null);
+        roomNameLabel.setMinimumSize(new java.awt.Dimension(200, 40));
+        roomNameLabel.setPreferredSize(new java.awt.Dimension(110, 30));
+        newRoomPage.add(roomNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 140, -1));
+
+        PlayersNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        PlayersNumber.setMaximumRowCount(3);
+        PlayersNumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Players", "3 Players", "4Players" }));
+        PlayersNumber.setMinimumSize(new java.awt.Dimension(200, 40));
+        PlayersNumber.setPreferredSize(new java.awt.Dimension(200, 40));
+        PlayersNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PlayersNumberActionPerformed(evt);
+            }
+        });
+        newRoomPage.add(PlayersNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+
+        roomNameInput.setMinimumSize(new java.awt.Dimension(200, 40));
+        roomNameInput.setPreferredSize(new java.awt.Dimension(200, 40));
+        roomNameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomNameInputActionPerformed(evt);
+            }
+        });
+        newRoomPage.add(roomNameInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+
+        privateGameCheckBox.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        privateGameCheckBox.setText("Private Game");
+        privateGameCheckBox.setMaximumSize(null);
+        privateGameCheckBox.setMinimumSize(new java.awt.Dimension(200, 40));
+        privateGameCheckBox.setOpaque(false);
+        privateGameCheckBox.setPreferredSize(new java.awt.Dimension(200, 40));
+        privateGameCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                privateGameCheckBoxActionPerformed(evt);
+            }
+        });
+        newRoomPage.add(privateGameCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, -1, -1));
+
+        backB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        backB.setText("Back");
+        backB.setMaximumSize(null);
+        backB.setMinimumSize(new java.awt.Dimension(140, 40));
+        backB.setPreferredSize(new java.awt.Dimension(100, 30));
+        backB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBActionPerformed(evt);
+            }
+        });
+        newRoomPage.add(backB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
+
+        createRoomB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        createRoomB.setText("Create");
+        createRoomB.setMaximumSize(null);
+        createRoomB.setMinimumSize(new java.awt.Dimension(140, 40));
+        createRoomB.setPreferredSize(new java.awt.Dimension(140, 40));
+        createRoomB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createRoomBActionPerformed(evt);
+            }
+        });
+        newRoomPage.add(createRoomB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 305, 140, 40));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel6.setMaximumSize(new java.awt.Dimension(500, 550));
+        jLabel6.setMinimumSize(new java.awt.Dimension(500, 550));
+        jLabel6.setPreferredSize(new java.awt.Dimension(500, 550));
+        newRoomPage.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        basePanel.add(newRoomPage, "newRoomP");
+
         add(basePanel, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
-        // TODO add your handling code here:
+        GameGUI gameGUI= new GameGUI();
+        this.setVisible(false);
+        gameGUI.setVisible(true);
     }//GEN-LAST:event_joinBActionPerformed
 
     private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
-        // TODO add your handling code here:
+        selectPage("newRoomP");
     }//GEN-LAST:event_createBActionPerformed
 
     private void homeB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeB1ActionPerformed
@@ -640,6 +729,26 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_playerList2MouseReleased
 
+    private void PlayersNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayersNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PlayersNumberActionPerformed
+
+    private void roomNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomNameInputActionPerformed
+
+    private void privateGameCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_privateGameCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_privateGameCheckBoxActionPerformed
+
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+        selectPage("mainP");
+    }//GEN-LAST:event_backBActionPerformed
+
+    private void createRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createRoomBActionPerformed
+
     /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
@@ -652,8 +761,10 @@ public class MainFrame extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChatP;
+    private javax.swing.JComboBox<String> PlayersNumber;
     private javax.swing.JTabbedPane TabsTableRank;
     private javax.swing.JTabbedPane TabsTableRank1;
+    private javax.swing.JButton backB;
     private javax.swing.JPanel basePanel;
     public javax.swing.JPanel chatPanel;
     public javax.swing.JPanel chatPanel1;
@@ -664,6 +775,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPasswordField confirmPassInput;
     private javax.swing.JLabel confirmPassL;
     private javax.swing.JButton createB;
+    private javax.swing.JButton createRoomB;
     private javax.swing.JPasswordField currentPassInput;
     private javax.swing.JLabel currentPassL;
     private javax.swing.JButton helpB1;
@@ -676,6 +788,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     public javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     public javax.swing.JScrollPane jScrollPane7;
@@ -688,14 +801,18 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel newEmailL;
     private javax.swing.JPasswordField newPassInput;
     private javax.swing.JLabel newPassL;
+    private javax.swing.JPanel newRoomPage;
     public javax.swing.JTable playerList1;
     public javax.swing.JTable playerList2;
     private javax.swing.JPanel playersPanel1;
     private javax.swing.JPanel playersPanel2;
+    private javax.swing.JCheckBox privateGameCheckBox;
     private javax.swing.JPanel profsOptPanel1;
     private javax.swing.JPanel profsOptPanel2;
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
+    private javax.swing.JTextField roomNameInput;
+    private javax.swing.JLabel roomNameLabel;
     private javax.swing.JScrollPane roomScrollPane;
     private javax.swing.JTable roomTable;
     private javax.swing.JButton sendmessageB1;
