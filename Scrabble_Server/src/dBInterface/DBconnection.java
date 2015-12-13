@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class DBconnection {
     
-    private static boolean SuccessfulConn = true;
+    static boolean SuccessfulConn = true;
     private static Connection db = null;
     
     /**
@@ -185,7 +185,7 @@ public class DBconnection {
             //Everything checks out, activate isOnline flag
         try {    
             PreparedStatement st;
-            String stmnt = "INSERT INTO "+table+" VALUES ('"+username+"', '"+password+"', FALSE, '"+email+"');";
+            String stmnt = "INSERT INTO "+table+" VALUES ('"+username+"', '"+password+"', FALSE, '"+email+"', 10);";
             st = db.prepareStatement(stmnt);
             st.executeUpdate();
             st.close();
