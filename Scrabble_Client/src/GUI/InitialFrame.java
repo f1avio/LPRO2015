@@ -29,6 +29,7 @@ public class InitialFrame extends javax.swing.JFrame {
     MainFrame mainF;
      /*Establishes connection to the controller*/
     static ClientService ctrl = new ClientService();
+    static User user = new User();
     
     
     /**
@@ -393,14 +394,13 @@ public class InitialFrame extends javax.swing.JFrame {
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
-        User user= new User();
+        user.setName(username);
         switch(ctrl.login(username, password))
         {
             case 0: JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
                 this.MainPanel.setVisible(false);
                 this.add(mainF);
                 this.mainF.setVisible(true);
-                user.setName(username);
                 break;
             case -1: JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
                 break;

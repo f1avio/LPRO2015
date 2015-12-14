@@ -19,7 +19,8 @@ import scrabble_client.*;
 public class MainFrame extends javax.swing.JPanel {
     /*Don't know if this is a good idea */
     ClientService ctrl = InitialFrame.ctrl;
-    User user =new User();
+    User user= InitialFrame.user;
+    GameGUI gameGui = new GameGUI();
     
     /**
      * Creates new form Main
@@ -38,13 +39,18 @@ public class MainFrame extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        quitConfirm = new javax.swing.JDialog();
+        quitPanel = new javax.swing.JPanel();
+        NoB = new javax.swing.JButton();
+        yesB = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         ChatP = new javax.swing.JPanel();
         TabsTableRank1 = new javax.swing.JTabbedPane();
         chatPanel1 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        chatarea4 = new javax.swing.JTextArea();
-        chatinput4 = new javax.swing.JTextField();
-        playersPanel2 = new javax.swing.JPanel();
+        chatarea = new javax.swing.JTextArea();
+        chatinput = new javax.swing.JTextField();
+        playersPanel = new javax.swing.JPanel();
         profsOptPanel2 = new javax.swing.JPanel();
         inviteB2 = new javax.swing.JButton();
         sendmessageB2 = new javax.swing.JButton();
@@ -102,7 +108,50 @@ public class MainFrame extends javax.swing.JPanel {
         createRoomB = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
+        quitConfirm.setAlwaysOnTop(true);
+        quitConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        quitConfirm.setLocationByPlatform(true);
+        quitConfirm.setMinimumSize(new java.awt.Dimension(400, 200));
+        quitConfirm.setPreferredSize(new java.awt.Dimension(400, 200));
+        quitConfirm.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        quitPanel.setBackground(new java.awt.Color(51, 153, 0));
+        quitPanel.setMinimumSize(new java.awt.Dimension(400, 200));
+        quitPanel.setPreferredSize(new java.awt.Dimension(400, 200));
+        quitPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        NoB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        NoB.setText("No");
+        NoB.setMaximumSize(null);
+        NoB.setMinimumSize(new java.awt.Dimension(70, 40));
+        NoB.setPreferredSize(new java.awt.Dimension(100, 40));
+        NoB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NoBActionPerformed(evt);
+            }
+        });
+        quitPanel.add(NoB, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        yesB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        yesB.setText("Yes");
+        yesB.setMaximumSize(null);
+        yesB.setMinimumSize(new java.awt.Dimension(70, 40));
+        yesB.setPreferredSize(new java.awt.Dimension(100, 40));
+        yesB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yesBActionPerformed(evt);
+            }
+        });
+        quitPanel.add(yesB, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel7.setText("Are You Sure?");
+        quitPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        quitConfirm.getContentPane().add(quitPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setName(""); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
         ChatP.setMinimumSize(new java.awt.Dimension(300, 550));
@@ -114,11 +163,13 @@ public class MainFrame extends javax.swing.JPanel {
 
         chatPanel1.setLayout(new java.awt.GridBagLayout());
 
-        chatarea4.setEditable(false);
-        chatarea4.setColumns(20);
-        chatarea4.setRows(5);
-        chatarea4.setWrapStyleWord(true);
-        jScrollPane7.setViewportView(chatarea4);
+        jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        chatarea.setEditable(false);
+        chatarea.setColumns(20);
+        chatarea.setRows(5);
+        chatarea.setWrapStyleWord(true);
+        jScrollPane7.setViewportView(chatarea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -129,17 +180,17 @@ public class MainFrame extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.1;
         chatPanel1.add(jScrollPane7, gridBagConstraints);
 
-        chatinput4.addFocusListener(new java.awt.event.FocusAdapter() {
+        chatinput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                chatinput4FocusGained(evt);
+                chatinputFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                chatinput4FocusLost(evt);
+                chatinputFocusLost(evt);
             }
         });
-        chatinput4.addActionListener(new java.awt.event.ActionListener() {
+        chatinput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatinput4ActionPerformed(evt);
+                chatinputActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -147,11 +198,11 @@ public class MainFrame extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        chatPanel1.add(chatinput4, gridBagConstraints);
+        chatPanel1.add(chatinput, gridBagConstraints);
 
         TabsTableRank1.addTab("Chat", chatPanel1);
 
-        playersPanel2.setLayout(new java.awt.BorderLayout());
+        playersPanel.setLayout(new java.awt.BorderLayout());
 
         profsOptPanel2.setMinimumSize(new java.awt.Dimension(222, 25));
         profsOptPanel2.setOpaque(false);
@@ -175,7 +226,7 @@ public class MainFrame extends javax.swing.JPanel {
         });
         profsOptPanel2.add(sendmessageB2, java.awt.BorderLayout.LINE_START);
 
-        playersPanel2.add(profsOptPanel2, java.awt.BorderLayout.PAGE_END);
+        playersPanel.add(profsOptPanel2, java.awt.BorderLayout.PAGE_END);
 
         playerList2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -207,9 +258,9 @@ public class MainFrame extends javax.swing.JPanel {
         });
         jScrollPane8.setViewportView(playerList2);
 
-        playersPanel2.add(jScrollPane8, java.awt.BorderLayout.CENTER);
+        playersPanel.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        TabsTableRank1.addTab("Jogadores", playersPanel2);
+        TabsTableRank1.addTab("Jogadores", playersPanel);
 
         ChatP.add(TabsTableRank1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 220, 380));
 
@@ -630,12 +681,15 @@ public class MainFrame extends javax.swing.JPanel {
         basePanel.add(newRoomPage, "newRoomP");
 
         add(basePanel, java.awt.BorderLayout.WEST);
+
+        getAccessibleContext().setAccessibleName("JPanel");
     }// </editor-fold>//GEN-END:initComponents
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
-        GameGUI gameGUI= new GameGUI();
-        this.setVisible(false);
-        gameGUI.setVisible(true);
+        
+        this.add(gameGui);
+        this.gameGui.setVisible(true);
+        //gameGui.setVisible(true);
     }//GEN-LAST:event_joinBActionPerformed
 
     private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
@@ -651,22 +705,7 @@ public class MainFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_settingsB1ActionPerformed
 
     private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
-       
-        int OperationStatus = ctrl.logout(user.getName());
-        
-        if(-1 == OperationStatus)
-            JOptionPane.showMessageDialog(null,"Communication with the server was compromised. Try again!","Operation Failed",JOptionPane.WARNING_MESSAGE);
-        else if(0 == OperationStatus)
-        {
-            JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
-            user.setName(null);
-            ctrl.close();
-            System.exit(0);   
-        }    
-        else
-            JOptionPane.showMessageDialog(null,"You are attempting an action that you shouldn't have access to!","How?",JOptionPane.WARNING_MESSAGE);
-        
-
+        quitConfirm.setVisible(true);
     }//GEN-LAST:event_logoutB1ActionPerformed
 
     private void confirmPassInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPassInputActionPerformed
@@ -705,17 +744,17 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_playerList1MouseReleased
 
-    private void chatinput4FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput4FocusGained
+    private void chatinputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput4FocusGained
+    }//GEN-LAST:event_chatinputFocusGained
 
-    private void chatinput4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput4FocusLost
+    private void chatinputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput4FocusLost
+    }//GEN-LAST:event_chatinputFocusLost
 
-    private void chatinput4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput4ActionPerformed
+    private void chatinputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput4ActionPerformed
+    }//GEN-LAST:event_chatinputActionPerformed
 
     private void inviteB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB2ActionPerformed
         // TODO add your handling code here:
@@ -749,6 +788,27 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_createRoomBActionPerformed
 
+    private void NoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoBActionPerformed
+        quitConfirm.dispose();
+    }//GEN-LAST:event_NoBActionPerformed
+
+    private void yesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBActionPerformed
+
+        int OperationStatus = ctrl.logout(user.getName());
+        
+        if(-1 == OperationStatus)
+            JOptionPane.showMessageDialog(null,"Communication with the server was compromised. Try again!","Operation Failed",JOptionPane.WARNING_MESSAGE);
+        else if(0 == OperationStatus)
+        {
+            JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
+            user.setName(null);
+            ctrl.close();
+            System.exit(0);   
+        }    
+        else
+            JOptionPane.showMessageDialog(null,"You are attempting an action that you shouldn't have access to!","How?",JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_yesBActionPerformed
+
     /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
@@ -761,6 +821,7 @@ public class MainFrame extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChatP;
+    private javax.swing.JButton NoB;
     private javax.swing.JComboBox<String> PlayersNumber;
     private javax.swing.JTabbedPane TabsTableRank;
     private javax.swing.JTabbedPane TabsTableRank1;
@@ -768,10 +829,10 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPanel basePanel;
     public javax.swing.JPanel chatPanel;
     public javax.swing.JPanel chatPanel1;
+    public javax.swing.JTextArea chatarea;
     public javax.swing.JTextArea chatarea3;
-    public javax.swing.JTextArea chatarea4;
+    private javax.swing.JTextField chatinput;
     private javax.swing.JTextField chatinput3;
-    private javax.swing.JTextField chatinput4;
     private javax.swing.JPasswordField confirmPassInput;
     private javax.swing.JLabel confirmPassL;
     private javax.swing.JButton createB;
@@ -789,6 +850,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     public javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     public javax.swing.JScrollPane jScrollPane7;
@@ -804,11 +866,13 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPanel newRoomPage;
     public javax.swing.JTable playerList1;
     public javax.swing.JTable playerList2;
+    private javax.swing.JPanel playersPanel;
     private javax.swing.JPanel playersPanel1;
-    private javax.swing.JPanel playersPanel2;
     private javax.swing.JCheckBox privateGameCheckBox;
     private javax.swing.JPanel profsOptPanel1;
     private javax.swing.JPanel profsOptPanel2;
+    private javax.swing.JDialog quitConfirm;
+    private javax.swing.JPanel quitPanel;
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
     private javax.swing.JTextField roomNameInput;
@@ -823,5 +887,6 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel volumeL;
     private javax.swing.JSlider volumeSlider;
     private javax.swing.JLabel welcome;
+    private javax.swing.JButton yesB;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,7 +41,8 @@ public class GameGUI extends javax.swing.JFrame {
         boardCanvas.setBounds(3, 3, 518, 518);
         boardPanel.add(boardCanvas);
         //drawPlayers(g);
-        
+        s = new Scrabble(1);
+        s.firstLetters();
     }
 
     /**
@@ -70,12 +71,8 @@ public class GameGUI extends javax.swing.JFrame {
         tilePanel = new javax.swing.JPanel();
         boardPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ScrabbleRubble");
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        setResizable(false);
 
         ChatP.setMinimumSize(new java.awt.Dimension(270, 600));
         ChatP.setPreferredSize(new java.awt.Dimension(270, 600));
@@ -186,6 +183,8 @@ public class GameGUI extends javax.swing.JFrame {
         ChatP.add(TabsTableRank);
         TabsTableRank.setBounds(30, 110, 220, 380);
 
+        getContentPane().add(ChatP, java.awt.BorderLayout.EAST);
+
         contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setMinimumSize(new java.awt.Dimension(530, 600));
         contentPane.setPreferredSize(new java.awt.Dimension(530, 600));
@@ -206,24 +205,8 @@ public class GameGUI extends javax.swing.JFrame {
         contentPane.add(boardPanel);
         boardPanel.setBounds(3, 3, 518, 518);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(contentPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ChatP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(ChatP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
+        getContentPane().add(contentPane, java.awt.BorderLayout.WEST);
         contentPane.getAccessibleContext().setAccessibleParent(contentPane);
-
-        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -251,48 +234,6 @@ public class GameGUI extends javax.swing.JFrame {
     private void chatinputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_chatinputFocusGained
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        s = new Scrabble(1);
-        s.firstLetters();
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try{
-                    frame = new GameGUI();
-                    frame.setVisible(true);
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     static void drawBoard(Graphics g)
     {
