@@ -21,7 +21,7 @@ public class MD5Test {
     public MD5Test() {
     }
     
-    @BeforeClass
+    @BeforeClass  
     public static void setUpClass() {
     }
     

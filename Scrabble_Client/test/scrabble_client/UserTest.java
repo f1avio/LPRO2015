@@ -53,7 +53,7 @@ public class UserTest {
         assertEquals(name, instance.getName());
     }
 
-    /**
+    /** 
      * Test of getName method, of class User.
      */
     @Test
