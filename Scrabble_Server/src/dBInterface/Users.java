@@ -60,7 +60,6 @@ public class Users {
                 }
             }
         }
-        //System.out.println("getDB() "+Arrays.toString(aux));
         return aux;
     }
             
