@@ -741,7 +741,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutB1ActionPerformed
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
-
+        GameGUI gameGui = new GameGUI();
+        gameGui.setVisible(true);
+        
     }//GEN-LAST:event_joinBActionPerformed
 
     private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed

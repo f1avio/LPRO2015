@@ -10,6 +10,7 @@ import game_model.Scrabble;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import scrabble_client.ClientService;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -22,6 +23,7 @@ public class GameGUI extends javax.swing.JFrame {
     public static Scrabble s;
     public static GameGUI frame;
     private Canvas boardCanvas;
+    ClientService clientService = ClientService.getInstance();
     /**
      * Creates new form GameGUI
      */
@@ -32,7 +34,6 @@ public class GameGUI extends javax.swing.JFrame {
             private static final long serialVersionUID = 3678971088393809762L;
             public void paint(Graphics g)
             {
-                System.out.println("Canvas()");
                 drawBoard(g);	
                 //drawPlayers(g);
             }
@@ -71,11 +72,11 @@ public class GameGUI extends javax.swing.JFrame {
         tilePanel = new javax.swing.JPanel();
         boardPanel = new javax.swing.JPanel();
 
-        setTitle("ScrabbleRubble");
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        getContentPane().setLayout(null);
 
         ChatP.setMinimumSize(new java.awt.Dimension(270, 600));
-        ChatP.setPreferredSize(new java.awt.Dimension(270, 600));
         ChatP.setLayout(null);
 
         TabsTableRank.setMinimumSize(new java.awt.Dimension(235, 260));
@@ -183,16 +184,15 @@ public class GameGUI extends javax.swing.JFrame {
         ChatP.add(TabsTableRank);
         TabsTableRank.setBounds(30, 110, 220, 380);
 
-        getContentPane().add(ChatP, java.awt.BorderLayout.EAST);
+        getContentPane().add(ChatP);
+        ChatP.setBounds(530, 0, 270, 600);
 
         contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setMinimumSize(new java.awt.Dimension(530, 600));
-        contentPane.setPreferredSize(new java.awt.Dimension(530, 600));
         contentPane.setLayout(null);
 
         tilePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tilePanel.setMinimumSize(new java.awt.Dimension(518, 60));
-        tilePanel.setPreferredSize(new java.awt.Dimension(518, 60));
         tilePanel.setLayout(null);
         contentPane.add(tilePanel);
         tilePanel.setBounds(3, 530, 518, 60);
@@ -200,15 +200,12 @@ public class GameGUI extends javax.swing.JFrame {
         boardPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         boardPanel.setFocusable(false);
         boardPanel.setMinimumSize(new java.awt.Dimension(518, 518));
-        boardPanel.setPreferredSize(new java.awt.Dimension(518, 518));
         boardPanel.setLayout(null);
         contentPane.add(boardPanel);
         boardPanel.setBounds(3, 3, 518, 518);
 
-        getContentPane().add(contentPane, java.awt.BorderLayout.WEST);
-        contentPane.getAccessibleContext().setAccessibleParent(contentPane);
-
-        pack();
+        getContentPane().add(contentPane);
+        contentPane.setBounds(0, 0, 530, 600);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
@@ -237,7 +234,6 @@ public class GameGUI extends javax.swing.JFrame {
 
     static void drawBoard(Graphics g)
     {
-        System.out.println("TESTE");
         for(int y=0; y<15; y++)
             for(int x=0; x<15; x++)
             {
