@@ -108,7 +108,7 @@ public class UsersTest extends TestCase {
         System.out.println("getTables");
         Users instance = new Users();
         String expResult = "algo";
-        String result = instance.getTables();
+        String result = instance.getRoom();
         assertEquals(expResult, result);
 
     }
