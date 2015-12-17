@@ -108,7 +108,7 @@ public class DBconnection {
         String tables ="";
         Users database = new Users();
         
-        tables = database.getTables();
+        tables = database.getRoom();
         
         return tables;
     }

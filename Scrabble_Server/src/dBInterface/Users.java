@@ -71,7 +71,7 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
             
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
             while(rs.next()){
                 if(rs.getString("username").equals(user)){
                     exist = true;
@@ -85,13 +85,15 @@ public class Users {
         return exist;
     }
     
-    public boolean insertUser(String username, String password, String mail) {
+    public boolean insertUser(String username, String password, String email) {
         boolean state = false;
+        String sql="";
         String[] aux = getDB();
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            stmt.executeUpdate("INSERT INTO \"Scrabble\".\"accounts\"" + " (\"username\", \"password\",\"isonline\",\"email\")" + " VALUES ('" + username + "', '" + password + "', 'false'','" + mail + "')");
+            sql = "INSERT INTO scrabble.accounts VALUES('"+ username + "', '" + password + "', FALSE ,'" + email + "', 0, FALSE, 'NORMAL');";
+            stmt.executeUpdate(sql);
             state = true;
 
             con.close();
@@ -110,7 +112,7 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
             while (rs.next()) {
                 if (rs.getString("username").equals(user)) {
                     state = rs.getString("password");
@@ -134,7 +136,7 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
 
-            stmt.executeUpdate("UPDATE \"Scrabble\".\"accounts\" SET \"isonline\"='" + state + "' WHERE \"username\"='" + username + "'");
+            stmt.executeUpdate("UPDATE \"scrabble\".\"accounts\" SET \"isonline\"='" + state + "' WHERE \"username\"='" + username + "'");
             ret = true;
         } catch (SQLException ex) {
             System.out.println("userActive() "+ ex);
@@ -151,7 +153,7 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
             while (rs.next()) {
 
                 if (rs.getString("username").equals(user)) {
@@ -168,7 +170,7 @@ public class Users {
         return active;
     }
     
-    public String getTables(){
+    public String getRoom(){
         String[] aux = getDB();    
         String tables = "";
         
@@ -176,7 +178,7 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"tables\"");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\"");
             while (rs.next()) {
                     
 
@@ -185,7 +187,7 @@ public class Users {
             con.close();    
             
         } catch (SQLException ex) {
-            System.out.println("getTables() "+ ex);
+            System.out.println("getRoom() "+ ex);
         }
         
         return tables;             
@@ -200,7 +202,7 @@ public class Users {
         Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
         Statement stmt = con.createStatement();
 
-        ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
         
         while (rs.next()) {
             if (rs.getString("username").equals(user)) {
@@ -224,11 +226,11 @@ public class Users {
         Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
         Statement stmt = con.createStatement();
 
-        ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
         
         while(rs.next()){
             if(rs.getString("username").equals(user)) {              
-                stmt.executeUpdate("UPDATE \"Scrabble\".\"accounts\" SET \"state\"=" + "'" + state + "'" + " WHERE \"username\"=" + "'" + user + "'");
+                stmt.executeUpdate("UPDATE \"scrabble\".\"accounts\" SET \"state\"=" + "'" + state + "'" + " WHERE \"username\"=" + "'" + user + "'");
                 result = true;
             }
             else result = false;
@@ -254,7 +256,7 @@ public class Users {
         Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
         Statement stmt = con.createStatement();
 
-        ResultSet rs = stmt.executeQuery("SELECT * FROM \"Scrabble\".\"accounts\"");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"accounts\"");
         
         while (rs.next()) {
             if (rs.getString("username").equals(user)) {
