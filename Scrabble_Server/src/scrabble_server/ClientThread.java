@@ -2,10 +2,13 @@ package scrabble_server;
 
 import dBInterface.DBconnection;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -14,73 +17,77 @@ import java.net.Socket;
  *          Jose Carvalho
  */
 class ClientThread extends Thread{
+    
     private Socket connectionSocket = null;
-    private final DBconnection conn = new DBconnection();
+    public ScrabbleServer server = null;
+    int ID = -1;
+    public String username = "";
+    public DataInputStream inFromClient = null;
+    public DataOutputStream outToClient = null;
+    
     
     /**
      * ServiceClient constructor that stores the parameter socket
      * @param socket the socket that needs to be stored
      */
-   public ClientThread(Socket socket)
+   public ClientThread(ScrabbleServer argServer, Socket argSocket)
     {
-        connectionSocket = socket;
-        System.out.println("A new user has connected.");
+        super();
+        server = argServer;
+        connectionSocket = argSocket;
+        ID = connectionSocket.getPort();
+    }
+   
+   public void send(String msg) {
+        try {
+            outToClient.writeUTF(msg);
+            outToClient.flush();
+        } catch (IOException ex) {
+            System.out.println("[Server][Socket]" + "Exception [SocketClient : send(...)]");
+        }
+    }
+   
+   public int getID() {
+        return ID;
     }
 
    /**
     * Method called when a new ClientThread object is started
     */
-    @Override public void run()
-    {
-        String operation;
-        int status;
+    @Override 
+    public void run(){
         
-        String username, password, email;
-        
-
-        while(!connectionSocket.isClosed())
-        {
-            try {
-                /*Instructs the client to insert his name*/
-                DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-             
-                /*Reads what the client has to say*/
-                BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                operation = inFromClient.readLine(); /*Dictates the operation that will be applied*/
-                 if(operation != null)
-                 {
-                    switch(operation)
-                    {  
-                        case "login":       username = inFromClient.readLine();
-                                            password = inFromClient.readLine();
-                                            status = conn.logUser("accounts", username, password);
-                                            outToClient.writeBytes(Integer.toString(status)+ '\n');
-                                            break;
-                        
-                        case "register":    username = inFromClient.readLine();
-                                            password = inFromClient.readLine();
-                                            email = inFromClient.readLine();
-                                            status = conn.signUser("accounts", username, password, email);
-                                            outToClient.writeBytes(Integer.toString(status)+ '\n');
-                                            break;
-                        
-                        case "logout":      username = inFromClient.readLine();
-                                            status = conn.logoutUser("accounts", username);
-                                            outToClient.writeBytes(Integer.toString(status)+'\n');
-                                            connectionSocket.close();
-                                            break;
-                            
-                        default:            break;     
-                }
+        while(true) {
+            try{
+                String msg = inFromClient.readUTF();
+                System.out.println("[Server][Socket]" + "MSG = " + msg);
+                server.handle(ID, msg);
+            } catch(Exception ex){
+                System.out.println("[Server][Socket]" + ID + " ERROR reading: " + ex);
+                server.remove(ID);
+                stop();
             }
-        } catch (IOException e) {
-            System.out.println("An IOException has occurred.");
-        } 
+        }
         
     }
-        
-        System.out.println("A user has left.");
-  }
+    
+    public void open() throws IOException {
+        outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+        outToClient.flush();
+        inFromClient = new DataInputStream(connectionSocket.getInputStream());
+    }
+    
+    public void close() throws IOException {
+        if (connectionSocket != null) {
+            connectionSocket.close();
+        }
+        if (inFromClient != null) {
+            inFromClient.close();
+        }
+        if (outToClient != null) {
+            outToClient.close();
+        }
+    }
     
 
 }

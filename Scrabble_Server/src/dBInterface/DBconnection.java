@@ -1,9 +1,5 @@
 package dBInterface;
 
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**@author Adam Kopnicky 
  * @author Ewa Godlewska 
  * @author Flavio Dias 
@@ -12,226 +8,75 @@ import java.util.logging.Logger;
  */
 public class DBconnection {
     
-    static boolean SuccessfulConn = true;
-    private static Connection db = null;
+    Thread t1;
+    Thread t2;
+    Thread t3;
+    int count = 0;
     
-    /**
-     * Initializes the JDBC driver and attempts to connect to the PostgreSQL
-     * database. 
-     * @param url gives the location of the database
-     * @param username the database username necessary to log in
-     * @param password the database password necessary to log in 
-     * @return true if it manages to connect; false if it fails to connect
-     */
-     public static boolean connect(String url, String username, String password) 
-    {  
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException ex) {
-            SuccessfulConn = false;
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
+    private static DBconnection instance = null;
+    
+    public static DBconnection getInstance(){
+        if (instance == null) {
+            instance = new DBconnection();
         }
-        
-        try {
-            db = DriverManager.getConnection( url,username,password);
-            SuccessfulConn = true;
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        return instance;
     }
     
-    /**
-     * Verifies if the server is still connected to the database.
-     * @return true if connected; false if disconnected
-     */
-    public static boolean  initialized()
+    public int logUser(String user, String password)
     {
-        return SuccessfulConn;
-    }
-    
-    /**
-     * Closes the connection to the PostgreSQL database. 
-     * @return true if successful; false if unsuccessful
-     */
-   public static boolean dBClose()
-    {
-        try {
-            db.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-    /**
-     * Searches for a specified user on the PostgreSQL database. 
-     * @param table the table where the user data is stored
-     * @param username the user's name that will be searched
-     * @return true if he exists; false if he doesn't exist
-     */
-    public boolean searchUser(String table, String username) 
-    {
-        boolean success = false;
+        Users database = new Users();
+        boolean exist = database.usernameExist(user);
+        boolean admin;
         
-        try {
-            
-            PreparedStatement st;
-            
-            String stmnt = "SELECT * FROM "+table+" WHERE username = '"+username+"';";
-            st = db.prepareStatement(stmnt);
-            ResultSet rs;
-            rs = st.executeQuery();
-            
-            if(false != rs.next())
-                success = true;
-            
-            rs.close();
-            st.close();
-            
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            success = false;
-        }
-        return success;
-    }
-    
-    /**
-     * Searches and compares the password of the specified user
-     * @param table the table where the user data is stored
-     * @param username the user's name that will be searched
-     * @param password the user's password to be compared
-     * @return true if the password is correct; false if the password doesn't exist 
-     */
-    public boolean searchPassword(String table, String username, String password)
-    {
-         boolean success = false;
-         
-        try {
-            PreparedStatement st;
-            
-            String stmnt = "SELECT password FROM "+table+" WHERE username = '"+username+"';";
-            st = db.prepareStatement(stmnt);
-            
-            ResultSet rs;
-            rs = st.executeQuery();
-            rs.next(); //So it can positionate the resultset
-            if(rs.getString("password").equals(password))
-                success = true;
-            
-            rs.close();
-            st.close();
-            
-
-        } catch (SQLException ex) {
-            success = false;
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return success;
+        if(exist){
+            if(database.getPassword(user).equals(password)){
+                if(database.getActive(user)){
+                    return 2;
+                }else{
+                    String state = database.getState(user);
+                    System.out.println("[Server][Service]" + "State: " + state);
+                    admin = database.getAdmin(user);
+                    if(admin){
+                        database.userActive(user, true);
+                        return 3;
+                    }else
+                        if(state.equals("NORMAL") || state.equals("KICK")){
+                            database.userActive(user, true);
+                            return 1;
+                        }
+                        else return 4;
+                }
+            } else return 0;
+        }else return 0;
     }
     /**
-     * Logs the user to the system, activating his flag "isOnline"
-     * @param table the table where the user data is stored
-     * @param username the user's name that needs to log in
-     * @param password the user's password
-     * @return a standardized status value, notifying the degree of success of the implementation
-     */
-    public int logUser(String table, String username, String password)
-    {
-            if(!searchUser(table, username))
-                return -1; //The player doesn't exist!
-            
-            if(!searchPassword(table, username, password))
-                return -2; //The password is incorrect!
-            
-            if(isOnline(table, username))
-                return -3; //the user is already online
-            
-            //Everything checks out, activate isOnline flag
-        try {    
-            PreparedStatement st;
-            String stmnt = "UPDATE "+table+" SET isOnline = TRUE WHERE  username = '"+username+"';";
-            st = db.prepareStatement(stmnt);
-            
-            int aux = 0;
-            aux = st.executeUpdate();
-            
-            st.close();
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            return -4;
-        }
-        
-        return 0;
-    }
-    /**
-     * Attempts to signup a new user creating a new line on the specified database
-     * @param table The database table where the user registry will be added    
-     * @param username The user username within the game
+     * Attempts to signup a new user creating a new line on the specified database    
+     * @param user
      * @param password The password needed to login into the system
      * @param email The user email, for administrative tasks
      * @return  a standardized status value, notifying the degree of success of the implementation
      */
-    public int signUser(String table, String username, String password, String email)
-    {        
-            if(searchUser(table, username))
-                return -2; //The user already exists
-            
-            //Everything checks out, activate isOnline flag
-        try {    
-            PreparedStatement st;
-            String stmnt = "INSERT INTO "+table+" VALUES ('"+username+"', '"+password+"', FALSE, '"+email+"', 10);";
-            st = db.prepareStatement(stmnt);
-            st.executeUpdate();
-            st.close();
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
+    public int signUser(String user, String password, String email)
+    {
+        int state = 0;
+        Users database = new Users();
+        boolean userExist;
+        boolean signupRet;
         
-        return 0;
+        userExist = database.usernameExist(user);
+        
+        if (userExist) {
+            state = 0;
+        } else {
+            signupRet = database.insertUser(user, password, email);
+            if (signupRet) {
+                state = 1;
+            }
+        }
+
+        return state;
     }
     
-    /**
-     * Verifies if a user is online
-     * @param table the table where the user data is stored
-     * @param username the user's name that will be verified
-     * @return true if it is online: false if it isn't online
-     */
-    public boolean isOnline(String table, String username)
-    {
-        boolean success = false;
-        
-        try {     
-            PreparedStatement st;
-            
-            String stmnt = "SELECT isOnline FROM "+table+" WHERE username = '"+username+"';";
-            st = db.prepareStatement(stmnt);
-            ResultSet rs;
-            rs = st.executeQuery();
-            
-            if(false != rs.next())
-                success = rs.getBoolean("isOnline");
-            
-            rs.close();
-            st.close();
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-            success = false;
-            
-        }
-        
-        return success;
-    }
     
     /**
      * Logs out the user from the system, deactivating his flag "isOnline"
@@ -239,26 +84,32 @@ public class DBconnection {
      * @param username the user's name that needs to log out
      * @return a standardized status value, notifying the degree of success of the implementation
      */
-    public int logoutUser(String table, String username)
+    public int logoutUser(String username)
     {
-        if(searchUser(table, username) && isOnline(table, username)) //o utilizador tem de existir e estar online
-        {
-            try {
-                PreparedStatement st;
-                String stmnt = "UPDATE "+table+" SET isOnline = FALSE WHERE  username = '"+username+"';";
-                st = db.prepareStatement(stmnt);
-                
-                int aux = st.executeUpdate();
-                
-                st.close();
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(DBconnection.class.getName()).log(Level.SEVERE, null, ex);
-                return -1;
+        int state;
+        Users database = new Users();
+        boolean userExist;
+        boolean active;
+        
+        userExist = database.usernameExist(username);
+        active = database.getActive(username);
+        
+            if (userExist && active) {
+                database.userActive(username, false);
+                state = 1;
+            } else {
+                state = 0;
             }
-            
-            return 0;
-        }
-        return -2;
+        System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
+        return state;
+    }
+    
+    public String receiveTables(){
+        String tables ="";
+        Users database = new Users();
+        
+        tables = database.getTables();
+        
+        return tables;
     }
 }

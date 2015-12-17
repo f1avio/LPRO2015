@@ -46,7 +46,7 @@ public class Scrabble_ServerTest {
     public void testMain() {
         System.out.println("main");
         String[] args = null;
-        Scrabble_Server.main(args);
+        ScrabbleServer.main(args);
 
         
     }
