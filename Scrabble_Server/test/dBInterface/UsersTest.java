@@ -5,6 +5,7 @@
  */
 package dBInterface;
 
+import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
@@ -33,9 +34,11 @@ public class UsersTest extends TestCase {
     public void testGetDB() {
         System.out.println("getDB");
         Users instance = new Users();
-        String[] expResult = null;
-        String[] result = instance.getDB();
+        String expResult = "[1513, jdbc:postgresql://vdbm.fe.up.pt/lpro1513, lpro1513, C4bhX7aai, null]";
+        String result = Arrays.toString(instance.getDB());
         assertEquals(expResult, result);
+        
+        
     }
 
     /**
@@ -45,7 +48,7 @@ public class UsersTest extends TestCase {
         System.out.println("usernameExist");
         String user = "Jeremias";
         Users instance = new Users();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.usernameExist(user);
         assertEquals(expResult, result);
     }
@@ -59,7 +62,7 @@ public class UsersTest extends TestCase {
         String password = "Cruise";
         String mail = "shorty@short.com";
         Users instance = new Users();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.insertUser(username, password, mail);
         assertEquals(expResult, result);
     }
@@ -84,7 +87,7 @@ public class UsersTest extends TestCase {
         String username = "Inacio";
         boolean state = false;
         Users instance = new Users();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.userActive(username, state);
         assertEquals(expResult, result);
     }
@@ -107,7 +110,7 @@ public class UsersTest extends TestCase {
     public void testGetTables() {
         System.out.println("getTables");
         Users instance = new Users();
-        String expResult = "algo";
+        String expResult = "";
         String result = instance.getRoom();
         assertEquals(expResult, result);
 
