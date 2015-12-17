@@ -7,7 +7,7 @@ package scrabble_client;
  *          Jose Carvalho
  */
 public class User {  /*It will be used later on to more complicated things*/
-    private String name =null;
+    private String name ="";
     /**
      * Stores the username of the newly logged in user
      * @param name The username to be stored

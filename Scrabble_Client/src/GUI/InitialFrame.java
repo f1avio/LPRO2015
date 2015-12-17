@@ -6,6 +6,7 @@
 package GUI;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,11 +26,9 @@ import scrabble_client.*;
 public class InitialFrame extends javax.swing.JFrame {
 
     static private String page = "homeP";
+    static private String newUsername;
     static String identifier;  //mudar para uma int
-    MainFrame mainF;
-     /*Establishes connection to the controller*/
-    static ClientService ctrl = new ClientService();
-    static User user = new User();
+    //static User user = new User();
     
     
     /**
@@ -37,32 +36,13 @@ public class InitialFrame extends javax.swing.JFrame {
      * @param selectedPage Stores the string with the name of the windows do present
      */
     public InitialFrame(String selectedPage) {
-        this.mainF = new MainFrame();
         initComponents();
         InitialFrame.page = selectedPage;
         selectPage(page);
         
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[3];
-        String file = "config.txt";
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
-        }catch (FileNotFoundException f){
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
-        }catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-        }
-        serverConfig.setVisible(true);
-        portField.setText(aux[0]);
-        serverField.setText(aux[1]);
     }
 
-    private InitialFrame() {
-        this.mainF = new MainFrame();
+    public InitialFrame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -117,12 +97,9 @@ public class InitialFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         serverConfig.setAlwaysOnTop(true);
-        serverConfig.setBackground(new java.awt.Color(0, 153, 0));
-        serverConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        serverConfig.setMinimumSize(new java.awt.Dimension(400, 200));
-        serverConfig.setResizable(false);
         serverConfig.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         serverConfig.setLocationRelativeTo(null);
+        serverConfig.setSize(new Dimension(400,200));
 
         portField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         portField.setMinimumSize(new java.awt.Dimension(50, 25));
@@ -394,26 +371,13 @@ public class InitialFrame extends javax.swing.JFrame {
         /*Read what the user inputs*/
         String username = (String)((userInputText.getText()));
         String password = new String(passInputText.getPassword());
-        user.setName(username);
-        switch(ctrl.login(username, password))
-        {
-            case 0: JOptionPane.showMessageDialog(null,"You have successfully logged in","Approved",JOptionPane.WARNING_MESSAGE);
-                this.MainPanel.setVisible(false);
-                this.add(mainF);
-                this.mainF.setVisible(true);
-                break;
-            case -1: JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
-                break;
-            case -2: JOptionPane.showMessageDialog(null,"The username/password you provided are wrong. Try again!","Failed to Log In",JOptionPane.WARNING_MESSAGE);
-                break;
-            case -3:  JOptionPane.showMessageDialog(null,"You supposedly are already logged in.","Failed to Log In",JOptionPane.WARNING_MESSAGE);
-                break;
-            case -4: JOptionPane.showMessageDialog(null,"The connection to the server was lost.Please try again.","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
-                break;
-            default:System.out.println("Something went wrong!");
-                break;
-        }
-      
+        //user.setName(username);
+        newUsername = username;
+            
+        ClientService clientService = ClientService.getInstance();
+        clientService.loginRequest(username, password);
+            
+        this.dispose();     
     }//GEN-LAST:event_loginBActionPerformed
 
     private void userInputSignupTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInputSignupTActionPerformed
@@ -437,40 +401,19 @@ public class InitialFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_passInputTextActionPerformed
 
     private void signupBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupBActionPerformed
-     int OperationStatus;
         
-
         String username = (String)((userInputSignupT.getText()));
         String password = new String(passInputPassT.getPassword());
         String Cpassword = new String(pass2InputText.getPassword());
         String email = (String)((emailInputText.getText()));
         
-         /*Step 1: Check if the password is correct */
-        if(!password.equals(Cpassword))
+        if (!password.equals(Cpassword)) {
             JOptionPane.showMessageDialog(null,"The passwords do not match. Please try again!","Wrong password",JOptionPane.WARNING_MESSAGE);
-        /*Step 2: Check if the email address is valid */
-        else if(!ClientService.isValidEmailAddress(email))
-            JOptionPane.showMessageDialog(null," Invalid email address format!","Invalid Email",JOptionPane.WARNING_MESSAGE);
-        /*Step 3:Attempts to finally register the new user */ 
-        else
-        {
-            OperationStatus = ctrl.register(username, password, email);
-            switch(OperationStatus)
-            {
-            case -4: JOptionPane.showMessageDialog(null,"The server is in trouble! Contact the administrator to check if this operation was successful","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
-                    break;
-            case -3: JOptionPane.showMessageDialog(null,"Failed to try again. If this error persists, contact imediately the Administrator.","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
-                    break;
-            case -2: JOptionPane.showMessageDialog(null,"Your username was already been taken by someone else.","Username duplicated",JOptionPane.WARNING_MESSAGE);
-                    break;
-            case -1: JOptionPane.showMessageDialog(null,"The system is unresponsive. Try again","Communication Disrupted",JOptionPane.WARNING_MESSAGE);
-                    break;
-            case 0: JOptionPane.showMessageDialog(null,"You have succesfully signed up. Login to your account to complete the process","Success!",JOptionPane.WARNING_MESSAGE);
-                    selectPage("loginP");
-                    break; 
-            default: JOptionPane.showMessageDialog(null,"A wild bug has appeared.","??",JOptionPane.WARNING_MESSAGE);
-                    break;     
-            }               
+        } else {
+            newUsername=username;
+            ClientService clientService = ClientService.getInstance();
+            clientService.signupRequest(username, password, email);
+            this.dispose();
         }
     }//GEN-LAST:event_signupBActionPerformed
 
@@ -488,11 +431,29 @@ public class InitialFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
         serverConfig.setVisible(false);
-        ClientService.readServer();
+        ClientProtocol.readServer();
     }//GEN-LAST:event_confirmBActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        
+        BufferedReader inputStream = null;
+        int i = 0;
+        String aux[] = new String[3];
+        String file = "config.txt";
+        try {
+            inputStream = new BufferedReader(new FileReader(file));
+            while ((aux[i] = inputStream.readLine()) != null) {
+                i++;
+            }
+            inputStream.close();
+        }catch (FileNotFoundException f){
+            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+        }catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+        }
         serverConfig.setVisible(true);
+        portField.setText(aux[0]);
+        serverField.setText(aux[1]);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void portFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portFieldActionPerformed

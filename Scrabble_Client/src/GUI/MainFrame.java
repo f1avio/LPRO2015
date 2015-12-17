@@ -6,27 +6,28 @@
 package GUI;
 
 import java.awt.CardLayout;
-import javax.swing.JOptionPane;
+import java.awt.Dimension;
 import scrabble_client.*;
-
-/**@author  Adam Kopnicky
- *          Ewa Godlewska
- *          Flavio Dias
- *          Hugo Pereira
- *          Jose Carvalho
+/**
+ *
+ * @author HUGUETA
  */
-
-public class MainFrame extends javax.swing.JPanel {
-    /*Don't know if this is a good idea */
-    ClientService ctrl = InitialFrame.ctrl;
-    User user= InitialFrame.user;
-    GameGUI gameGui = new GameGUI();
-    
+public class MainFrame extends javax.swing.JFrame {
+    static private String username;
     /**
-     * Creates new form Main
+     * Creates new form MainFrame1
+     * @param user
      */
-    public MainFrame() {
+    public MainFrame(String user) {
         initComponents();
+        MainFrame.username = user;
+        ClientService clientService = ClientService.getInstance();
+        clientService.setMainFrame(this);
+        usernameL.setText(user);
+    }
+
+    private MainFrame() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -40,10 +41,10 @@ public class MainFrame extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         quitConfirm = new javax.swing.JDialog();
-        quitPanel = new javax.swing.JPanel();
         NoB = new javax.swing.JButton();
         yesB = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         ChatP = new javax.swing.JPanel();
         TabsTableRank1 = new javax.swing.JTabbedPane();
         chatPanel1 = new javax.swing.JPanel();
@@ -110,15 +111,9 @@ public class MainFrame extends javax.swing.JPanel {
 
         quitConfirm.setAlwaysOnTop(true);
         quitConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        quitConfirm.setLocationByPlatform(true);
-        quitConfirm.setMinimumSize(new java.awt.Dimension(400, 200));
-        quitConfirm.setPreferredSize(new java.awt.Dimension(400, 200));
         quitConfirm.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        quitPanel.setBackground(new java.awt.Color(51, 153, 0));
-        quitPanel.setMinimumSize(new java.awt.Dimension(400, 200));
-        quitPanel.setPreferredSize(new java.awt.Dimension(400, 200));
-        quitPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        quitConfirm.setLocationRelativeTo(null);
+        quitConfirm.setSize(new Dimension(400,200));
 
         NoB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         NoB.setText("No");
@@ -130,7 +125,7 @@ public class MainFrame extends javax.swing.JPanel {
                 NoBActionPerformed(evt);
             }
         });
-        quitPanel.add(NoB, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+        quitConfirm.getContentPane().add(NoB, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, -1));
 
         yesB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         yesB.setText("Yes");
@@ -142,20 +137,18 @@ public class MainFrame extends javax.swing.JPanel {
                 yesBActionPerformed(evt);
             }
         });
-        quitPanel.add(yesB, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, -1, -1));
+        quitConfirm.getContentPane().add(yesB, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel7.setText("Are You Sure?");
-        quitPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+        quitConfirm.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
-        quitConfirm.getContentPane().add(quitPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setName(""); // NOI18N
-        setLayout(new java.awt.BorderLayout());
 
-        ChatP.setMinimumSize(new java.awt.Dimension(300, 550));
-        ChatP.setPreferredSize(new java.awt.Dimension(300, 550));
+        jPanel1.setName(""); // NOI18N
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
         ChatP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TabsTableRank1.setMinimumSize(new java.awt.Dimension(235, 260));
@@ -271,11 +264,9 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel5.setPreferredSize(new java.awt.Dimension(300, 550));
         ChatP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        add(ChatP, java.awt.BorderLayout.EAST);
+        jPanel1.add(ChatP, java.awt.BorderLayout.EAST);
 
-        menuBarSettings.setMinimumSize(new java.awt.Dimension(800, 50));
         menuBarSettings.setOpaque(false);
-        menuBarSettings.setPreferredSize(new java.awt.Dimension(800, 50));
         menuBarSettings.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         homeB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -336,15 +327,11 @@ public class MainFrame extends javax.swing.JPanel {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/barBackground.png"))); // NOI18N
         menuBarSettings.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 50));
 
-        add(menuBarSettings, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(menuBarSettings, java.awt.BorderLayout.PAGE_START);
 
-        basePanel.setMinimumSize(new java.awt.Dimension(500, 550));
-        basePanel.setPreferredSize(new java.awt.Dimension(500, 550));
         basePanel.setLayout(new java.awt.CardLayout());
 
-        mainPage.setMinimumSize(new java.awt.Dimension(500, 550));
         mainPage.setOpaque(false);
-        mainPage.setPreferredSize(new java.awt.Dimension(500, 550));
         mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -517,9 +504,7 @@ public class MainFrame extends javax.swing.JPanel {
 
         basePanel.add(rankingP, "rankP");
 
-        settingsPage.setMinimumSize(new java.awt.Dimension(500, 550));
         settingsPage.setOpaque(false);
-        settingsPage.setPreferredSize(new java.awt.Dimension(500, 550));
         settingsPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         volumeL.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -603,8 +588,6 @@ public class MainFrame extends javax.swing.JPanel {
         basePanel.add(settingsPage, "settingP");
 
         newRoomPage.setToolTipText("");
-        newRoomPage.setMinimumSize(new java.awt.Dimension(500, 550));
-        newRoomPage.setPreferredSize(new java.awt.Dimension(500, 550));
         newRoomPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         roomNameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -680,69 +663,42 @@ public class MainFrame extends javax.swing.JPanel {
 
         basePanel.add(newRoomPage, "newRoomP");
 
-        add(basePanel, java.awt.BorderLayout.WEST);
+        jPanel1.add(basePanel, java.awt.BorderLayout.WEST);
 
-        getAccessibleContext().setAccessibleName("JPanel");
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
-        
-        this.add(gameGui);
-        this.gameGui.setVisible(true);
-        //gameGui.setVisible(true);
-    }//GEN-LAST:event_joinBActionPerformed
+    private void NoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoBActionPerformed
+        quitConfirm.dispose();
+    }//GEN-LAST:event_NoBActionPerformed
 
-    private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
-        selectPage("newRoomP");
-    }//GEN-LAST:event_createBActionPerformed
-
-    private void homeB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeB1ActionPerformed
-        selectPage("mainP");
-    }//GEN-LAST:event_homeB1ActionPerformed
-
-    private void settingsB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsB1ActionPerformed
-        selectPage("settingP");
-    }//GEN-LAST:event_settingsB1ActionPerformed
-
-    private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
-        quitConfirm.setVisible(true);
-    }//GEN-LAST:event_logoutB1ActionPerformed
-
-    private void confirmPassInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPassInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmPassInputActionPerformed
-
-    private void newEmailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEmailInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newEmailInputActionPerformed
-
-    private void rankingB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankingB1ActionPerformed
-        
-    }//GEN-LAST:event_rankingB1ActionPerformed
-
-    private void chatinput3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3FocusGained
-
-    private void chatinput3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3FocusLost
-
-    private void chatinput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3ActionPerformed
-
-    private void inviteB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inviteB1ActionPerformed
-
-    private void sendmessageB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sendmessageB1ActionPerformed
-
-    private void playerList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playerList1MouseReleased
+    private void yesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBActionPerformed
+        quitConfirm.dispose();
+        ClientService clientService = ClientService.getInstance();
+        clientService.logoutRequest(username);
+        this.dispose();
+    }//GEN-LAST:event_yesBActionPerformed
 
     private void chatinputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusGained
         // TODO add your handling code here:
@@ -768,6 +724,62 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_playerList2MouseReleased
 
+    private void homeB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeB1ActionPerformed
+        selectPage("mainP");
+    }//GEN-LAST:event_homeB1ActionPerformed
+
+    private void rankingB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankingB1ActionPerformed
+
+    }//GEN-LAST:event_rankingB1ActionPerformed
+
+    private void settingsB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsB1ActionPerformed
+        selectPage("settingP");
+    }//GEN-LAST:event_settingsB1ActionPerformed
+
+    private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
+        quitConfirm.setVisible(true);
+    }//GEN-LAST:event_logoutB1ActionPerformed
+
+    private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
+
+    }//GEN-LAST:event_joinBActionPerformed
+
+    private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
+        selectPage("newRoomP");
+    }//GEN-LAST:event_createBActionPerformed
+
+    private void chatinput3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3FocusGained
+
+    private void chatinput3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3FocusLost
+
+    private void chatinput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatinput3ActionPerformed
+
+    private void inviteB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inviteB1ActionPerformed
+
+    private void sendmessageB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendmessageB1ActionPerformed
+
+    private void playerList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerList1MouseReleased
+
+    private void newEmailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEmailInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newEmailInputActionPerformed
+
+    private void confirmPassInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPassInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPassInputActionPerformed
+
     private void PlayersNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayersNumberActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PlayersNumberActionPerformed
@@ -788,28 +800,7 @@ public class MainFrame extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_createRoomBActionPerformed
 
-    private void NoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoBActionPerformed
-        quitConfirm.dispose();
-    }//GEN-LAST:event_NoBActionPerformed
-
-    private void yesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesBActionPerformed
-
-        int OperationStatus = ctrl.logout(user.getName());
-        
-        if(-1 == OperationStatus)
-            JOptionPane.showMessageDialog(null,"Communication with the server was compromised. Try again!","Operation Failed",JOptionPane.WARNING_MESSAGE);
-        else if(0 == OperationStatus)
-        {
-            JOptionPane.showMessageDialog(null,"See you soon ;)","Operation Succeeded!",JOptionPane.WARNING_MESSAGE);
-            user.setName(null);
-            ctrl.close();
-            System.exit(0);   
-        }    
-        else
-            JOptionPane.showMessageDialog(null,"You are attempting an action that you shouldn't have access to!","How?",JOptionPane.WARNING_MESSAGE);
-    }//GEN-LAST:event_yesBActionPerformed
-
-    /**
+        /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
      * @param page The page you want to show. Choose between one of these strings: "homeP", "signupP", "loginP", helpP".
@@ -817,6 +808,39 @@ public class MainFrame extends javax.swing.JPanel {
     private void selectPage(String page){
         CardLayout card = (CardLayout) basePanel.getLayout();
         card.show(basePanel, page);   
+    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainFrame().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -851,6 +875,7 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     public javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     public javax.swing.JScrollPane jScrollPane7;
@@ -872,7 +897,6 @@ public class MainFrame extends javax.swing.JPanel {
     private javax.swing.JPanel profsOptPanel1;
     private javax.swing.JPanel profsOptPanel2;
     private javax.swing.JDialog quitConfirm;
-    private javax.swing.JPanel quitPanel;
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
     private javax.swing.JTextField roomNameInput;
