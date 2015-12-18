@@ -119,6 +119,15 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    public void sendCreateRoom(int nPlayers){
+        try{
+            String create = "CREATEROOM" + SPACER + nPlayers + SPACER; 
+            dataOut.writeUTF(create);
+        } catch (IOException ex) {
+            System.out.println("sendCreateRoom() " + ex);
+        }
+    }
+    
 
     @Override
     public void run() {
@@ -206,7 +215,20 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveSignup(2);
                         }
                         break;
-        
+                    case "CREATEROOM":
+                        ans = findMessage(data,11,1);
+                        System.out.println("ans: "+ans);
+                        switch(ans){
+                            case "OK":
+                                clientService.receiveCreateRoom(1);
+                                break;
+                            case "FAIL":
+                                clientService.receiveCreateRoom(0);
+                                break;
+                            default:
+                                clientService.receiveCreateRoom(2);
+                        }
+                        break;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);

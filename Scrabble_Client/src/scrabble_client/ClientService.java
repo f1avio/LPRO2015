@@ -152,6 +152,23 @@ public class ClientService {
         }
     }
     
+    public void receiveCreateRoom(int msg){
+        switch(msg){
+            case 1:
+                break;
+            case 0:
+                JOptionPane.showMessageDialog(null, "Servidor atingiu o limite de mesas");
+                break;
+            case -1:
+                JOptionPane.showMessageDialog(null, "Error");
+                break;
+        }
+    }
+    
+    public void createRoom(int nPlayers){
+        protocol.sendCreateRoom(nPlayers);
+    }
+    
     public void logoutRequest(String username){
         protocol.sendLogout(username);
     }

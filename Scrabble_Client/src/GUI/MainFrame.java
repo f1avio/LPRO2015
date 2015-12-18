@@ -335,7 +335,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         usernameL.setText("username");
         mainPage.add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
 
@@ -599,7 +599,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         PlayersNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         PlayersNumber.setMaximumRowCount(3);
-        PlayersNumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Players", "3 Players", "4Players" }));
+        PlayersNumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Players", "3 Players", "4 Players" }));
         PlayersNumber.setMinimumSize(new java.awt.Dimension(200, 40));
         PlayersNumber.setPreferredSize(new java.awt.Dimension(200, 40));
         PlayersNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -799,7 +799,23 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_backBActionPerformed
 
     private void createRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        int nPlayers = 2;
+        //System.out.println(PlayersNumber.getSelectedItem());
+        switch(PlayersNumber.getSelectedItem().toString()){
+            case "2 Players":
+                nPlayers = 2;
+                break;
+            case "3 Players":
+                nPlayers = 3;
+                break;
+            case "4 Players":
+                nPlayers = 4;
+                break;     
+        }
+        
+        
+        //clientService.createRoom(nPlayers);
     }//GEN-LAST:event_createRoomBActionPerformed
 
         /**
