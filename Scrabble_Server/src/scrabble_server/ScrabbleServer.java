@@ -190,6 +190,43 @@ public class ScrabbleServer  implements Runnable{
                 break;
 
             }
+            case "CREATEROOM":{
+                //char Splayers = Array[11];
+                int nPlayers = Character.getNumericValue(Array[11]);
+                String ans = "";
+                int ansJoin = 0;
+                
+                System.out.println("# Players: "+ nPlayers);
+                
+                ans = DBcon.createRoom(nPlayers);
+                
+                switch(ans){
+                    case "":
+                        ret = "CREATEROOM#FAIL";
+                        break;
+                    default:
+                        ret = "CREATEROOM#OK#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+            
+                ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), ans); 
+                
+                switch(ansJoin){
+                    case 0:
+                        ret = "JOINROOM#FAIL";
+                        break;
+                    case 1:
+                        ret = "JOINROOM#OK#"+ans+"#";
+                        break;
+                    default:
+                        ret = "JOINROOM#ERROR#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+            }
+            
+                
         }
     
     }

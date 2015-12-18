@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -270,4 +272,118 @@ public class Users {
         }
         return admin;
     }
+    
+    public int serverFull(){
+        String[] aux = getDB();
+        int i=0;
+        try {
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\"");
+            
+            while (rs.next()) {
+                i++;
+            }
+            System.out.println("[Server][Users]" + "# Rooms: " + i);
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("[Server][Users]" +ex);
+        }
+        
+        return i ;  
+    }
+    
+    public String createDBRoom(int nPlayers, String roomName){
+        String sql;
+        String[] rooms = {"Room1","Room2","Room3","Room4"};
+        try{
+            String[] aux = getDB();
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            int players = 0 ;
+            String Rname = "";
+            int count;
+            int i=0;
+            
+            if(roomName.equals("")){
+                ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\"");
+                while (rs.next()) {
+                    Rname = rs.getString("NAME");
+                    if(Rname.equals(rooms[i]))
+                    {
+                        i++;
+                    }
+                    else
+                        break;
+                }
+                roomName = rooms[i];
+            }
+            
+            sql = "INSERT INTO \"scrabble\".\"room\"" + " (\"maxplayers\",\"name\",\"players\")" + " VALUES (" + nPlayers + ", '" + roomName + "'," + players + ")";
+            stmt.executeQuery(sql);
+            con.close();
+            return roomName;
+            
+        } catch (SQLException ex) {
+            System.out.println("createDBRoom() "+ex);
+            return "ERROR";
+        }
+    }
+    
+    
+    public boolean isRoomFull(String room){
+        int players = 0;
+        int maxPlayers = 0;
+        String[] aux = getDB();
+        try {
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            
+            ResultSet rs = stmt.executeQuery("SELECT players FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
+            
+            if (rs.next()) {
+                players = rs.getShort("players");
+            }
+            ResultSet rs1 = stmt.executeQuery("SELECT maxplayers FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
+            if (rs1.next()) {
+                maxPlayers= rs1.getInt("maxplayers");
+            }
+            
+            if(players < maxPlayers)
+                return false;
+            else
+                return true;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("isRoomFull() " +ex);
+            return false;
+        }  
+    }
+    
+    public boolean addPlayerRoom(String room){
+        int players = 0;
+        String[] aux = getDB();
+        try {
+            
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
+            if (rs.next()) {
+                    players = rs.getShort("players");
+             }
+            players = players + 1;
+            stmt.executeUpdate("UPDATE \"scrabble\".\"room\" SET \"players\"=" + players + " WHERE \"name\"=" + "'" + room + "'");
+            
+            
+        }catch(SQLException ex){
+            System.out.println("addPlayerRoom() " +ex);
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
