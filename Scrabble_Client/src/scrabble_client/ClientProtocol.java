@@ -256,13 +256,11 @@ public class ClientProtocol implements Runnable {
                         }
                         break;
                     case "JOINROOM":
-                        ans = findMessage(data, 9, 1);
-                        String room = "";
-                        
+                        ans = findMessage(data, 9 ,1);
                         switch(ans){
                             case "OK":
-                                String roomName = findMessage(data, 9, 2);
-                                clientService.receiveJoin(roomName);
+                                String room = findMessage(data, 9, 2);
+                                clientService.receiveJoin(room);
                                 break;
                             case "FAIL":
                                 clientService.receiveJoin("");
