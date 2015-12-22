@@ -96,7 +96,7 @@ public class ScrabbleServer  implements Runnable{
                 System.out.println("[Server][Socket]" + "PW do SERVER: " + passwordLogin);
 
                 result = DBcon.logUser(usernameLogin, passwordLogin);
-                String tables = "";
+                String rooms = "";
                 switch (result) {
                     case 0: {
                         ret = "LOGIN#FAIL#NORMAL#";
@@ -104,7 +104,7 @@ public class ScrabbleServer  implements Runnable{
                     }
                     case 1: {
                         ret = "LOGIN#OK#NORMAL#" + usernameLogin + "#";
-                        tables = DBcon.receiveTables();
+                        rooms = DBcon.receiveRooms();
                         break;
                     }
                     case 2: {
@@ -130,8 +130,8 @@ public class ScrabbleServer  implements Runnable{
                 clients[findClient(ID)].send(ret);
                 
                 
-                if(!tables.equals("")) //Announce("TABLES", " ", tables);
-                    clients[findClient(ID)].send("TABLES#" + tables + "#");
+                if(!rooms.equals(""))
+                    clients[findClient(ID)].send("ROOMS#" + rooms + "#");
                 
                 break;
             case "LOGOUT":
@@ -191,18 +191,18 @@ public class ScrabbleServer  implements Runnable{
 
             }
             case "CREATEROOM":{
-                //char Splayers = Array[11];
+                String owner = findMessage(Array, 11,2);
                 int nPlayers = Character.getNumericValue(Array[11]);
                 String ans = "";
                 int ansJoin = 0;
+                System.out.println("CREATEROOM owner: "+owner);
+                System.out.println("#Players: "+ nPlayers);
                 
-                System.out.println("# Players: "+ nPlayers);
-                
-                ans = DBcon.createRoom(nPlayers);
+                ans = DBcon.createRoom(nPlayers, owner);
                 
                 switch(ans){
                     case "":
-                        ret = "CREATEROOM#FAIL";
+                        ret = "CREATEROOM#FAIL#";
                         break;
                     default:
                         ret = "CREATEROOM#OK#";
@@ -214,7 +214,7 @@ public class ScrabbleServer  implements Runnable{
                 
                 switch(ansJoin){
                     case 0:
-                        ret = "JOINROOM#FAIL";
+                        ret = "JOINROOM#FAIL#";
                         break;
                     case 1:
                         ret = "JOINROOM#OK#"+ans+"#";
@@ -224,6 +224,18 @@ public class ScrabbleServer  implements Runnable{
                         break;
                 }
                 clients[findClient(ID)].send(ret);
+            }
+            case "VIEWROOMS":{
+                rooms = DBcon.receiveRooms();
+                clients[findClient(ID)].send("ROOMS#"+ rooms + "#");
+                break;
+            }
+            case "QUITROOM":{
+                String username = findMessage(Array, 9, 1);
+                String quit;
+                boolean owner = DBcon.isOwner(username); 
+                quit = DBcon.quitRoom(username, owner);
+
             }
             
                 
