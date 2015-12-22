@@ -78,6 +78,13 @@ public class ScrabbleServer  implements Runnable{
         return -1;
     }
     
+    public void Announce(String type, String sender, String content) {
+        //Message msg = new Message(type, sender, content, "All");
+        String msg = type + "#" + sender + "#" + content + "#";
+        for (int i = 0; i < clientCount; i++) {
+            clients[i].send(msg);
+        }
+    }
     
     public synchronized void handle(int ID, String msg){
         char[] Array = msg.toCharArray();
@@ -259,7 +266,20 @@ public class ScrabbleServer  implements Runnable{
                 quit = DBcon.quitRoom(username, owner);
 
             }
-            
+            case "CHAT": {
+                String usernameChat = findMessage(Array,5,1);
+                
+                String messageChat = findMessage(Array,5,2);
+                
+                System.out.println("[Server][Socket]" + " Username : " + usernameChat);
+                System.out.println("[Server][Socket]" + " Message : " + messageChat);
+
+                DBcon.listChat(usernameChat,messageChat);
+                
+                
+                Announce("CHAT", usernameChat, messageChat);
+                break;
+            }
                 
         }
     

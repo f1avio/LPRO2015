@@ -128,6 +128,13 @@ public class DBconnection {
         return ans;
     }
     
+    public void listChat(String usernameChat, String messageChat) {
+
+        Users database = new Users();
+       
+      database.addChat_MSG(usernameChat,messageChat);
+    }
+    
     public String createRoom(int nPlayers, String owner){
         String ans = "";
         String roomName;
@@ -197,7 +204,7 @@ public class DBconnection {
         
         ansSuccess = database.addPlayerRoom(roomName);
         if(ansSuccess) ret = 1;
-        System.out.println("RETURN = " +ret);
+        //System.out.println("RETURN = " +ret);
         
         switch(roomName){
            case "Room1" : {
