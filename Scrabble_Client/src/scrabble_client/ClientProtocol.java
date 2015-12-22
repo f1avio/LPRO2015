@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -119,12 +118,39 @@ public class ClientProtocol implements Runnable {
         }
     }
     
-    public void sendCreateRoom(int nPlayers){
+    public void sendCreateRoom(int nPlayers, String owner){
         try{
-            String create = "CREATEROOM" + SPACER + nPlayers + SPACER; 
+            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER; 
             dataOut.writeUTF(create);
         } catch (IOException ex) {
             System.out.println("sendCreateRoom() " + ex);
+        }
+    }
+    
+    public void sendJoinRoom(String room){
+        try{
+            String join = "JOINROOM" + SPACER + room + SPACER;
+            dataOut.writeUTF(join);
+        } catch (IOException ex) {
+             System.out.println("sendJoinRoom() " + ex);
+        }
+    }
+    
+    public void sendQuitRoom(String username, String room){
+        try{
+            String quit = "QUITROOM" + SPACER + username + SPACER + room + SPACER;
+            dataOut.writeUTF(quit);
+        } catch (IOException ex) {
+            System.out.println("sendQuitRoom() " + ex);
+        }
+    }
+    
+    public void sendViewRooms(){
+        try {
+            String view = "VIEWROOMS" + SPACER;
+            dataOut.writeUTF(view);
+        } catch (IOException ex) {
+            System.out.println("sendViewRooms() " + ex);
         }
     }
     
@@ -228,6 +254,33 @@ public class ClientProtocol implements Runnable {
                             default:
                                 clientService.receiveCreateRoom(2);
                         }
+                        break;
+                    case "JOINROOM":
+                        ans = findMessage(data, 9, 1);
+                        String room = "";
+                        
+                        switch(ans){
+                            case "OK":
+                                String roomName = findMessage(data, 9, 2);
+                                clientService.receiveJoin(roomName);
+                                break;
+                            case "FAIL":
+                                clientService.receiveJoin("");
+                                break;
+                            case "ADMIN":
+                                clientService.receiveJoin("KICK");
+                                break;
+                            default:
+                                clientService.receiveJoin("");
+                        }
+                        break;
+                    case "ROOMS":
+                        String rooms = findMessage(data,6,1);
+                        clientService.receiveRooms(rooms);
+                        break;
+                    case "QUITROOM":
+                        
+                        
                         break;
                 }
             } catch (IOException ex) {
