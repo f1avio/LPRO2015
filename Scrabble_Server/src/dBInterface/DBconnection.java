@@ -197,6 +197,7 @@ public class DBconnection {
         
         ansSuccess = database.addPlayerRoom(roomName);
         if(ansSuccess) ret = 1;
+        System.out.println("RETURN = " +ret);
         
         switch(roomName){
            case "Room1" : {

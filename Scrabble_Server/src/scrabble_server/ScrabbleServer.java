@@ -225,6 +225,28 @@ public class ScrabbleServer  implements Runnable{
                 }
                 clients[findClient(ID)].send(ret);
             }
+            case "JOINROOM":
+                String room = findMessage(Array, 9, 1);
+                System.out.println("Room : " + room);
+                System.out.println("USERNAME JOINROOM : " + clients[findClient(ID)].username);
+                result = DBcon.join(clients[findClient(ID)].username, findClient(ID), room);
+                
+                switch(result){
+                    case 0:
+                        ret = "JOINROOM#FAIL#";
+                        break;
+                    case 1:
+                        ret = "JOINROOM#OK#" + room + "#";
+                        break;
+                    case 2:
+                        ret = "JOINROOM#ADMIN#";
+                        break;
+                    default:
+                        ret = "JOINROOM#ERROR#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+                break;
             case "VIEWROOMS":{
                 rooms = DBcon.receiveRooms();
                 clients[findClient(ID)].send("ROOMS#"+ rooms + "#");
