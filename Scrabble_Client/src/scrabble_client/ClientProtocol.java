@@ -31,6 +31,7 @@ public class ClientProtocol implements Runnable {
     private static ClientProtocol instance = null;
     private final String SPACER = "#";
     
+    
     private ClientProtocol(){
         final JPanel frame = new JPanel();
         readServer();
@@ -154,6 +155,14 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    public void sendChat(String username, String msg) {
+        try {
+            String chat = "CHAT" + SPACER + username + SPACER + msg + SPACER;
+            dataOut.writeUTF(chat);
+        } catch (IOException ioe) {
+            System.out.println("[Client][Protocol]" + " sendChat " + ioe);
+        }
+    }
 
     @Override
     public void run() {
@@ -161,6 +170,8 @@ public class ClientProtocol implements Runnable {
         boolean threadRunnig = true;
         String type = "";     //Comand type
         String ans = "";      //Server response
+        String usernameChat = "";
+        String messageChat = "";
         ClientService clientService = ClientService.getInstance();
         
         while(threadRunnig){
@@ -276,6 +287,11 @@ public class ClientProtocol implements Runnable {
                         String rooms = findMessage(data,6,1);
                         clientService.receiveRooms(rooms);
                         break;
+                    case "CHAT":
+                        usernameChat = findMessage(data,5,1);
+                        messageChat = findMessage(data,5, 2);
+                        clientService.receiveChat(usernameChat, messageChat);
+                        break; 
                     case "QUITROOM":
                         
                         

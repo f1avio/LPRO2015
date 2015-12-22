@@ -292,6 +292,13 @@ public class ClientService {
         }
     }
     
+    public void sendChat(String user, String msg) {
+        protocol.sendChat(user, msg);
+    }
+    public void receiveChat(String user, String msg) {
+        mainFrame.chatarea.append(user + " :" + msg + "\n");
+    }
+    
     public void joinRoom(String roomName){
         protocol.sendJoinRoom(roomName);
     }
