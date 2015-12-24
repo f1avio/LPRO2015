@@ -1,14 +1,9 @@
 package scrabble_server;
 
-import dBInterface.DBconnection;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -65,7 +60,8 @@ class ClientThread extends Thread{
             } catch(Exception ex){
                 System.out.println("[Server][Socket]" + ID + " ERROR reading: " + ex);
                 server.remove(ID);
-                stop();
+                break;
+                //stop();
             }
         }
         
@@ -89,5 +85,4 @@ class ClientThread extends Thread{
         }
     }
     
-
 }
