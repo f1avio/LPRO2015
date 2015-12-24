@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -330,7 +331,7 @@ public class Users {
             Statement stmt = con.createStatement();
             int players = 0 ;
             String Rname = "";
-            int count;
+            
             int i=0;
             
             if(roomName.equals("")){
@@ -390,7 +391,7 @@ public class Users {
         }  
     }
     
-    public boolean addPlayerRoom(String room){
+    public boolean addPlayerRoom(String room, String username){
         int players = 0;
         String[] aux = getDB();
         try {
@@ -400,16 +401,53 @@ public class Users {
             ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
             if (rs.next()) {
                     players = rs.getShort("players");
-             }
+            }
             players = players + 1;
             stmt.executeUpdate("UPDATE \"scrabble\".\"room\" SET \"players\"=" + players + " WHERE \"name\"=" + "'" + room + "'");
-            
-            
+            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][1] = '"+ username +"' WHERE name = '" + room + "'");
+            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][2] = 'wait' WHERE name = '" + room + "'");
         }catch(SQLException ex){
             System.out.println("addPlayerRoom() " +ex);
             return false;
         }
         return true;
+    }
+    
+    public String getRoomPlayers(String room){
+        String[] aux = getDB();
+        String players = "";
+        
+        try {
+            
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][1:1] FROM scrabble.room WHERE name = '"+room+"'");
+            
+            while(rs.next()){
+                players = players + rs.getString(1);
+            }      
+        }catch(SQLException ex){
+            System.out.println("getRoomPlayers() " +ex);
+        }
+        //System.out.println("getRoomPlayers(): "+players);
+        return players;  
+    }
+    
+    public String getRoomStatus(String room){
+        String[] aux = getDB();
+        String status = "";
+        try {
+            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][2:2] FROM scrabble.room WHERE name = '"+room+"'");
+            while(rs.next()){
+                status = status + rs.getString(1);
+            }
+        }catch(SQLException ex){
+            System.out.println("getRoomStatus() " +ex);
+        }
+        //System.out.println("getRoomStatus(): "+status);
+        return status;
     }
     
     public String deleteRoom(String username){
@@ -427,7 +465,7 @@ public class Users {
         return "DELETE#OK#";
     }
     
-    public String qRoom(String username){
+    /*public String qRoom(String username, String room){
         String[] aux = getDB();
         int players = 0;
         try {
@@ -446,7 +484,7 @@ public class Users {
             return "QUIT#ERROR#";
         }
         return "QUIT#OK#";
-    }
+    }*/
     
     void addChat_MSG(String usernameChat, String messageChat) {
                  String sql;

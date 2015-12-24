@@ -1,5 +1,6 @@
 package dBInterface;
 
+import java.util.Arrays;
 import scrabble_server.Player;
 
 /**@author Adam Kopnicky 
@@ -114,12 +115,46 @@ public class DBconnection {
     }
     
     public String receiveRooms(){
-        String rooms ="";
         Users database = new Users();
-        
-        rooms = database.getRoom();
-        
+        String rooms = database.getRoom();
         return rooms;
+    }
+    public String[] receiveRoomPlayers(String room){
+        Users database = new Users();
+        int i = 0;
+        int j = 0;
+        char[] roomplayers = database.getRoomPlayers(room).toCharArray();
+        char[] roomstatus = database.getRoomStatus(room).toCharArray();
+        String aux = "";
+        String[] players = new String[8];
+        
+        while(i < 4){
+            while(roomplayers[j]!='}' && roomplayers[j]!='{' && roomplayers[j]!=','){
+                aux = aux + roomplayers[j];
+                j++;
+            }
+            if(!"".equals(aux)){
+                players[i]=aux;
+                aux = "";
+                i++;
+            }
+            j++;
+        }
+        j = 0;
+        while(i < 8){
+            while(roomstatus[j]!='}' && roomstatus[j]!='{' && roomstatus[j]!=','){
+                aux = aux + roomstatus[j];
+                j++;
+            }
+            if(!"".equals(aux)){
+                players[i]=aux;
+                aux = "";
+                i++;
+            }
+            j++;
+        }
+        //System.out.println("receiveRoomPlayers() "+Arrays.toString(players));
+        return players;
     }
     
     public boolean isOwner(String username){
@@ -141,7 +176,7 @@ public class DBconnection {
         Users database = new Users();
         
         int nRooms = database.serverFull();
-        System.out.println("#Rooms: "+nRooms);
+        System.out.println("#ActiveRooms: "+nRooms);
         //if(nRooms >= 4) return "";
         
         switch(nRooms){
@@ -202,7 +237,7 @@ public class DBconnection {
         
         p = new Player(username, ID);
         
-        ansSuccess = database.addPlayerRoom(roomName);
+        ansSuccess = database.addPlayerRoom(roomName, username);
         if(ansSuccess) ret = 1;
         //System.out.println("RETURN = " +ret);
         
@@ -233,18 +268,18 @@ public class DBconnection {
         
     }
     
-    public String quitRoom(String username, boolean owner){
+    /*public String quitRoom(String username, boolean owner){
         Users database = new Users();
         String aux = "";
         String ret = "";
         if(owner){
             aux = database.deleteRoom(username);
         } else{
-            aux = database.qRoom(username);
+            aux = database.qRoom(username, room);
         }
         switch(aux){
             
         }
-        
-    }
+        return ret;
+    }*/
 }
