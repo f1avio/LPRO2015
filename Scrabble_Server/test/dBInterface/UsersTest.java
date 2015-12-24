@@ -5,6 +5,11 @@
  */
 package dBInterface;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import junit.framework.TestCase;
 
@@ -21,11 +26,41 @@ public class UsersTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-    }
+        
+        Users instance = new Users();
+        String aux[] = instance.getDB();
+        
+        try{
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            
+            stmt.executeQuery("CREATE TABLE test.accounts (username VARCHAR(30) PRIMARY KEY NOT NULL, password VARCHAR(64) NOT NULL, isonline BOOLEAN NOT NULL, email VARCHAR(50) NOT NULL, Points INTEGER DEFAULT 0 NOT NULL, admin BOOLEAN NOT NULL, state VARCHAR(50) DEFAULT 'NORMAL' NOT NULL);");
+            stmt.executeQuery("INSERT INTO test.accounts VALUES('Jeremias', 'a269d2326633e4ed0249bc440824c3d4', FALSE, 'saldos@continente', 10, FALSE, 'NORMAL');");
+            
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error creating a table " +ex);
+        }
+        
+    }    
     
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        Users instance = new Users();
+        String aux[] = instance.getDB();
+        
+        try{
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            
+            stmt.executeQuery("DROP TABLE test.accounts;");
+            
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error droping a table " +ex);
+        }
+        
     }
 
     /**
