@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -164,6 +165,15 @@ public class ClientProtocol implements Runnable {
         }
     }
 
+    public void sendUpdatePlayers(String room){
+        try{
+            System.out.println("sendUpdatePlayers()");
+            String update = "UPLAYERS" + SPACER + room + SPACER;
+            dataOut.writeUTF(update);
+        } catch (IOException ex){
+            System.out.println("sendUpdatePlayers() " + ex);
+        }
+    }
     @Override
     public void run() {
         System.out.println("[ClientProtocol -> Thread");
@@ -252,9 +262,9 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveSignup(2);
                         }
                         break;
-                    case "CREATEROOM":
+                    case "CREATEROOM":{
                         ans = findMessage(data,11,1);
-                        System.out.println("ans: "+ans);
+                        System.out.println("[CREATEROOM] ans: "+ans);
                         switch(ans){
                             case "OK":
                                 clientService.receiveCreateRoom(1);
@@ -266,11 +276,17 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveCreateRoom(2);
                         }
                         break;
-                    case "JOINROOM":
+                    }
+                    case "JOINROOM":{
                         ans = findMessage(data, 9 ,1);
+                        String room = "";
                         switch(ans){
+                            case "OWNER":
+                                room = findMessage(data, 9, 2);
+                                clientService.receiveJoin(room+"#");
+                                break;
                             case "OK":
-                                String room = findMessage(data, 9, 2);
+                                room = findMessage(data, 9, 2);
                                 clientService.receiveJoin(room);
                                 break;
                             case "FAIL":
@@ -281,8 +297,10 @@ public class ClientProtocol implements Runnable {
                                 break;
                             default:
                                 clientService.receiveJoin("");
+                                
                         }
                         break;
+                    }
                     case "ROOMS":
                         String rooms = findMessage(data,6,1);
                         clientService.receiveRooms(rooms);
@@ -292,9 +310,18 @@ public class ClientProtocol implements Runnable {
                         messageChat = findMessage(data,5, 2);
                         clientService.receiveChat(usernameChat, messageChat);
                         break; 
-                    case "QUITROOM":
-                        
-                        
+                    case "UPLAYERS":        //UPDATE room players
+                        String[] players = new String[8];
+                        for(int h=1; h<9; h++){
+                            if(!"NULL".equals(findMessage(data,9,h))){
+                                players[h-1]=findMessage(data,9,h);
+                            }
+                            else{
+                                players[h-1]="";
+                            }
+                        }
+                        System.out.println("players: "+Arrays.toString(players));
+                        clientService.updatePlayers(players);
                         break;
                 }
             } catch (IOException ex) {
@@ -305,10 +332,6 @@ public class ClientProtocol implements Runnable {
         System.out.println("TESTE final thread");
     }
     
-    /*
-    *
-    */
-
     /**
      *
      * @param data contains the data to obtain the message type
