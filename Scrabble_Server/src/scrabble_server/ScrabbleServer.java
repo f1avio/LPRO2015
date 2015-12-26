@@ -78,6 +78,13 @@ public class ScrabbleServer  implements Runnable{
         return -1;
     }
     
+    public void Announce(String type, String sender, String content) {
+        //Message msg = new Message(type, sender, content, "All");
+        String msg = type + "#" + sender + "#" + content + "#";
+        for (int i = 0; i < clientCount; i++) {
+            clients[i].send(msg);
+        }
+    }
     
     public synchronized void handle(int ID, String msg){
         char[] Array = msg.toCharArray();
@@ -96,7 +103,7 @@ public class ScrabbleServer  implements Runnable{
                 System.out.println("[Server][Socket]" + "PW do SERVER: " + passwordLogin);
 
                 result = DBcon.logUser(usernameLogin, passwordLogin);
-                String tables = "";
+                String rooms = "";
                 switch (result) {
                     case 0: {
                         ret = "LOGIN#FAIL#NORMAL#";
@@ -104,7 +111,7 @@ public class ScrabbleServer  implements Runnable{
                     }
                     case 1: {
                         ret = "LOGIN#OK#NORMAL#" + usernameLogin + "#";
-                        tables = DBcon.receiveTables();
+                        rooms = DBcon.receiveRooms();
                         break;
                     }
                     case 2: {
@@ -130,8 +137,8 @@ public class ScrabbleServer  implements Runnable{
                 clients[findClient(ID)].send(ret);
                 
                 
-                if(!tables.equals("")) //Announce("TABLES", " ", tables);
-                    clients[findClient(ID)].send("TABLES#" + tables + "#");
+                if(!rooms.equals(""))
+                    clients[findClient(ID)].send("ROOMS#" + rooms + "#");
                 
                 break;
             case "LOGOUT":
@@ -190,6 +197,90 @@ public class ScrabbleServer  implements Runnable{
                 break;
 
             }
+            case "CREATEROOM":{
+                String owner = findMessage(Array, 11,2);
+                int nPlayers = Character.getNumericValue(Array[11]);
+                String ans = "";
+                int ansJoin = 0;
+                System.out.println("CREATEROOM owner: "+owner);
+                System.out.println("#Players: "+ nPlayers);
+                
+                ans = DBcon.createRoom(nPlayers, owner);
+                
+                switch(ans){
+                    case "":
+                        ret = "CREATEROOM#FAIL#";
+                        break;
+                    default:
+                        ret = "CREATEROOM#OK#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+            
+                ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), ans); 
+                
+                switch(ansJoin){
+                    case 0:
+                        ret = "JOINROOM#FAIL#";
+                        break;
+                    case 1:
+                        ret = "JOINROOM#OK#"+ans+"#";
+                        break;
+                    default:
+                        ret = "JOINROOM#ERROR#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+            }
+            case "JOINROOM":
+                String room = findMessage(Array, 9, 1);
+                System.out.println("Room : " + room);
+                System.out.println("USERNAME JOINROOM : " + clients[findClient(ID)].username);
+                result = DBcon.join(clients[findClient(ID)].username, findClient(ID), room);
+                
+                switch(result){
+                    case 0:
+                        ret = "JOINROOM#FAIL#";
+                        break;
+                    case 1:
+                        ret = "JOINROOM#OK#" + room + "#";
+                        break;
+                    case 2:
+                        ret = "JOINROOM#ADMIN#";
+                        break;
+                    default:
+                        ret = "JOINROOM#ERROR#";
+                        break;
+                }
+                clients[findClient(ID)].send(ret);
+                break;
+            case "VIEWROOMS":{
+                rooms = DBcon.receiveRooms();
+                clients[findClient(ID)].send("ROOMS#"+ rooms + "#");
+                break;
+            }
+            case "QUITROOM":{
+                String username = findMessage(Array, 9, 1);
+                String quit;
+                boolean owner = DBcon.isOwner(username); 
+                quit = DBcon.quitRoom(username, owner);
+
+            }
+            case "CHAT": {
+                String usernameChat = findMessage(Array,5,1);
+                
+                String messageChat = findMessage(Array,5,2);
+                
+                System.out.println("[Server][Socket]" + " Username : " + usernameChat);
+                System.out.println("[Server][Socket]" + " Message : " + messageChat);
+
+                DBcon.listChat(usernameChat,messageChat);
+                
+                
+                Announce("CHAT", usernameChat, messageChat);
+                break;
+            }
+                
         }
     
     }
