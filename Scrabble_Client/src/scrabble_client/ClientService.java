@@ -1,9 +1,11 @@
 package scrabble_client;
 
 import GUI.*;
+import java.util.Arrays;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**@author  Adam Kopnicky
@@ -150,6 +152,163 @@ public class ClientService {
 
             }
         }
+    }
+    
+    public void receiveCreateRoom(int msg){
+        switch(msg){
+            case 1:
+                break;
+            case 0:
+                JOptionPane.showMessageDialog(null, "The server is full");
+                break;
+            case -1:
+                JOptionPane.showMessageDialog(null, "Error");
+                break;
+        }
+    }
+    
+    public void viewRooms(){
+        protocol.sendViewRooms();
+    }
+    
+    public void receiveRooms(String rooms){
+        int rows = 0;
+        int i = 0;
+        int j = 0;
+        int z = 0;
+        int aux = 0;
+        int r = 0;
+        
+        char Array[] = rooms.toCharArray();
+        //System.out.println("receiveRooms Array[]: "+Arrays.toString(Array));
+        for(i=0; i< rooms.length(); i++){
+            if(Array[i] == '/') rows++;
+        }
+        i=0;
+        aux = rows;
+        r =rows;
+        
+        String[] line = new String[rows];
+        String[] field = new String[rows*4];
+        
+        while(rows != 0){
+            line[j] = "";
+            while(Array[i] != '/'){
+                line[j] = line[j] + Array[i];
+                i++;
+            }
+            line[j] = line[j] + "/";
+            //System.out.println("receiveRooms line[] "+ line[j]);
+            j++;
+            i++;
+            rows--;
+        }
+        j=0;
+        i=0;
+        z=0;
+        while(aux != 0){
+            field[i]= "";
+            
+            while(line[j].toCharArray()[z] != '&'){
+                field[i] = field[i] + line[j].toCharArray()[z];
+                z++;
+            }
+            z++;
+            System.out.println("Field[" + i + "] : " + field[i]);
+            i++;
+            
+            field[i] = "";
+            
+            while(line[j].toCharArray()[z] != '&'){
+                field[i] = field[i] + line[j].toCharArray()[z];
+                z++;
+            }
+            z++;
+            System.out.println("Field[" + i + "] : " + field[i]);
+            i++;
+            
+            field[i] = "";
+            
+            while(line[j].toCharArray()[z] != '&'){
+                field[i] = field[i] + line[j].toCharArray()[z];
+                z++;
+            }
+            z++;
+            System.out.println("Field[" + i + "] : " + field[i]);
+            i++;
+            
+            field[i] = "";
+            
+            while(line[j].toCharArray()[z] != '/')
+            {
+                field[i] = field[i] + line[j].toCharArray()[z];
+                z++;
+            }
+            System.out.println("Field[" + i + "] : " + field[i]);
+            i++;
+            
+            j++;
+            z=0;
+            aux--;
+        }
+        
+        String[][] data = null;
+        String[] colName = new String[4];
+        
+        colName = new String[] {"Room", "Players","Joinable","Room Owner"};
+        data = new String[r][4];
+        j=0;
+        
+        for(i=0;i < r ; i++)
+        {
+            data[i][0] = field[j];
+            j++;
+            
+            if(Integer.parseInt(field[j]) > Integer.parseInt(field[j+1])){
+                data[i][2] = "YES";}
+            else data[i][2] = "NO";
+            j++;
+            
+            data[i][1] = field[j];
+            j++;
+            
+            data[i][3] = field[j];
+            
+            j++;
+        }
+        mainFrame.roomTable.setModel(new DefaultTableModel(data, colName));
+    }
+    
+    public void receiveJoin(String msg){
+        switch(msg){
+            case "":
+                JOptionPane.showMessageDialog(null, "The room is full");
+                break;
+            case "KICK":
+                JOptionPane.showMessageDialog(null, "KICK! You can't enter rooms!", "System Message", JOptionPane.ERROR_MESSAGE);
+                break;
+            default:
+                mainFrame.selectPage("roomP");
+        }
+    }
+    
+    public void sendChat(String user, String msg) {
+        protocol.sendChat(user, msg);
+    }
+    public void receiveChat(String user, String msg) {
+        mainFrame.chatarea.append(user + " :" + msg + "\n");
+    }
+    
+    public void joinRoom(String roomName){
+        protocol.sendJoinRoom(roomName);
+    }
+    
+    public void createRoom(int nPlayers, String owner){
+        protocol.sendCreateRoom(nPlayers, owner);
+    }
+
+    public void quitRoom(String username, String room){
+        protocol.sendQuitRoom(username, room);
     }
     
     public void logoutRequest(String username){

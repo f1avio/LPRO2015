@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,6 +30,7 @@ public class ClientProtocol implements Runnable {
     static int port = 1513;
     private static ClientProtocol instance = null;
     private final String SPACER = "#";
+    
     
     private ClientProtocol(){
         final JPanel frame = new JPanel();
@@ -119,6 +119,50 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    public void sendCreateRoom(int nPlayers, String owner){
+        try{
+            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER; 
+            dataOut.writeUTF(create);
+        } catch (IOException ex) {
+            System.out.println("sendCreateRoom() " + ex);
+        }
+    }
+    
+    public void sendJoinRoom(String room){
+        try{
+            String join = "JOINROOM" + SPACER + room + SPACER;
+            dataOut.writeUTF(join);
+        } catch (IOException ex) {
+             System.out.println("sendJoinRoom() " + ex);
+        }
+    }
+    
+    public void sendQuitRoom(String username, String room){
+        try{
+            String quit = "QUITROOM" + SPACER + username + SPACER + room + SPACER;
+            dataOut.writeUTF(quit);
+        } catch (IOException ex) {
+            System.out.println("sendQuitRoom() " + ex);
+        }
+    }
+    
+    public void sendViewRooms(){
+        try {
+            String view = "VIEWROOMS" + SPACER;
+            dataOut.writeUTF(view);
+        } catch (IOException ex) {
+            System.out.println("sendViewRooms() " + ex);
+        }
+    }
+    
+    public void sendChat(String username, String msg) {
+        try {
+            String chat = "CHAT" + SPACER + username + SPACER + msg + SPACER;
+            dataOut.writeUTF(chat);
+        } catch (IOException ioe) {
+            System.out.println("[Client][Protocol]" + " sendChat " + ioe);
+        }
+    }
 
     @Override
     public void run() {
@@ -126,6 +170,8 @@ public class ClientProtocol implements Runnable {
         boolean threadRunnig = true;
         String type = "";     //Comand type
         String ans = "";      //Server response
+        String usernameChat = "";
+        String messageChat = "";
         ClientService clientService = ClientService.getInstance();
         
         while(threadRunnig){
@@ -206,7 +252,50 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveSignup(2);
                         }
                         break;
-        
+                    case "CREATEROOM":
+                        ans = findMessage(data,11,1);
+                        System.out.println("ans: "+ans);
+                        switch(ans){
+                            case "OK":
+                                clientService.receiveCreateRoom(1);
+                                break;
+                            case "FAIL":
+                                clientService.receiveCreateRoom(0);
+                                break;
+                            default:
+                                clientService.receiveCreateRoom(2);
+                        }
+                        break;
+                    case "JOINROOM":
+                        ans = findMessage(data, 9 ,1);
+                        switch(ans){
+                            case "OK":
+                                String room = findMessage(data, 9, 2);
+                                clientService.receiveJoin(room);
+                                break;
+                            case "FAIL":
+                                clientService.receiveJoin("");
+                                break;
+                            case "ADMIN":
+                                clientService.receiveJoin("KICK");
+                                break;
+                            default:
+                                clientService.receiveJoin("");
+                        }
+                        break;
+                    case "ROOMS":
+                        String rooms = findMessage(data,6,1);
+                        clientService.receiveRooms(rooms);
+                        break;
+                    case "CHAT":
+                        usernameChat = findMessage(data,5,1);
+                        messageChat = findMessage(data,5, 2);
+                        clientService.receiveChat(usernameChat, messageChat);
+                        break; 
+                    case "QUITROOM":
+                        
+                        
+                        break;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);

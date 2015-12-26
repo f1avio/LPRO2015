@@ -14,6 +14,7 @@ import scrabble_client.*;
  */
 public class MainFrame extends javax.swing.JFrame {
     static private String username;
+    String room = "";
     /**
      * Creates new form MainFrame1
      * @param user
@@ -44,10 +45,10 @@ public class MainFrame extends javax.swing.JFrame {
         NoB = new javax.swing.JButton();
         yesB = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        mainFramePanel = new javax.swing.JPanel();
         ChatP = new javax.swing.JPanel();
-        TabsTableRank1 = new javax.swing.JTabbedPane();
-        chatPanel1 = new javax.swing.JPanel();
+        TabsTableRank = new javax.swing.JTabbedPane();
+        chatPanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         chatarea = new javax.swing.JTextArea();
         chatinput = new javax.swing.JTextField();
@@ -75,17 +76,6 @@ public class MainFrame extends javax.swing.JFrame {
         roomTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         rankingP = new javax.swing.JPanel();
-        TabsTableRank = new javax.swing.JTabbedPane();
-        chatPanel = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        chatarea3 = new javax.swing.JTextArea();
-        chatinput3 = new javax.swing.JTextField();
-        playersPanel1 = new javax.swing.JPanel();
-        profsOptPanel1 = new javax.swing.JPanel();
-        inviteB1 = new javax.swing.JButton();
-        sendmessageB1 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        playerList1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         settingsPage = new javax.swing.JPanel();
         volumeL = new javax.swing.JLabel();
@@ -108,6 +98,32 @@ public class MainFrame extends javax.swing.JFrame {
         backB = new javax.swing.JButton();
         createRoomB = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        roomOwnerPage = new javax.swing.JPanel();
+        quitB = new javax.swing.JButton();
+        startB = new javax.swing.JButton();
+        playersGrid = new javax.swing.JPanel();
+        player1 = new javax.swing.JLabel();
+        player2 = new javax.swing.JLabel();
+        player3 = new javax.swing.JLabel();
+        player4 = new javax.swing.JLabel();
+        player1Status = new javax.swing.JLabel();
+        player2Status = new javax.swing.JLabel();
+        player3Status = new javax.swing.JLabel();
+        player4Status = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        roomPage = new javax.swing.JPanel();
+        quitRoomB = new javax.swing.JButton();
+        readyB = new javax.swing.JButton();
+        playersRoomGrid = new javax.swing.JPanel();
+        player5 = new javax.swing.JLabel();
+        player6 = new javax.swing.JLabel();
+        player7 = new javax.swing.JLabel();
+        player8 = new javax.swing.JLabel();
+        player1Status1 = new javax.swing.JLabel();
+        player2Status1 = new javax.swing.JLabel();
+        player3Status1 = new javax.swing.JLabel();
+        player4Status1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         quitConfirm.setAlwaysOnTop(true);
         quitConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -146,15 +162,15 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
 
-        jPanel1.setName(""); // NOI18N
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        mainFramePanel.setName(""); // NOI18N
+        mainFramePanel.setLayout(new java.awt.BorderLayout());
 
         ChatP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TabsTableRank1.setMinimumSize(new java.awt.Dimension(235, 260));
-        TabsTableRank1.setPreferredSize(new java.awt.Dimension(235, 260));
+        TabsTableRank.setMinimumSize(new java.awt.Dimension(235, 260));
+        TabsTableRank.setPreferredSize(new java.awt.Dimension(235, 260));
 
-        chatPanel1.setLayout(new java.awt.GridBagLayout());
+        chatPanel.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -171,7 +187,7 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        chatPanel1.add(jScrollPane7, gridBagConstraints);
+        chatPanel.add(jScrollPane7, gridBagConstraints);
 
         chatinput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -191,9 +207,9 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        chatPanel1.add(chatinput, gridBagConstraints);
+        chatPanel.add(chatinput, gridBagConstraints);
 
-        TabsTableRank1.addTab("Chat", chatPanel1);
+        TabsTableRank.addTab("Chat", chatPanel);
 
         playersPanel.setLayout(new java.awt.BorderLayout());
 
@@ -253,9 +269,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         playersPanel.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        TabsTableRank1.addTab("Jogadores", playersPanel);
+        TabsTableRank.addTab("Jogadores", playersPanel);
 
-        ChatP.add(TabsTableRank1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 220, 380));
+        ChatP.add(TabsTableRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 220, 380));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
@@ -264,7 +280,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5.setPreferredSize(new java.awt.Dimension(300, 550));
         ChatP.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel1.add(ChatP, java.awt.BorderLayout.EAST);
+        mainFramePanel.add(ChatP, java.awt.BorderLayout.EAST);
 
         menuBarSettings.setOpaque(false);
         menuBarSettings.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -327,7 +343,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/barBackground.png"))); // NOI18N
         menuBarSettings.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 50));
 
-        jPanel1.add(menuBarSettings, java.awt.BorderLayout.PAGE_START);
+        mainFramePanel.add(menuBarSettings, java.awt.BorderLayout.PAGE_START);
 
         basePanel.setLayout(new java.awt.CardLayout());
 
@@ -335,7 +351,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         usernameL.setText("username");
         mainPage.add(usernameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
 
@@ -378,6 +394,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        roomTable.setRowHeight(30);
         roomTable.getTableHeader().setReorderingAllowed(false);
         roomScrollPane.setViewportView(roomTable);
 
@@ -394,110 +411,6 @@ public class MainFrame extends javax.swing.JFrame {
         rankingP.setMinimumSize(new java.awt.Dimension(500, 550));
         rankingP.setPreferredSize(new java.awt.Dimension(500, 550));
         rankingP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TabsTableRank.setMinimumSize(new java.awt.Dimension(235, 260));
-        TabsTableRank.setPreferredSize(new java.awt.Dimension(235, 260));
-
-        chatPanel.setLayout(new java.awt.GridBagLayout());
-
-        chatarea3.setEditable(false);
-        chatarea3.setColumns(20);
-        chatarea3.setRows(5);
-        chatarea3.setWrapStyleWord(true);
-        jScrollPane5.setViewportView(chatarea3);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        chatPanel.add(jScrollPane5, gridBagConstraints);
-
-        chatinput3.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                chatinput3FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                chatinput3FocusLost(evt);
-            }
-        });
-        chatinput3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatinput3ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        chatPanel.add(chatinput3, gridBagConstraints);
-
-        TabsTableRank.addTab("Chat", chatPanel);
-
-        playersPanel1.setLayout(new java.awt.BorderLayout());
-
-        profsOptPanel1.setMinimumSize(new java.awt.Dimension(222, 25));
-        profsOptPanel1.setOpaque(false);
-        profsOptPanel1.setPreferredSize(new java.awt.Dimension(232, 35));
-        profsOptPanel1.setLayout(new java.awt.BorderLayout());
-
-        inviteB1.setText("Invite To Play");
-        inviteB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inviteB1ActionPerformed(evt);
-            }
-        });
-        profsOptPanel1.add(inviteB1, java.awt.BorderLayout.CENTER);
-
-        sendmessageB1.setText("Send Message");
-        sendmessageB1.setOpaque(false);
-        sendmessageB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendmessageB1ActionPerformed(evt);
-            }
-        });
-        profsOptPanel1.add(sendmessageB1, java.awt.BorderLayout.LINE_START);
-
-        playersPanel1.add(profsOptPanel1, java.awt.BorderLayout.PAGE_END);
-
-        playerList1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "User"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        playerList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                playerList1MouseReleased(evt);
-            }
-        });
-        jScrollPane6.setViewportView(playerList1);
-
-        playersPanel1.add(jScrollPane6, java.awt.BorderLayout.CENTER);
-
-        TabsTableRank.addTab("Jogadores", playersPanel1);
-
-        rankingP.add(TabsTableRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 220, 380));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         rankingP.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 550));
@@ -585,7 +498,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setPreferredSize(new java.awt.Dimension(500, 550));
         settingsPage.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        basePanel.add(settingsPage, "settingP");
+        basePanel.add(settingsPage, "card7");
 
         newRoomPage.setToolTipText("");
         newRoomPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -599,7 +512,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         PlayersNumber.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         PlayersNumber.setMaximumRowCount(3);
-        PlayersNumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Players", "3 Players", "4Players" }));
+        PlayersNumber.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Players", "3 Players", "4 Players" }));
         PlayersNumber.setMinimumSize(new java.awt.Dimension(200, 40));
         PlayersNumber.setPreferredSize(new java.awt.Dimension(200, 40));
         PlayersNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -663,7 +576,219 @@ public class MainFrame extends javax.swing.JFrame {
 
         basePanel.add(newRoomPage, "newRoomP");
 
-        jPanel1.add(basePanel, java.awt.BorderLayout.WEST);
+        roomOwnerPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        quitB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        quitB.setText("QUIT");
+        quitB.setMaximumSize(new java.awt.Dimension(110, 40));
+        quitB.setMinimumSize(new java.awt.Dimension(110, 40));
+        quitB.setPreferredSize(new java.awt.Dimension(110, 40));
+        quitB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitBActionPerformed(evt);
+            }
+        });
+        roomOwnerPage.add(quitB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
+
+        startB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        startB.setText("START");
+        startB.setMaximumSize(new java.awt.Dimension(110, 40));
+        startB.setMinimumSize(new java.awt.Dimension(110, 40));
+        startB.setPreferredSize(new java.awt.Dimension(110, 40));
+        startB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startBActionPerformed(evt);
+            }
+        });
+        roomOwnerPage.add(startB, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, -1));
+
+        playersGrid.setMinimumSize(new java.awt.Dimension(300, 148));
+        playersGrid.setOpaque(false);
+        playersGrid.setPreferredSize(new java.awt.Dimension(300, 148));
+        playersGrid.setLayout(new java.awt.GridLayout(4, 2, 2, 2));
+
+        player1.setBackground(new java.awt.Color(255, 255, 255));
+        player1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1.setMinimumSize(new java.awt.Dimension(148, 37));
+        player1.setOpaque(true);
+        player1.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player1);
+
+        player2.setBackground(new java.awt.Color(255, 255, 255));
+        player2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2.setText("Owner");
+        player2.setMinimumSize(new java.awt.Dimension(148, 37));
+        player2.setOpaque(true);
+        player2.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player2);
+
+        player3.setBackground(new java.awt.Color(255, 255, 255));
+        player3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player3.setMinimumSize(new java.awt.Dimension(148, 37));
+        player3.setOpaque(true);
+        player3.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player3);
+
+        player4.setBackground(new java.awt.Color(255, 255, 255));
+        player4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player4.setMinimumSize(new java.awt.Dimension(148, 37));
+        player4.setOpaque(true);
+        player4.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player4);
+
+        player1Status.setBackground(new java.awt.Color(255, 255, 255));
+        player1Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player1Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player1Status.setOpaque(true);
+        player1Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player1Status);
+
+        player2Status.setBackground(new java.awt.Color(255, 255, 255));
+        player2Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player2Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player2Status.setOpaque(true);
+        player2Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player2Status);
+
+        player3Status.setBackground(new java.awt.Color(255, 255, 255));
+        player3Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player3Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player3Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player3Status.setOpaque(true);
+        player3Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player3Status);
+
+        player4Status.setBackground(new java.awt.Color(255, 255, 255));
+        player4Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player4Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player4Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player4Status.setOpaque(true);
+        player4Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player4Status);
+
+        roomOwnerPage.add(playersGrid, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel8.setMaximumSize(new java.awt.Dimension(500, 550));
+        jLabel8.setMinimumSize(new java.awt.Dimension(500, 550));
+        jLabel8.setPreferredSize(new java.awt.Dimension(500, 550));
+        roomOwnerPage.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        basePanel.add(roomOwnerPage, "roomOwnerP");
+
+        roomPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        quitRoomB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        quitRoomB.setText("QUIT");
+        quitRoomB.setMaximumSize(new java.awt.Dimension(110, 40));
+        quitRoomB.setMinimumSize(new java.awt.Dimension(110, 40));
+        quitRoomB.setPreferredSize(new java.awt.Dimension(110, 40));
+        quitRoomB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitRoomBActionPerformed(evt);
+            }
+        });
+        roomPage.add(quitRoomB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
+
+        readyB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        readyB.setText("READY");
+        readyB.setMaximumSize(new java.awt.Dimension(110, 40));
+        readyB.setMinimumSize(new java.awt.Dimension(110, 40));
+        readyB.setPreferredSize(new java.awt.Dimension(110, 40));
+        readyB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readyBActionPerformed(evt);
+            }
+        });
+        roomPage.add(readyB, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, -1));
+
+        playersRoomGrid.setMinimumSize(new java.awt.Dimension(300, 148));
+        playersRoomGrid.setOpaque(false);
+        playersRoomGrid.setPreferredSize(new java.awt.Dimension(300, 148));
+        playersRoomGrid.setLayout(new java.awt.GridLayout(4, 2, 2, 2));
+
+        player5.setBackground(new java.awt.Color(255, 255, 255));
+        player5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player5.setMinimumSize(new java.awt.Dimension(148, 37));
+        player5.setOpaque(true);
+        player5.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player5);
+
+        player6.setBackground(new java.awt.Color(255, 255, 255));
+        player6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player6.setText("Owner");
+        player6.setMinimumSize(new java.awt.Dimension(148, 37));
+        player6.setOpaque(true);
+        player6.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player6);
+
+        player7.setBackground(new java.awt.Color(255, 255, 255));
+        player7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player7.setMinimumSize(new java.awt.Dimension(148, 37));
+        player7.setOpaque(true);
+        player7.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player7);
+
+        player8.setBackground(new java.awt.Color(255, 255, 255));
+        player8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player8.setMinimumSize(new java.awt.Dimension(148, 37));
+        player8.setOpaque(true);
+        player8.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player8);
+
+        player1Status1.setBackground(new java.awt.Color(255, 255, 255));
+        player1Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player1Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1Status1.setMinimumSize(new java.awt.Dimension(148, 37));
+        player1Status1.setOpaque(true);
+        player1Status1.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player1Status1);
+
+        player2Status1.setBackground(new java.awt.Color(255, 255, 255));
+        player2Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player2Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2Status1.setMinimumSize(new java.awt.Dimension(148, 37));
+        player2Status1.setOpaque(true);
+        player2Status1.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player2Status1);
+
+        player3Status1.setBackground(new java.awt.Color(255, 255, 255));
+        player3Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player3Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player3Status1.setMinimumSize(new java.awt.Dimension(148, 37));
+        player3Status1.setOpaque(true);
+        player3Status1.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player3Status1);
+
+        player4Status1.setBackground(new java.awt.Color(255, 255, 255));
+        player4Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player4Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player4Status1.setMinimumSize(new java.awt.Dimension(148, 37));
+        player4Status1.setOpaque(true);
+        player4Status1.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player4Status1);
+
+        roomPage.add(playersRoomGrid, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        jLabel9.setMaximumSize(new java.awt.Dimension(500, 550));
+        jLabel9.setMinimumSize(new java.awt.Dimension(500, 550));
+        jLabel9.setPreferredSize(new java.awt.Dimension(500, 550));
+        roomPage.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        basePanel.add(roomPage, "roomP");
+
+        mainFramePanel.add(basePanel, java.awt.BorderLayout.WEST);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -673,7 +798,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainFramePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -682,7 +807,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainFramePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -709,7 +834,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_chatinputFocusLost
 
     private void chatinputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinputActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        clientService.sendChat(username, chatinput.getText());
+        chatinput.setText("");
     }//GEN-LAST:event_chatinputActionPerformed
 
     private void inviteB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB2ActionPerformed
@@ -741,38 +868,16 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutB1ActionPerformed
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
-        GameGUI gameGui = new GameGUI();
-        gameGui.setVisible(true);
-        
+        int row = roomTable.getSelectedRow();
+        room = roomTable.getModel().getValueAt(row, 0).toString();
+        System.out.println("JoinRoom: "+ room);
+        ClientService clientService = ClientService.getInstance();
+        clientService.joinRoom(room);
     }//GEN-LAST:event_joinBActionPerformed
 
     private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
         selectPage("newRoomP");
     }//GEN-LAST:event_createBActionPerformed
-
-    private void chatinput3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3FocusGained
-
-    private void chatinput3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinput3FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3FocusLost
-
-    private void chatinput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinput3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatinput3ActionPerformed
-
-    private void inviteB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inviteB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inviteB1ActionPerformed
-
-    private void sendmessageB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sendmessageB1ActionPerformed
-
-    private void playerList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playerList1MouseReleased
 
     private void newEmailInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEmailInputActionPerformed
         // TODO add your handling code here:
@@ -799,15 +904,48 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_backBActionPerformed
 
     private void createRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        int nPlayers = 2;
+        //System.out.println(PlayersNumber.getSelectedItem());
+        switch(PlayersNumber.getSelectedItem().toString()){
+            case "2 Players":
+                nPlayers = 2;
+                break;
+            case "3 Players":
+                nPlayers = 3;
+                break;
+            case "4 Players":
+                nPlayers = 4;
+                break;     
+        }
+        clientService.createRoom(nPlayers, username);
+        selectPage("roomOwnerP");
     }//GEN-LAST:event_createRoomBActionPerformed
+
+    private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startBActionPerformed
+
+    private void quitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBActionPerformed
+        ClientService clientService = ClientService.getInstance();
+        clientService.quitRoom(username, room);
+        selectPage("homeP");
+    }//GEN-LAST:event_quitBActionPerformed
+
+    private void quitRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitRoomBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quitRoomBActionPerformed
+
+    private void readyBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_readyBActionPerformed
 
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
      * @param page The page you want to show. Choose between one of these strings: "homeP", "signupP", "loginP", helpP".
      */
-    private void selectPage(String page){
+    public void selectPage(String page){
         CardLayout card = (CardLayout) basePanel.getLayout();
         card.show(basePanel, page);   
     }
@@ -850,15 +988,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton NoB;
     private javax.swing.JComboBox<String> PlayersNumber;
     private javax.swing.JTabbedPane TabsTableRank;
-    private javax.swing.JTabbedPane TabsTableRank1;
     private javax.swing.JButton backB;
     private javax.swing.JPanel basePanel;
     public javax.swing.JPanel chatPanel;
-    public javax.swing.JPanel chatPanel1;
     public javax.swing.JTextArea chatarea;
-    public javax.swing.JTextArea chatarea3;
     private javax.swing.JTextField chatinput;
-    private javax.swing.JTextField chatinput3;
     private javax.swing.JPasswordField confirmPassInput;
     private javax.swing.JLabel confirmPassL;
     private javax.swing.JButton createB;
@@ -867,7 +1001,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel currentPassL;
     private javax.swing.JButton helpB1;
     private javax.swing.JButton homeB1;
-    private javax.swing.JButton inviteB1;
     private javax.swing.JButton inviteB2;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -877,13 +1010,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    public javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     public javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JButton joinB;
     private javax.swing.JButton logoutB1;
+    private javax.swing.JPanel mainFramePanel;
     private javax.swing.JPanel mainPage;
     private javax.swing.JPanel menuBarSettings;
     private javax.swing.JTextField newEmailInput;
@@ -891,24 +1024,44 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField newPassInput;
     private javax.swing.JLabel newPassL;
     private javax.swing.JPanel newRoomPage;
-    public javax.swing.JTable playerList1;
+    private javax.swing.JLabel player1;
+    private javax.swing.JLabel player1Status;
+    private javax.swing.JLabel player1Status1;
+    private javax.swing.JLabel player2;
+    private javax.swing.JLabel player2Status;
+    private javax.swing.JLabel player2Status1;
+    private javax.swing.JLabel player3;
+    private javax.swing.JLabel player3Status;
+    private javax.swing.JLabel player3Status1;
+    private javax.swing.JLabel player4;
+    private javax.swing.JLabel player4Status;
+    private javax.swing.JLabel player4Status1;
+    private javax.swing.JLabel player5;
+    private javax.swing.JLabel player6;
+    private javax.swing.JLabel player7;
+    private javax.swing.JLabel player8;
     public javax.swing.JTable playerList2;
+    private javax.swing.JPanel playersGrid;
     private javax.swing.JPanel playersPanel;
-    private javax.swing.JPanel playersPanel1;
+    private javax.swing.JPanel playersRoomGrid;
     private javax.swing.JCheckBox privateGameCheckBox;
-    private javax.swing.JPanel profsOptPanel1;
     private javax.swing.JPanel profsOptPanel2;
+    private javax.swing.JButton quitB;
     private javax.swing.JDialog quitConfirm;
+    private javax.swing.JButton quitRoomB;
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
+    private javax.swing.JButton readyB;
     private javax.swing.JTextField roomNameInput;
     private javax.swing.JLabel roomNameLabel;
+    private javax.swing.JPanel roomOwnerPage;
+    private javax.swing.JPanel roomPage;
     private javax.swing.JScrollPane roomScrollPane;
-    private javax.swing.JTable roomTable;
-    private javax.swing.JButton sendmessageB1;
+    public javax.swing.JTable roomTable;
     private javax.swing.JButton sendmessageB2;
     private javax.swing.JButton settingsB1;
     private javax.swing.JPanel settingsPage;
+    private javax.swing.JButton startB;
     private javax.swing.JLabel usernameL;
     private javax.swing.JLabel volumeL;
     private javax.swing.JSlider volumeSlider;
