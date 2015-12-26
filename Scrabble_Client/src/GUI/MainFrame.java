@@ -103,12 +103,12 @@ public class MainFrame extends javax.swing.JFrame {
         startB = new javax.swing.JButton();
         playersGrid = new javax.swing.JPanel();
         player1 = new javax.swing.JLabel();
-        player2 = new javax.swing.JLabel();
-        player3 = new javax.swing.JLabel();
-        player4 = new javax.swing.JLabel();
         player1Status = new javax.swing.JLabel();
+        player2 = new javax.swing.JLabel();
         player2Status = new javax.swing.JLabel();
+        player3 = new javax.swing.JLabel();
         player3Status = new javax.swing.JLabel();
+        player4 = new javax.swing.JLabel();
         player4Status = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         roomPage = new javax.swing.JPanel();
@@ -116,13 +116,13 @@ public class MainFrame extends javax.swing.JFrame {
         readyB = new javax.swing.JButton();
         playersRoomGrid = new javax.swing.JPanel();
         player5 = new javax.swing.JLabel();
+        player5Status = new javax.swing.JLabel();
         player6 = new javax.swing.JLabel();
+        player6Status = new javax.swing.JLabel();
         player7 = new javax.swing.JLabel();
+        player7Status = new javax.swing.JLabel();
         player8 = new javax.swing.JLabel();
-        player1Status1 = new javax.swing.JLabel();
-        player2Status1 = new javax.swing.JLabel();
-        player3Status1 = new javax.swing.JLabel();
-        player4Status1 = new javax.swing.JLabel();
+        player8Status = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         quitConfirm.setAlwaysOnTop(true);
@@ -615,38 +615,22 @@ public class MainFrame extends javax.swing.JFrame {
         player1.setPreferredSize(new java.awt.Dimension(148, 37));
         playersGrid.add(player1);
 
-        player2.setBackground(new java.awt.Color(255, 255, 255));
-        player2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player2.setText("Owner");
-        player2.setMinimumSize(new java.awt.Dimension(148, 37));
-        player2.setOpaque(true);
-        player2.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersGrid.add(player2);
-
-        player3.setBackground(new java.awt.Color(255, 255, 255));
-        player3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player3.setMinimumSize(new java.awt.Dimension(148, 37));
-        player3.setOpaque(true);
-        player3.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersGrid.add(player3);
-
-        player4.setBackground(new java.awt.Color(255, 255, 255));
-        player4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player4.setMinimumSize(new java.awt.Dimension(148, 37));
-        player4.setOpaque(true);
-        player4.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersGrid.add(player4);
-
         player1Status.setBackground(new java.awt.Color(255, 255, 255));
         player1Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         player1Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1Status.setText("Owner");
         player1Status.setMinimumSize(new java.awt.Dimension(148, 37));
         player1Status.setOpaque(true);
         player1Status.setPreferredSize(new java.awt.Dimension(148, 37));
         playersGrid.add(player1Status);
+
+        player2.setBackground(new java.awt.Color(255, 255, 255));
+        player2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2.setMinimumSize(new java.awt.Dimension(148, 37));
+        player2.setOpaque(true);
+        player2.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player2);
 
         player2Status.setBackground(new java.awt.Color(255, 255, 255));
         player2Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -656,6 +640,14 @@ public class MainFrame extends javax.swing.JFrame {
         player2Status.setPreferredSize(new java.awt.Dimension(148, 37));
         playersGrid.add(player2Status);
 
+        player3.setBackground(new java.awt.Color(255, 255, 255));
+        player3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player3.setMinimumSize(new java.awt.Dimension(148, 37));
+        player3.setOpaque(true);
+        player3.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player3);
+
         player3Status.setBackground(new java.awt.Color(255, 255, 255));
         player3Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         player3Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -663,6 +655,14 @@ public class MainFrame extends javax.swing.JFrame {
         player3Status.setOpaque(true);
         player3Status.setPreferredSize(new java.awt.Dimension(148, 37));
         playersGrid.add(player3Status);
+
+        player4.setBackground(new java.awt.Color(255, 255, 255));
+        player4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player4.setMinimumSize(new java.awt.Dimension(148, 37));
+        player4.setOpaque(true);
+        player4.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersGrid.add(player4);
 
         player4Status.setBackground(new java.awt.Color(255, 255, 255));
         player4Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -721,14 +721,30 @@ public class MainFrame extends javax.swing.JFrame {
         player5.setPreferredSize(new java.awt.Dimension(148, 37));
         playersRoomGrid.add(player5);
 
+        player5Status.setBackground(new java.awt.Color(255, 255, 255));
+        player5Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player5Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player5Status.setText("Owner");
+        player5Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player5Status.setOpaque(true);
+        player5Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player5Status);
+
         player6.setBackground(new java.awt.Color(255, 255, 255));
         player6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         player6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player6.setText("Owner");
         player6.setMinimumSize(new java.awt.Dimension(148, 37));
         player6.setOpaque(true);
         player6.setPreferredSize(new java.awt.Dimension(148, 37));
         playersRoomGrid.add(player6);
+
+        player6Status.setBackground(new java.awt.Color(255, 255, 255));
+        player6Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player6Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player6Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player6Status.setOpaque(true);
+        player6Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player6Status);
 
         player7.setBackground(new java.awt.Color(255, 255, 255));
         player7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -738,6 +754,14 @@ public class MainFrame extends javax.swing.JFrame {
         player7.setPreferredSize(new java.awt.Dimension(148, 37));
         playersRoomGrid.add(player7);
 
+        player7Status.setBackground(new java.awt.Color(255, 255, 255));
+        player7Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player7Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player7Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player7Status.setOpaque(true);
+        player7Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player7Status);
+
         player8.setBackground(new java.awt.Color(255, 255, 255));
         player8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         player8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -746,37 +770,13 @@ public class MainFrame extends javax.swing.JFrame {
         player8.setPreferredSize(new java.awt.Dimension(148, 37));
         playersRoomGrid.add(player8);
 
-        player1Status1.setBackground(new java.awt.Color(255, 255, 255));
-        player1Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player1Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player1Status1.setMinimumSize(new java.awt.Dimension(148, 37));
-        player1Status1.setOpaque(true);
-        player1Status1.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersRoomGrid.add(player1Status1);
-
-        player2Status1.setBackground(new java.awt.Color(255, 255, 255));
-        player2Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player2Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player2Status1.setMinimumSize(new java.awt.Dimension(148, 37));
-        player2Status1.setOpaque(true);
-        player2Status1.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersRoomGrid.add(player2Status1);
-
-        player3Status1.setBackground(new java.awt.Color(255, 255, 255));
-        player3Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player3Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player3Status1.setMinimumSize(new java.awt.Dimension(148, 37));
-        player3Status1.setOpaque(true);
-        player3Status1.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersRoomGrid.add(player3Status1);
-
-        player4Status1.setBackground(new java.awt.Color(255, 255, 255));
-        player4Status1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        player4Status1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        player4Status1.setMinimumSize(new java.awt.Dimension(148, 37));
-        player4Status1.setOpaque(true);
-        player4Status1.setPreferredSize(new java.awt.Dimension(148, 37));
-        playersRoomGrid.add(player4Status1);
+        player8Status.setBackground(new java.awt.Color(255, 255, 255));
+        player8Status.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        player8Status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player8Status.setMinimumSize(new java.awt.Dimension(148, 37));
+        player8Status.setOpaque(true);
+        player8Status.setPreferredSize(new java.awt.Dimension(148, 37));
+        playersRoomGrid.add(player8Status);
 
         roomPage.add(playersRoomGrid, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
 
@@ -869,10 +869,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void joinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBActionPerformed
         int row = roomTable.getSelectedRow();
-        room = roomTable.getModel().getValueAt(row, 0).toString();
-        System.out.println("JoinRoom: "+ room);
-        ClientService clientService = ClientService.getInstance();
-        clientService.joinRoom(room);
+        if(row != -1){
+            room = roomTable.getModel().getValueAt(row, 0).toString();
+            System.out.println("JoinRoom: "+ room);
+            ClientService clientService = ClientService.getInstance();
+            clientService.joinRoom(room);
+        }
     }//GEN-LAST:event_joinBActionPerformed
 
     private void createBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBActionPerformed
@@ -1024,26 +1026,26 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField newPassInput;
     private javax.swing.JLabel newPassL;
     private javax.swing.JPanel newRoomPage;
-    private javax.swing.JLabel player1;
-    private javax.swing.JLabel player1Status;
-    private javax.swing.JLabel player1Status1;
-    private javax.swing.JLabel player2;
-    private javax.swing.JLabel player2Status;
-    private javax.swing.JLabel player2Status1;
-    private javax.swing.JLabel player3;
-    private javax.swing.JLabel player3Status;
-    private javax.swing.JLabel player3Status1;
-    private javax.swing.JLabel player4;
-    private javax.swing.JLabel player4Status;
-    private javax.swing.JLabel player4Status1;
-    private javax.swing.JLabel player5;
-    private javax.swing.JLabel player6;
-    private javax.swing.JLabel player7;
-    private javax.swing.JLabel player8;
+    public javax.swing.JLabel player1;
+    public javax.swing.JLabel player1Status;
+    public javax.swing.JLabel player2;
+    public javax.swing.JLabel player2Status;
+    public javax.swing.JLabel player3;
+    public javax.swing.JLabel player3Status;
+    public javax.swing.JLabel player4;
+    public javax.swing.JLabel player4Status;
+    public javax.swing.JLabel player5;
+    public javax.swing.JLabel player5Status;
+    public javax.swing.JLabel player6;
+    public javax.swing.JLabel player6Status;
+    public javax.swing.JLabel player7;
+    public javax.swing.JLabel player7Status;
+    public javax.swing.JLabel player8;
+    public javax.swing.JLabel player8Status;
     public javax.swing.JTable playerList2;
-    private javax.swing.JPanel playersGrid;
+    public javax.swing.JPanel playersGrid;
     private javax.swing.JPanel playersPanel;
-    private javax.swing.JPanel playersRoomGrid;
+    public javax.swing.JPanel playersRoomGrid;
     private javax.swing.JCheckBox privateGameCheckBox;
     private javax.swing.JPanel profsOptPanel2;
     private javax.swing.JButton quitB;
@@ -1054,8 +1056,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton readyB;
     private javax.swing.JTextField roomNameInput;
     private javax.swing.JLabel roomNameLabel;
-    private javax.swing.JPanel roomOwnerPage;
-    private javax.swing.JPanel roomPage;
+    public javax.swing.JPanel roomOwnerPage;
+    public javax.swing.JPanel roomPage;
     private javax.swing.JScrollPane roomScrollPane;
     public javax.swing.JTable roomTable;
     private javax.swing.JButton sendmessageB2;

@@ -156,8 +156,9 @@ public class ClientService {
     
     public void receiveCreateRoom(int msg){
         switch(msg){
-            case 1:
+            case 1:{
                 break;
+            }
             case 0:
                 JOptionPane.showMessageDialog(null, "The server is full");
                 break;
@@ -180,7 +181,6 @@ public class ClientService {
         int r = 0;
         
         char Array[] = rooms.toCharArray();
-        //System.out.println("receiveRooms Array[]: "+Arrays.toString(Array));
         for(i=0; i< rooms.length(); i++){
             if(Array[i] == '/') rows++;
         }
@@ -279,16 +279,64 @@ public class ClientService {
         mainFrame.roomTable.setModel(new DefaultTableModel(data, colName));
     }
     
+    public void updatePlayers(String[] players){
+        mainFrame.player1.setText(players[0]);
+        mainFrame.player2.setText(players[1]);
+        mainFrame.player3.setText(players[2]);
+        mainFrame.player4.setText(players[3]);
+        mainFrame.player5.setText(players[0]);
+        mainFrame.player6.setText(players[1]);
+        mainFrame.player7.setText(players[2]);
+        mainFrame.player8.setText(players[3]);
+        mainFrame.player1Status.setText(players[4]);
+        mainFrame.player2Status.setText(players[5]);
+        mainFrame.player3Status.setText(players[6]);
+        mainFrame.player4Status.setText(players[7]);
+        mainFrame.player5Status.setText(players[4]);
+        mainFrame.player6Status.setText(players[5]);
+        mainFrame.player7Status.setText(players[6]);
+        mainFrame.player8Status.setText(players[7]);
+    }
+
+    public String getPlayerState(char[] data, int index){
+        int i = 0;
+        int count = 0;
+        String ret = "";
+        
+        while((index) != count){
+            while(data[i] != '#'){
+                i++;
+            }
+            i++;
+            count++;  
+        }
+        while(data[i]!='#'){
+        ret = ret + data[i];
+            i++;
+        }
+        return ret; 
+    }
+        
+    
     public void receiveJoin(String msg){
+        //System.out.println("receiveJoin() msg: "+msg);
         switch(msg){
             case "":
                 JOptionPane.showMessageDialog(null, "The room is full");
                 break;
             case "KICK":
                 JOptionPane.showMessageDialog(null, "KICK! You can't enter rooms!", "System Message", JOptionPane.ERROR_MESSAGE);
-                break;
+                break;    
             default:
-                mainFrame.selectPage("roomP");
+                
+                if(msg.charAt(msg.length() - 1) == '#'){
+                    mainFrame.selectPage("roomOwnerP");
+                    protocol.sendUpdatePlayers(msg);
+                }
+                else{
+                    mainFrame.selectPage("roomP");
+                    protocol.sendUpdatePlayers(msg);
+                }
         }
     }
     
