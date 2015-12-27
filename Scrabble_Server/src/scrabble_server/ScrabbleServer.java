@@ -87,7 +87,7 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
-    public void AnnounceRoom(String username, String[] players, String msg){
+    public void AnnounceRoom(String[] players, String msg){
         int i = 0;
         String ret = "";
         switch(msg){
@@ -104,9 +104,6 @@ public class ScrabbleServer  implements Runnable{
             for(int j=0; j<clientCount; j++){
                 if(clients[j].username.equals(players[i])){
                     clients[j].send(ret);
-                }
-                if(clients[j].username.equals(username)){
-                    clients[j].send("QUITROOM#OK#");
                 }
             }
             i++;
@@ -289,16 +286,19 @@ public class ScrabbleServer  implements Runnable{
             case "QUITROOM":{
                 String username = findMessage(data, 9, 1);
                 String room = findMessage(data, 9,2);
-                String quit = DBcon.quitRoom(username, room);
+                String[] players = DBcon.receiveRoomPlayers(room);
+                String quit = DBcon.quitRoom(username, room);                
                 switch(quit){
                     case "OWNER":
-                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "DELETE");
+                        AnnounceRoom(players, "DELETE");
+                        System.out.println("QUITROOM#OWNER");
                         break;
                     case "USER":
-                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "UPLAYERS");
+                        AnnounceRoom(players, "UPLAYERS");
+                        System.out.println("QUITROOM#UPLAYERS");
                         break;
                     case "ERROR":
-                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "ERROR");
+                        AnnounceRoom(players, "ERROR");
                         break;
                 }
                 break;
@@ -319,7 +319,7 @@ public class ScrabbleServer  implements Runnable{
             }
             case "UPLAYERS":{
                 String[] players = DBcon.receiveRoomPlayers(findMessage(data, 9, 1));
-                AnnounceRoom("NULL", players, "UPLAYERS");
+                AnnounceRoom(players, "UPLAYERS");
                 break;
             }   
         }

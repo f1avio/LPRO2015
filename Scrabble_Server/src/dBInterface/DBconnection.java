@@ -251,8 +251,7 @@ public class DBconnection {
         int i = 0;
         boolean owner = isOwner(username);
         if(owner){
-            database.deleteRoom(room);
-            if("OK".equals(database.deleteRoom(room))){    
+            if("OK".equals(database.deleteRoom(username))){    
                 ret = "OWNER";
             } else{
                 ret = "ERROR";

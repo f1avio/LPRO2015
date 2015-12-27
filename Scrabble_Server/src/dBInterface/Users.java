@@ -473,12 +473,13 @@ public class Users {
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            
+            System.out.println("deleteRoom() antes:  "+serverFull());
             stmt.executeUpdate("DELETE FROM scrabble.room WHERE owner = '" + username + "'");
         } catch (SQLException ex) {
             System.out.println("deleteRoom() " +ex);
             return "ERROR";
         }
+        System.out.println("deleteRoom() depois:  "+serverFull());
         return "OK";
     }
     
