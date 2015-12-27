@@ -3,6 +3,7 @@ package scrabble_server;
 import java.io.*;
 import java.net.*;
 import dBInterface.*;
+import java.util.Arrays;
 
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
@@ -86,16 +87,26 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
-    public void AnnounceRoom(String[] players){
+    public void AnnounceRoom(String username, String[] players, String msg){
         int i = 0;
-        int j = 0;
-        String msg = "UPLAYERS#" + players[0] + "#" + players[1] + "#" + players[2] + "#" + players[3] + "#"
-                + players[4] + "#" + players[5] + "#" + players[6] + "#" + players[7] + "#";
-        
+        String ret = "";
+        switch(msg){
+            case "UPLAYERS":
+                ret = "UPLAYERS#" + players[0] + "#" + players[1] + "#" + players[2] + "#" + players[3] + "#"
+                    + players[4] + "#" + players[5] + "#" + players[6] + "#" + players[7] + "#";
+                break;
+            case "DELETE":
+                ret = "QUITROOM#OK#";
+                break;
+        }
+
         while(i<players.length && !"NULL".equals(players[i])){
-            for(j=0; j<clientCount; j++){
+            for(int j=0; j<clientCount; j++){
                 if(clients[j].username.equals(players[i])){
-                    clients[j].send(msg);
+                    clients[j].send(ret);
+                }
+                if(clients[j].username.equals(username)){
+                    clients[j].send("QUITROOM#OK#");
                 }
             }
             i++;
@@ -215,22 +226,20 @@ public class ScrabbleServer  implements Runnable{
             }
             case "CREATEROOM":{
                 String owner = findMessage(data, 11,2);
+                String roomName = findMessage(data,11, 3);
                 int nPlayers = Character.getNumericValue(data[11]);
-                System.out.println("CREATEROOM owner: "+ owner);
-                System.out.println("#Players: "+ nPlayers);
                 
-                String room = DBcon.createRoom(nPlayers, owner);
+                String room = DBcon.createRoom(nPlayers, owner, roomName);
                 
                 switch(room){
                     case "":
                         ret = "CREATEROOM#FAIL#";
                         break;
                     default:
-                        ret = "CREATEROOM#OK#";
+                        ret = "CREATEROOM#OK#"+room+"#";
                         break;
                 }
                 clients[findClient(ID)].send(ret);
-                System.out.println("[CREATEROOM] ret1: "+ret);
                 
                 int ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), room); 
                 
@@ -246,7 +255,6 @@ public class ScrabbleServer  implements Runnable{
                         break;
                 }
                 clients[findClient(ID)].send(ret);
-                System.out.println("[CREATEROOM] ret2: "+ret);
                 break;
             }
             case "JOINROOM":{
@@ -280,10 +288,20 @@ public class ScrabbleServer  implements Runnable{
             }
             case "QUITROOM":{
                 String username = findMessage(data, 9, 1);
-                String quit;
-                boolean owner = DBcon.isOwner(username); 
-                //quit = DBcon.quitRoom(username, owner);
-
+                String room = findMessage(data, 9,2);
+                String quit = DBcon.quitRoom(username, room);
+                switch(quit){
+                    case "OWNER":
+                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "DELETE");
+                        break;
+                    case "USER":
+                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "UPLAYERS");
+                        break;
+                    case "ERROR":
+                        AnnounceRoom(username, DBcon.receiveRoomPlayers(room), "ERROR");
+                        break;
+                }
+                break;
             }
             case "CHAT": {
                 String usernameChat = findMessage(data,5,1);
@@ -301,7 +319,7 @@ public class ScrabbleServer  implements Runnable{
             }
             case "UPLAYERS":{
                 String[] players = DBcon.receiveRoomPlayers(findMessage(data, 9, 1));
-                AnnounceRoom(players);
+                AnnounceRoom("NULL", players, "UPLAYERS");
                 break;
             }   
         }

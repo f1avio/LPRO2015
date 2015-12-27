@@ -170,53 +170,34 @@ public class DBconnection {
       database.addChat_MSG(usernameChat,messageChat);
     }
     
-    public String createRoom(int nPlayers, String owner){
-        String ans = "";
-        String roomName;
+    public String createRoom(int nPlayers, String owner, String roomName){
+        int ans = 0;
         Users database = new Users();
         
-        int nRooms = database.serverFull();
-        System.out.println("#ActiveRooms: "+nRooms);
-        //if(nRooms >= 4) return "";
+        if(database.serverFull()>3) return "";
         
-        switch(nRooms){
-            case 0:
-                roomName = "Room1";
-                break;
-            case 1:
-                roomName = "Room2";
-                break;
-            case 2:
-                roomName = "Room3";
-                break;
-            case 3:
-                roomName = "Room4";
-                break;
-            default:
-                return "";
-        }
         ans = database.createDBRoom(nPlayers, roomName, owner);
         switch(ans){
-            case "Room1":
+            case 1:
                 /*game1 = new GameManager("Room1");
                 t1 = new Thread(game1);
                 t1.start();*/
-                return "Room1";
-            case "Room2":
+                return roomName;
+            case 2:
                 /*game2 = new GameManager("Room2");
                 t2 = new Thread(game2);
                 t2.start();*/
-                return "Room2";
-            case "Room3":
+                return roomName;
+            case 3:
                 /*game3 = new GameManager("Room3");
                 t3 = new Thread(game3);
                 t3.start();*/
-                return "Room3";
-            case "Room4":
+                return roomName;
+            case 4:
                 /*game4 = new GameManager("Room4");
                 t4 = new Thread(game4);
                 t4.start();*/
-                return "Room4";  
+                return roomName;  
             default:
                 return "";
         }
@@ -225,61 +206,79 @@ public class DBconnection {
     public int join(String username, int ID, String roomName){
         Users database = new Users();
         boolean ansFull = false;
-        boolean ansSuccess = false;
-        int ret = 0;
+        int roomID = 0;
         
         if(database.getState(username).equals("KICK"))
             return 2;
         ansFull = database.isRoomFull(roomName);
         if(ansFull){
-            return ret;
+            return 0;
         }
         
         p = new Player(username, ID);
         
-        ansSuccess = database.addPlayerRoom(roomName, username);
-        if(ansSuccess) ret = 1;
-        //System.out.println("RETURN = " +ret);
-        
-        switch(roomName){
-           case "Room1" : {
+        roomID = database.addPlayerRoom(roomName, username);      
+        switch(roomID){
+           case 1:{
                System.out.println("INSERTING PLAYER ON Room1");
                //game1.joinPlayer(p);
-               break;
+               return 1;
            }
-           case "Room2" : {
+           case 2:{
                System.out.println("INSERTING PLAYER ON Room2");
                //game2.joinPlayer(p);
-               break;
+               return 1;
            }
-           case "Room3" : {
+           case 3:{
                System.out.println("INSERTING PLAYER ON Room3");
                //game3.joinPlayer(p);
-               break;
+               return 1;
            }
-           case "Room4" : {
+           case 4:{
                System.out.println("INSERTING PLAYER ON Room4");
                //game4.joinPlayer(p);
-               break;
+               return 1;              
            }
-       }
-       
-       return ret;
-        
+           default:
+               return -1;
+       }             
     }
     
-    /*public String quitRoom(String username, boolean owner){
+    public String quitRoom(String username, String room){
         Users database = new Users();
-        String aux = "";
-        String ret = "";
+        String[] players;
+        String ret="";
+        int i = 0;
+        boolean owner = isOwner(username);
         if(owner){
-            aux = database.deleteRoom(username);
-        } else{
-            aux = database.qRoom(username, room);
+            database.deleteRoom(room);
+            if("OK".equals(database.deleteRoom(room))){    
+                ret = "OWNER";
+            } else{
+                ret = "ERROR";
+            }     
         }
-        switch(aux){
+        else{
+            players = receiveRoomPlayers(room);
+            while(i<4 && !username.equals(players[i])){
+                i++;
+            }
+            System.out.println("i: "+i);
+            while(i<3){
+                players[i]=players[i+1];
+                players[i+4]=players[i+5];
+                System.out.println("PLAYERS::: "+Arrays.toString(players));
+                i++;
+            }
+            players[3] = "NULL";
+            players[7] = "NULL";
             
+            if("OK".equals(database.qRoom(players, room))){
+                ret = "USER";
+            } else{
+                ret = "ERROR";
+            }
         }
         return ret;
-    }*/
+    }
 }
