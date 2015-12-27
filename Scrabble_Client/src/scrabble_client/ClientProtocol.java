@@ -120,9 +120,9 @@ public class ClientProtocol implements Runnable {
         }
     }
     
-    public void sendCreateRoom(int nPlayers, String owner){
+    public void sendCreateRoom(int nPlayers, String owner, String room){
         try{
-            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER; 
+            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER + room + SPACER; 
             dataOut.writeUTF(create);
         } catch (IOException ex) {
             System.out.println("sendCreateRoom() " + ex);
@@ -322,6 +322,10 @@ public class ClientProtocol implements Runnable {
                         }
                         System.out.println("players: "+Arrays.toString(players));
                         clientService.updatePlayers(players);
+                        break;
+                    case "QUITROOM":
+                        ans = findMessage(data, 9, 1);
+                        clientService.roomDeleted(ans);
                         break;
                 }
             } catch (IOException ex) {

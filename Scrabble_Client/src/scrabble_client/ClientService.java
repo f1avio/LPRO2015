@@ -340,6 +340,15 @@ public class ClientService {
         }
     }
     
+    public void roomDeleted(String ans){
+        switch(ans){
+            case "ERROR":
+                JOptionPane.showMessageDialog(null, "Quit Room Error: try again.");
+            default:
+                mainFrame.selectPage("mainP");
+        }
+    }
+    
     public void sendChat(String user, String msg) {
         protocol.sendChat(user, msg);
     }
@@ -351,8 +360,8 @@ public class ClientService {
         protocol.sendJoinRoom(roomName);
     }
     
-    public void createRoom(int nPlayers, String owner){
-        protocol.sendCreateRoom(nPlayers, owner);
+    public void createRoom(int nPlayers, String owner, String room){
+        protocol.sendCreateRoom(nPlayers, owner, room);
     }
 
     public void quitRoom(String username, String room){

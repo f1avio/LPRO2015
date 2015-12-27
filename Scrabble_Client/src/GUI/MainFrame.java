@@ -871,7 +871,7 @@ public class MainFrame extends javax.swing.JFrame {
         int row = roomTable.getSelectedRow();
         if(row != -1){
             room = roomTable.getModel().getValueAt(row, 0).toString();
-            System.out.println("JoinRoom: "+ room);
+            //System.out.println("JoinRoom: "+ room);
             ClientService clientService = ClientService.getInstance();
             clientService.joinRoom(room);
         }
@@ -920,7 +920,7 @@ public class MainFrame extends javax.swing.JFrame {
                 nPlayers = 4;
                 break;     
         }
-        clientService.createRoom(nPlayers, username);
+        clientService.createRoom(nPlayers, username, roomNameInput.getText());
         selectPage("roomOwnerP");
     }//GEN-LAST:event_createRoomBActionPerformed
 
@@ -931,11 +931,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void quitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBActionPerformed
         ClientService clientService = ClientService.getInstance();
         clientService.quitRoom(username, room);
-        selectPage("homeP");
     }//GEN-LAST:event_quitBActionPerformed
 
     private void quitRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitRoomBActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        clientService.quitRoom(username, room);
     }//GEN-LAST:event_quitRoomBActionPerformed
 
     private void readyBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyBActionPerformed
