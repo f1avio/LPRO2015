@@ -33,6 +33,7 @@ public class ClientProtocol implements Runnable {
     private final String SPACER = "#";
     
     
+    
     private ClientProtocol(){
         final JPanel frame = new JPanel();
         readServer();
