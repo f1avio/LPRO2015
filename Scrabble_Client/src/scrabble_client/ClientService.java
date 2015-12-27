@@ -198,7 +198,6 @@ public class ClientService {
                 i++;
             }
             line[j] = line[j] + "/";
-            //System.out.println("receiveRooms line[] "+ line[j]);
             j++;
             i++;
             rows--;
@@ -288,11 +287,11 @@ public class ClientService {
         mainFrame.player6.setText(players[1]);
         mainFrame.player7.setText(players[2]);
         mainFrame.player8.setText(players[3]);
-        mainFrame.player1Status.setText(players[4]);
+        //mainFrame.player1Status.setText(players[4]);
         mainFrame.player2Status.setText(players[5]);
         mainFrame.player3Status.setText(players[6]);
         mainFrame.player4Status.setText(players[7]);
-        mainFrame.player5Status.setText(players[4]);
+        //mainFrame.player5Status.setText(players[4]);
         mainFrame.player6Status.setText(players[5]);
         mainFrame.player7Status.setText(players[6]);
         mainFrame.player8Status.setText(players[7]);
@@ -344,8 +343,10 @@ public class ClientService {
         switch(ans){
             case "ERROR":
                 JOptionPane.showMessageDialog(null, "Quit Room Error: try again.");
+                break;
             default:
                 mainFrame.selectPage("mainP");
+                viewRooms();
         }
     }
     

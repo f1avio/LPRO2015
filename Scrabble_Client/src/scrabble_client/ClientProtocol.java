@@ -123,7 +123,7 @@ public class ClientProtocol implements Runnable {
     
     public void sendCreateRoom(int nPlayers, String owner, String room){
         try{
-            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER + room + SPACER; 
+            String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER + room + SPACER;
             dataOut.writeUTF(create);
         } catch (IOException ex) {
             System.out.println("sendCreateRoom() " + ex);

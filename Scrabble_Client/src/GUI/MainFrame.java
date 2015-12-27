@@ -68,6 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         basePanel = new javax.swing.JPanel();
         mainPage = new javax.swing.JPanel();
+        refreshB = new javax.swing.JLabel();
         usernameL = new javax.swing.JLabel();
         welcome = new javax.swing.JLabel();
         joinB = new javax.swing.JButton();
@@ -349,6 +350,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         mainPage.setOpaque(false);
         mainPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        refreshB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/refreshB.png"))); // NOI18N
+        refreshB.setName(""); // NOI18N
+        refreshB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshBMouseClicked(evt);
+            }
+        });
+        mainPage.add(refreshB, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, -1, -1));
 
         usernameL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         usernameL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -856,7 +866,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_homeB1ActionPerformed
 
     private void rankingB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankingB1ActionPerformed
-
+        selectPage("rankP");
     }//GEN-LAST:event_rankingB1ActionPerformed
 
     private void settingsB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsB1ActionPerformed
@@ -908,7 +918,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void createRoomBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBActionPerformed
         ClientService clientService = ClientService.getInstance();
         int nPlayers = 2;
-        //System.out.println(PlayersNumber.getSelectedItem());
+        room = roomNameInput.getText();
         switch(PlayersNumber.getSelectedItem().toString()){
             case "2 Players":
                 nPlayers = 2;
@@ -920,7 +930,7 @@ public class MainFrame extends javax.swing.JFrame {
                 nPlayers = 4;
                 break;     
         }
-        clientService.createRoom(nPlayers, username, roomNameInput.getText());
+        clientService.createRoom(nPlayers, username, room);
         selectPage("roomOwnerP");
     }//GEN-LAST:event_createRoomBActionPerformed
 
@@ -941,6 +951,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void readyBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_readyBActionPerformed
+
+    private void refreshBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshBMouseClicked
+        ClientService clientService = ClientService.getInstance();
+        clientService.viewRooms();
+    }//GEN-LAST:event_refreshBMouseClicked
 
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
@@ -1054,6 +1069,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
     private javax.swing.JButton readyB;
+    private javax.swing.JLabel refreshB;
     private javax.swing.JTextField roomNameInput;
     private javax.swing.JLabel roomNameLabel;
     public javax.swing.JPanel roomOwnerPage;
