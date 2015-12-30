@@ -145,7 +145,7 @@ public class UsersTest extends TestCase {
      */
     public void testGetTables() {
         System.out.println("getTables");
-        Users instance = new Users();
+        Room instance = new Room();
         instance.setTest(true);
         String expResult = "";
         String result = instance.getRooms();
