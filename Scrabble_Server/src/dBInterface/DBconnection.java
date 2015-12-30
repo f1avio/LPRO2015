@@ -61,7 +61,7 @@ public class DBconnection {
     }
     /**
      * Attempts to signup a new user creating a new line on the specified database    
-     * @param user
+     * @param user The user's username that will be registered on the system.
      * @param password The password needed to login into the system
      * @param email The user email, for administrative tasks
      * @return  a standardized status value, notifying the degree of success of the implementation
@@ -90,7 +90,6 @@ public class DBconnection {
     
     /**
      * Logs out the user from the system, deactivating his flag "isOnline"
-     * @param table the table where the user data is stored
      * @param username the user's name that needs to log out
      * @return a standardized status value, notifying the degree of success of the implementation
      */

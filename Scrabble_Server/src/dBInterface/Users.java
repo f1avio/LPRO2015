@@ -23,12 +23,21 @@ import java.util.Arrays;
 public class Users {
     
     private boolean testConfigured;
-    
+    /**
+     * Configures the object to work with a specified schema.
+     * <p>
+     * Besides it's real use, the object can be used to apply some 
+     * tests. To do so, a boolean variable is modified and passed to this
+     * method.
+     * @param testConfigured Specifies if it is a test situation or not 
+     */
     public void setTest(boolean testConfigured)
     {
         this.testConfigured = testConfigured;
     }
-    
+     /**
+     * Construtor that configures the PostgreSql Driver.
+     */
     public Users(){
         this.testConfigured = false;
         try{
@@ -38,7 +47,14 @@ public class Users {
         }
         
     }
-    
+    /**
+     * Seeks the necessary parameters to connect to the database.
+     * <p>
+     * These parameters reside on a document file named config.txt that provides
+     * the port, the path and username and password.
+     * @return an array of strings with the parameters mentioned on the description
+     * stored.
+     */
     public String[] getDB(){
         /*Step 0: Initialize the files*/
         BufferedReader inputStream = null;
@@ -69,7 +85,11 @@ public class Users {
         }
         return aux;
     }
-            
+    /**
+     * Verifies if the provided username already exists on the database.
+     * @param user a string that stores the username
+     * @return a boolean stating if it exists or not
+     */        
     public boolean usernameExist(String user){
         boolean exist = false;
         String[] aux = getDB();
@@ -94,10 +114,16 @@ public class Users {
         }
         return exist;
     }
-    
+    /**
+     * Inserts the newly approved user onto the database.
+     * @param username The unique username that identifies the new user.
+     * @param password The encrypted password that secures the user account.
+     * @param email An email address unique to the user, so he can retrieve his password.
+     * @return A boolean stating if the operation was successful or not
+     */
     public boolean insertUser(String username, String password, String email) {
         boolean state = false;
-        String sql="";
+        String sql;
         String[] aux = getDB();
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
@@ -115,7 +141,15 @@ public class Users {
 
         return state;
     }
-    
+    /**
+     * Retrieves the password of specified user.
+     * <p>
+     * This operation is necessary whenever the user logs into the server, or 
+     * when he needs to change the password to a new one.
+     * @param user The user to which the password belongs.
+     * @return A string, storing either the password or the reason to why the 
+     * operation failed.
+     */    
     public String getPassword(String user) {
         String[] aux = getDB();
         String state = "PasswordNotFound";
@@ -141,7 +175,12 @@ public class Users {
         }
         return state;
     }
-    
+    /**
+     * Acknowledges that specified user is either online or offline.
+     * @param username The user username that will change is state.
+     * @param state The new state of the user, false if offline, true if online.
+     * @return A boolean stating if the operation was sucessful or not.
+     */
     public boolean userActive(String username, boolean state) {
         String[] aux = getDB();
         boolean ret = false;
@@ -160,7 +199,11 @@ public class Users {
         }
         return ret;
     }    
-    
+    /**
+     * Verifies if a user is online.
+     * @param user The user that will be verified.
+     * @return A boolean indicating if he is online or not.
+     */
     public boolean getActive(String user) {
         String[] aux = getDB();
         boolean active = false;
@@ -186,7 +229,14 @@ public class Users {
 
         return active;
     }
-   
+   /**
+     * Returns the state of the specified user.
+     * <p>
+     * The states recognized are NORMAL, or BAN/KICK when an admin recognizes
+     * that this user is prejudicional to the community.
+     * @param user The specified user.
+     * @return A string if the state of the user.
+     */
     public String getState(String user){
         String state = "";
         String[] aux = getDB();
@@ -213,7 +263,12 @@ public class Users {
         
         return state;
     }
-    
+    /**
+     * Changes the state of a user.
+     * @param state The new state of the user.
+     * @param user The user that the state will be changed.
+     * @return A boolean stating if the operation was successful or not.
+     */
     public boolean setState (String state, String user) {
         boolean result = false;
         String[] aux = getDB();
@@ -250,7 +305,11 @@ public class Users {
         }
         return result;
     }
-    
+    /**
+     * Verifies if an user is an admin of the system.
+     * @param user the user that will be verified
+     * @return A boolean stating either the user is an admin or not.
+     */
     public boolean getAdmin(String user){
         boolean admin = false;
         String[] aux = getDB();
@@ -292,7 +351,11 @@ public class Users {
         }
         return i;
     }
-        
+    /**
+     * Retrieves the registered users from the database.
+     * <p> These users are presented on an array, sorted by their score.
+     * @return An array with all the registered users.
+     */    
     public String[] getUsername(){
         String[] aux = getDB();
         int i = getRegistedPlayers();
@@ -313,7 +376,11 @@ public class Users {
         System.out.println("getUsername(): " + Arrays.toString(usernames));
         return usernames;
     }
-    
+    /**
+     * Retrieves the points of every registered user.
+     * <p> This list is sorted according to their position on the ranking.
+     * @return An array with all the points sorted.
+     */
     public String[] getPoints(){
         String[] aux = getDB();
         int i = getRegistedPlayers();
@@ -335,7 +402,11 @@ public class Users {
         System.out.println("getPoints(): " + Arrays.toString(points));
         return points;
     }
-    
+    /**
+     * Retrieves the number of victories of every registered user.
+     * <p> This list is sorted downwards.
+     * @return An array with all the victories sorted.
+     */
     public String[] getWins(){        
         String[] aux = getDB();
         int i = getRegistedPlayers();
@@ -357,7 +428,11 @@ public class Users {
         System.out.println("getWins(): " + Arrays.toString(wins));
         return wins;
     }
-    
+     /**
+     * Retrieves the number of losses of every registered user.
+     * <p> This list is sorted downwards.
+     * @return An array with all the losses sorted.
+     */
      public String[] getLoses(){
         String[] aux = getDB();
         int i = getRegistedPlayers();

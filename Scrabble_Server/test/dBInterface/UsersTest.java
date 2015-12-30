@@ -140,18 +140,6 @@ public class UsersTest extends TestCase {
         assertEquals(expResult, result);
 
     }
-    /**
-     * Test of getTables method, of class Users.
-     */
-    public void testGetTables() {
-        System.out.println("getTables");
-        Room instance = new Room();
-        instance.setTest(true);
-        String expResult = "";
-        String result = instance.getRooms();
-        assertNotEquals(expResult, result);
-
-    }
 
     /**
      * Test of getState method, of class Users.

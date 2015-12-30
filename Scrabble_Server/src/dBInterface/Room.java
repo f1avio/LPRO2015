@@ -22,21 +22,37 @@ import java.sql.Statement;
 public class Room {
     
     private boolean testConfigured;
-    
+    /**
+     * Configures the object to work with a specified schema.
+     * <p>
+     * Besides it's real use, the object can be used to apply some 
+     * tests. To do so, a boolean variable is modified and passed to this
+     * method.
+     * @param testConfigured Specifies if it is a test situation or not 
+     */
     public void setTest(boolean testConfigured)
     {
         this.testConfigured = testConfigured;
     }
-    
+     /**
+     * Construtor that configures the PostgreSql Driver.
+     */
     public Room(){
         this.testConfigured = false;
         try{
             Class.forName("org.postgresql.Driver");
         } catch(ClassNotFoundException e){
-            System.out.println("Erro: Users()");
+            System.out.println("Erro: Room()");
         }        
     }
-    
+    /**
+     * Seeks the necessary parameters to connect to the database.
+     * <p>
+     * These parameters reside on a document file named config.txt that provides
+     * the port, the path and username and password.
+     * @return an array of strings with the parameters mentioned on the description
+     * stored.
+     */
     public String[] getDB(){
         /*Step 0: Initialize the files*/
         BufferedReader inputStream = null;
@@ -67,26 +83,31 @@ public class Room {
         }
         return aux;
     }
-    
+    /**
+     * Retrieves all the tuples of the "Rooms" table. 
+     * @return A string if all the tuples specified.
+     */
     public String getRooms(){
         String[] aux = getDB();    
         String rooms = "";
         
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+        try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
 
             ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.room");
             while (rs.next()) {
                 rooms = rooms + rs.getString("name") + "&"+ rs.getString("maxplayers") + "&" + rs.getString("players") + "&" + rs.getString("owner")+"/";
             }
-            con.close();          
         } catch (SQLException ex) {
             System.out.println("getRoom() "+ ex);
         }        
         return rooms;   
     }
-    
+    /**
+     * Verifies if the specified user is the owner of a room.
+     * @param username The user that will be verified.
+     * @return A boolean stating either the user is a room owner or not.
+     */
     public boolean getOwner(String username){
         boolean owner = false;
         String[] aux = getDB();
@@ -110,7 +131,10 @@ public class Room {
         }
         return owner;
     }
-    
+    /**
+     * Counts the amount of rooms on the server
+     * @return The amount of rooms
+     */
     public int serverFull(){
         String[] aux = getDB();
         int i=0;
@@ -135,28 +159,36 @@ public class Room {
         
         return i ;  
     }
-    
+    /**
+     * Creates a new room on the database.
+     * @param nPlayers The number of players that can participate.
+     * @param roomName The room's name.
+     * @param owner The user that takes the initiative to create the room.
+     * @return the ID of the new room.
+     */
     public int createDBRoom(int nPlayers, String roomName, String owner){
         String sql;
         int roomID = serverFull() + 1;
-        try{
-            String[] aux = getDB();
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
+        String[] aux = getDB(); //Changed this position
+        try(Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3])) {
             Statement stmt = con.createStatement();
             sql = "INSERT INTO scrabble.room (maxplayers, name, players, owner, id) VALUES (" 
                     + nPlayers + ", '" + roomName + "', 0, '" + owner + "', "+roomID+");";
             
             stmt.executeUpdate(sql);
-            con.close();
-            return roomID;
             
         } catch (SQLException ex) {
             System.out.println("createDBRoom() "+ex);
             return -1;
         }
+        return roomID;
     }
     
-    
+    /**
+     * Checks if the specified room is full.
+     * @param room The room's name that will be verified.
+     * @return A boolean stating either the room is full or not.
+     */
     public boolean isRoomFull(String room){
         int players = 0;
         int maxPlayers = 0;
@@ -175,10 +207,7 @@ public class Room {
                 maxPlayers= rs1.getInt("maxplayers");
             }
             
-            if(players < maxPlayers)
-                return false;
-            else
-                return true;
+            return players >= maxPlayers;
         }
         catch(SQLException ex)
         {
@@ -186,7 +215,12 @@ public class Room {
             return false;
         }  
     }
-    
+    /**
+     * Adds a player to a room.
+     * @param room The room that the new player will be added.
+     * @param username The user username's that will be added.
+     * @return the ID of the room if successful. -1 if not.
+     */
     public int addPlayerRoom(String room, String username){
         int players = 0;
         int roomID = 0;
@@ -212,7 +246,13 @@ public class Room {
         }
         return roomID;
     }
-    
+    /**
+     * Updates the state of a player at specified room.
+     * @param index the position of the player whose statel will be changed.
+     * @param state the new state of the player.
+     * @param room The room where the player is.
+     * @return A boolean stating if the operation was successful or not.
+     */
     public boolean updateRoomState(int index, String state, String room){
         String[] aux = getDB();
         try {
@@ -225,7 +265,11 @@ public class Room {
         }
         return true;
     }
-    
+    /**
+     * Retrieves the players names on a certain Room.
+     * @param room The room where the player names will be retrieved.
+     * @return A string if a all the players on the room.
+     */
     public String getRoomPlayers(String room){
         String[] aux = getDB();
         String players = "";
@@ -245,7 +289,11 @@ public class Room {
         //System.out.println("getRoomPlayers(): "+players);
         return players;  
     }
-    
+    /**
+     * Retrieves the status of all the participating players of a certain room.
+     * @param room The room where all players are on.
+     * @return A string with the status of all the players.
+     */
     public String getRoomStatus(String room){
         String[] aux = getDB();
         String status = "";
@@ -262,7 +310,11 @@ public class Room {
         //System.out.println("getRoomStatus(): "+status);
         return status;
     }
-    
+    /**
+     * Deletes a room from a database.
+     * @param username The owner's username.
+     * @return either the operation was succesfful or not.
+     */
     public String deleteRoom(String username){
         String[] aux = getDB();
         try {
@@ -275,7 +327,7 @@ public class Room {
         }
         return "OK";
     }
-    
+    //Don't have a clue
     public String qRoom(String[] players, String room){
         String[] aux = getDB();
         String msg = "'{{"+players[0]+","+players[4]+"},{"+players[1]+","+players[5]+"},{"+players[2]+","+players[6]+"},{"
