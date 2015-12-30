@@ -399,14 +399,22 @@ public class ClientService {
     
     public void receiveRanking(String msg){
         String[] columnNames = new String[]{"Position", "Username", "Points", "Wins", "Loses"};  
-        DefaultTableModel tableModel = new DefaultTableModel(null,columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(null,columnNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        msg = msg.substring(1, msg.length()-1);
         String player[] = msg.split(",");
-        for(int i = 1; i < Integer.parseInt(player[0]); i++){
-            tableModel.addRow(player[i].split("|"));
+        int registedPlayers = Integer.parseInt(player[0]);
+        for(int i = 1; i < registedPlayers+1; i++){  
+            String row[] = player[i].split("/", 5);
+            tableModel.addRow(row);
         }
-        
         mainFrame.ranking.setModel(tableModel);
     }
+    
     public void ready(String username, String room){
         protocol.sendReady(username, room);
     }    
