@@ -14,13 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -82,9 +76,9 @@ public class Users {
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             if(!testConfigured)
-                   query = "SELECT * FROM \"scrabble\".\"accounts\"";
+                   query = "SELECT * FROM scrabble.accounts";
             else
-                   query = "SELECT * FROM \"test\".\"accounts\"";
+                   query = "SELECT * FROM test.accounts";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             
@@ -94,6 +88,7 @@ public class Users {
                     break;
                 }
             }
+            con.close();
         } catch (SQLException ex) {
             System.out.println("usernameExist() " +ex);
         }
@@ -129,9 +124,9 @@ public class Users {
             Statement stmt = con.createStatement();
             
             if(!testConfigured)
-                query = "SELECT * FROM \"scrabble\".\"accounts\"";
+                query = "SELECT * FROM scrabble.accounts";
             else
-                query = "SELECT * FROM \"test\".\"accounts\"";
+                query = "SELECT * FROM test.accounts";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 if (rs.getString("username").equals(user)) {
@@ -155,17 +150,16 @@ public class Users {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
             if(!testConfigured)
-               update = "UPDATE \"scrabble\".\"accounts\" SET \"isonline\"='" + state + "' WHERE \"username\"='" + username + "'";
+               update = "UPDATE scrabble.accounts SET isonline ='" + state + "' WHERE username ='" + username + "'";
             else
-               update = "UPDATE \"test\".\"accounts\" SET \"isonline\"='" + state + "' WHERE \"username\"='" + username + "'";     
+               update = "UPDATE test.accounts SET isonline ='" + state + "' WHERE username ='" + username + "'";     
             stmt.executeUpdate(update);
             ret = true;
         } catch (SQLException ex) {
             System.out.println("userActive() "+ ex);
         }
         return ret;
-    }
-    
+    }    
     
     public boolean getActive(String user) {
         String[] aux = getDB();
@@ -174,9 +168,9 @@ public class Users {
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             if(!testConfigured)
-                query = "SELECT * FROM \"scrabble\".\"accounts\"";
+                query = "SELECT * FROM scrabble.accounts";
             else
-                query = "SELECT * FROM \"test\".\"accounts\"";
+                query = "SELECT * FROM test.accounts";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
 
@@ -192,31 +186,7 @@ public class Users {
 
         return active;
     }
-    
-    public String getRooms(){
-        String[] aux = getDB();    
-        String rooms = "";
-        
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\"");
-            while (rs.next()) {
-                    
-
-                      rooms = rooms + rs.getString("name") + "&"+ rs.getString("maxplayers") + "&" + rs.getString("players") + "&" + rs.getString("owner")+"/";
-                }
-            con.close();    
-            
-        } catch (SQLException ex) {
-            System.out.println("getRoom() "+ ex);
-        }
-        
-        return rooms;             
-        
-    }
-    
+   
     public String getState(String user){
         String state = "";
         String[] aux = getDB();
@@ -226,9 +196,9 @@ public class Users {
         Statement stmt = con.createStatement();
 
         if(!testConfigured)
-            query = "SELECT * FROM \"scrabble\".\"accounts\"";
+            query = "SELECT * FROM scrabble.accounts";
         else
-            query = "SELECT * FROM \"test\".\"accounts\"";
+            query = "SELECT * FROM test.accounts";
         ResultSet rs = stmt.executeQuery(query);
         
         while (rs.next()) {
@@ -252,17 +222,17 @@ public class Users {
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
         Statement stmt = con.createStatement();
         if(!testConfigured)
-            query = "SELECT * FROM \"scrabble\".\"accounts\"";
+            query = "SELECT * FROM scrabble.accounts";
         else
-            query = "SELECT * FROM \"test\".\"accounts\"";
+            query = "SELECT * FROM test.accounts";
         ResultSet rs = stmt.executeQuery(query);
         
         while(rs.next()){
             if(rs.getString("username").equals(user)) {
                 if(!testConfigured)
-                    update = "UPDATE \"scrabble\".\"accounts\" SET \"state\"=" + "'" + state + "'" + " WHERE \"username\"=" + "'" + user + "'";
+                    update = "UPDATE scrabble.accounts SET state =" + "'" + state + "'" + " WHERE username =" + "'" + user + "'";
                 else
-                    update = "UPDATE \"scrabble\".\"test\" SET \"state\"=" + "'" + state + "'" + " WHERE \"username\"=" + "'" + user + "'";
+                    update = "UPDATE scrabble.test SET state =" + "'" + state + "'" + " WHERE username =" + "'" + user + "'";
                 stmt.executeUpdate(update);
                 result = true;
             }
@@ -288,9 +258,9 @@ public class Users {
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
         Statement stmt = con.createStatement();
         if(!testConfigured)
-            query = "SELECT * FROM \"scrabble\".\"accounts\"";
+            query = "SELECT * FROM scrabble.accounts";
         else
-            query = "SELECT * FROM \"test\".\"accounts\"";
+            query = "SELECT * FROM test.accounts";
         ResultSet rs = stmt.executeQuery(query);
         
         while (rs.next()) {
@@ -304,244 +274,6 @@ public class Users {
             System.out.println("getAdmin() "+ ex);
         }
         return admin;
-    }
-    
-    public boolean getOwner(String username){
-        boolean owner = false;
-        String[] aux = getDB();
-        String query;
-        try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
-        Statement stmt = con.createStatement();
-        if(!testConfigured)
-            query = "SELECT * FROM \"scrabble\".\"room\"";
-        else
-            query = "SELECT * FROM \"test\".\"room\"";
-        ResultSet rs = stmt.executeQuery(query);
-        
-        while (rs.next()) {
-            if (rs.getString("owner").equals(username)){
-                    owner = true;
-                    break;
-                }
-        }
-        }catch (SQLException ex) {
-            System.out.println("getOwner() "+ ex);
-        }
-        return owner;
-    }
-    
-    public int serverFull(){
-        String[] aux = getDB();
-        int i=0;
-        String query;
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            if(!testConfigured)
-               query = "SELECT * FROM \"scrabble\".\"room\"";
-            else
-                query = "SELECT * FROM \"test\".\"room\"";
-            ResultSet rs = stmt.executeQuery(query);
-            
-            while (rs.next()) {
-                i++;
-            }
-            //System.out.println("serverFull() " + "#Rooms: " + i);
-        }
-        catch(SQLException ex)
-        {
-            System.out.println("[Server][Users]" +ex);
-        }
-        
-        return i ;  
-    }
-    
-    public int createDBRoom(int nPlayers, String roomName, String owner){
-        String sql;
-        int roomID = serverFull() + 1;
-        try{
-            String[] aux = getDB();
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            sql = "INSERT INTO scrabble.room (maxplayers, name, players, owner, id) VALUES (" 
-                    + nPlayers + ", '" + roomName + "', 0, '" + owner + "', "+roomID+");";
-            
-            stmt.executeUpdate(sql);
-            con.close();
-            return roomID;
-            
-        } catch (SQLException ex) {
-            System.out.println("createDBRoom() "+ex);
-            return -1;
-        }
-    }
-    
-    
-    public boolean isRoomFull(String room){
-        int players = 0;
-        int maxPlayers = 0;
-        String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            
-            ResultSet rs = stmt.executeQuery("SELECT players FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
-            
-            if (rs.next()) {
-                players = rs.getShort("players");
-            }
-            ResultSet rs1 = stmt.executeQuery("SELECT maxplayers FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
-            if (rs1.next()) {
-                maxPlayers= rs1.getInt("maxplayers");
-            }
-            
-            if(players < maxPlayers)
-                return false;
-            else
-                return true;
-        }
-        catch(SQLException ex)
-        {
-            System.out.println("isRoomFull() " +ex);
-            return false;
-        }  
-    }
-    
-    public int addPlayerRoom(String room, String username){
-        int players = 0;
-        int roomID = 0;
-        String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.room WHERE name = '" + room + "'");
-            if(rs.next()){
-                players = rs.getShort("players");
-            }
-            players = players + 1;
-            stmt.executeUpdate("UPDATE scrabble.room SET players = " + players + " WHERE name = " + "'" + room + "'");
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][1] = '"+ username +"' WHERE name = '" + room + "'");
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][2] = 'Wait' WHERE name = '" + room + "'");
-            rs = stmt.executeQuery("SELECT * FROM scrabble.room WHERE name = '" + room + "'");
-            if(rs.next()){
-                roomID = rs.getInt("id");
-            }
-        }catch(SQLException ex){
-            System.out.println("addPlayerRoom() " +ex);
-            return -1;
-        }
-        return roomID;
-    }
-    
-    public boolean updateRoomState(int index, String state, String room){
-        String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+index+"][2] = '"+state+"' WHERE name = '" + room + "'");
-        }catch(SQLException ex){
-            System.out.println("updateRoomState() " +ex);
-            return false;
-        }
-        return true;
-    }
-    
-    public String getRoomPlayers(String room){
-        String[] aux = getDB();
-        String players = "";
-        
-        try {
-            
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][1:1] FROM scrabble.room WHERE name = '"+room+"'");
-            
-            while(rs.next()){
-                players = players + rs.getString(1);
-            }      
-        }catch(SQLException ex){
-            System.out.println("getRoomPlayers() " +ex);
-        }
-        //System.out.println("getRoomPlayers(): "+players);
-        return players;  
-    }
-    
-    public String getRoomStatus(String room){
-        String[] aux = getDB();
-        String status = "";
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][2:2] FROM scrabble.room WHERE name = '"+room+"'");
-            while(rs.next()){
-                status = status + rs.getString(1);
-            }
-        }catch(SQLException ex){
-            System.out.println("getRoomStatus() " +ex);
-        }
-        //System.out.println("getRoomStatus(): "+status);
-        return status;
-    }
-    
-    public String deleteRoom(String username){
-        String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("DELETE FROM scrabble.room WHERE owner = '" + username + "'");
-        } catch (SQLException ex) {
-            System.out.println("deleteRoom() " +ex);
-            return "ERROR";
-        }
-        return "OK";
-    }
-    
-    public String qRoom(String[] players, String room){
-        String[] aux = getDB();
-        String msg = "'{{"+players[0]+","+players[4]+"},{"+players[1]+","+players[5]+"},{"+players[2]+","+players[6]+"},{"
-                + players[3]+","+players[7]+"}}'";
-        String sql = "UPDATE scrabble.room SET playernames[1:4][1:2] =" + msg + "WHERE name = '" + room + "'";
-        int numplayers = 0;
-        
-        try {
-            Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(sql);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM \"scrabble\".\"room\" WHERE \"name\"='" + room + "'");
-            if (rs.next()) {
-                    numplayers = rs.getShort("players");
-            }
-            numplayers = numplayers - 1;
-            stmt.executeUpdate("UPDATE scrabble.room SET players =" + numplayers + " WHERE name =" + "'" + room + "'");
-            
-        } catch (SQLException ex) {
-            System.out.println("qRoom() " +ex);
-            return "ERROR";
-        }
-        return "OK";
-    }
-    
-    void addChat_MSG(String usernameChat, String messageChat) {
-                 String sql;
-                 String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-            Date date = Calendar.getInstance().getTime();
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String today = formatter.format(date);
-            System.out.println("Today : " + today);
-            sql = "INSERT INTO \"scrabble\".\"chat\"" + " (\"remetente\", \"mensagem\",\"data\")" + " VALUES ('" + usernameChat + "', '" + messageChat + "', '" + today + "')";
-            stmt.executeUpdate(sql);
-     
-            con.close();
-            
-       } catch (SQLException ex) 
-          {
-            System.out.println(ex);
-    
-          }
-
     }
     
     public int getRegistedPlayers(){
@@ -564,7 +296,7 @@ public class Users {
     public String[] getUsername(){
         String[] aux = getDB();
         int i = getRegistedPlayers();
-        String[] usernames = new String[i+1];
+        String[] usernames = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
@@ -585,7 +317,7 @@ public class Users {
     public String[] getPoints(){
         String[] aux = getDB();
         int i = getRegistedPlayers();
-        String[] points = new String[i+1];
+        String[] points = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
@@ -607,7 +339,7 @@ public class Users {
     public String[] getWins(){        
         String[] aux = getDB();
         int i = getRegistedPlayers();
-        String[] wins = new String[i+1];
+        String[] wins = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
@@ -629,7 +361,7 @@ public class Users {
      public String[] getLoses(){
         String[] aux = getDB();
         int i = getRegistedPlayers();
-        String[] loses = new String[i+1];
+        String[] loses = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
@@ -638,6 +370,7 @@ public class Users {
             ResultSet rs = stmt.executeQuery("SELECT loses FROM scrabble.accounts ORDER BY points DESC");
             while (rs.next()) {
                 loses[i] = rs.getString("loses");
+                i++;
             }
         } catch (SQLException ex) {
             System.out.println("getLoses() " +ex);

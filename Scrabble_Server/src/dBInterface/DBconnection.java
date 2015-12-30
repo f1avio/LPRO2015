@@ -115,12 +115,13 @@ public class DBconnection {
     }
     
     public String receiveRooms(){
-        Users database = new Users();
+        Room database = new Room();
         String rooms = database.getRooms();
         return rooms;
     }
+    
     public String[] receiveRoomPlayers(String room){
-        Users database = new Users();
+        Room database = new Room();
         int i = 0;
         int j = 0;
         char[] roomplayers = database.getRoomPlayers(room).toCharArray();
@@ -158,21 +159,21 @@ public class DBconnection {
     }
     
     public boolean isOwner(String username){
-        Users database = new Users();
+        Room database = new Room();
         boolean ans = database.getOwner(username);
         return ans;
     }
     
     public void listChat(String usernameChat, String messageChat) {
 
-        Users database = new Users();
+        Chat database = new Chat();
        
       database.addChat_MSG(usernameChat,messageChat);
     }
     
     public String createRoom(int nPlayers, String owner, String roomName){
         int ans = 0;
-        Users database = new Users();
+        Room database = new Room();
         
         if(database.serverFull()>3) return "";
         
@@ -204,20 +205,21 @@ public class DBconnection {
     }
     
     public int join(String username, int ID, String roomName){
-        Users database = new Users();
+        Room databaseR = new Room();
+        Users databaseU = new Users();
         boolean ansFull = false;
         int roomID = 0;
         
-        if(database.getState(username).equals("KICK"))
+        if(databaseU.getState(username).equals("KICK"))
             return 2;
-        ansFull = database.isRoomFull(roomName);
+        ansFull = databaseR.isRoomFull(roomName);
         if(ansFull){
             return 0;
         }
         
         p = new Player(username, ID);
         
-        roomID = database.addPlayerRoom(roomName, username);      
+        roomID = databaseR.addPlayerRoom(roomName, username);      
         switch(roomID){
            case 1:{
                System.out.println("INSERTING PLAYER ON Room: "+roomName);
@@ -245,7 +247,7 @@ public class DBconnection {
     }
     
     public String quitRoom(String username, String room){
-        Users database = new Users();
+        Room database = new Room();
         String ret="";
         int i = 0;
         boolean owner = isOwner(username);
@@ -279,7 +281,7 @@ public class DBconnection {
     }
     
     public String[] roomState(String username, String room){
-        Users database = new Users();
+        Room database = new Room();
         String[] players = receiveRoomPlayers(room);
         String ret = "";
         int i = 0;
@@ -308,9 +310,8 @@ public class DBconnection {
         String[] p = database.getPoints();
         String[] w = database.getWins();
         String[] l = database.getLoses();
-        for(int i = 1; i< totalPlayers; i++ ){
-            int position = i+1;
-            rank_s[i] = position + "|" +user[i] + "|" + p[i] + "|" + w[i]+ "|" +l[i];
+        for(int i = 1; i< totalPlayers+1; i++ ){            
+            rank_s[i] = i + "/" +user[i-1] + "/" + p[i-1] + "/" + w[i-1]+ "/" +l[i-1];
         }
         rank_s[0] = Integer.toString(totalPlayers);
         return rank_s;
