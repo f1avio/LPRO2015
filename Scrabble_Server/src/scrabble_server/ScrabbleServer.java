@@ -85,6 +85,7 @@ public class ScrabbleServer  implements Runnable{
         for (int i = 0; i < clientCount; i++) {
             clients[i].send(msg);
         }
+        //System.out.println("<< Sending: " + msg);
     }
     
     public void AnnounceRoom(String[] players, String msg){
@@ -99,7 +100,7 @@ public class ScrabbleServer  implements Runnable{
                 ret = "QUITROOM#OK#";
                 break;
         }
-
+        
         while(i<players.length && !"NULL".equals(players[i])){
             for(int j=0; j<clientCount; j++){
                 if(clients[j].username.equals(players[i])){
@@ -108,13 +109,14 @@ public class ScrabbleServer  implements Runnable{
             }
             i++;
         }
+        System.out.println("<< Sending: " + ret);
     }
     
     public synchronized void handle(int ID, String msg){
         char[] data = msg.toCharArray();
         String type = findType(data);
         String ret = "";
-        int result = 0;
+        int result = 0;       
         
         System.out.println("CLIENT COUNT HANDLE " + clientCount);
         
@@ -122,9 +124,9 @@ public class ScrabbleServer  implements Runnable{
             case "LOGIN":
                 String usernameLogin = findMessage(data,6,1);
                 clients[findClient(ID)].username = usernameLogin;
-                System.out.println("[Server][Socket]" + "USERNAME do SERVER: " + usernameLogin);
+                //System.out.println("[Server][Socket]" + "USERNAME do SERVER: " + usernameLogin);
                 String passwordLogin = findMessage(data,6,2);
-                System.out.println("[Server][Socket]" + "PW do SERVER: " + passwordLogin);
+                //System.out.println("[Server][Socket]" + "PW do SERVER: " + passwordLogin);
 
                 result = DBcon.logUser(usernameLogin, passwordLogin);
                 String rooms = "";
@@ -156,8 +158,8 @@ public class ScrabbleServer  implements Runnable{
                     }
 
                 }
-                System.out.println("[Server][Socket] Sending: " + ret);
-                System.out.println("ID : " + ID + "client id : " + findClient(ID));
+                System.out.println("<< Sending: " + ret);
+                //System.out.println("ID : " + ID + " client id : " + findClient(ID));
                 clients[findClient(ID)].send(ret);
                 
                 
@@ -167,7 +169,7 @@ public class ScrabbleServer  implements Runnable{
                 break;
             case "LOGOUT":
                 String usernameLogout = findMessage(data, 7, 1);
-                System.out.println("[Server][Socket]" + "Username : " + usernameLogout);
+                //System.out.println("[Server][Socket]" + "Username : " + usernameLogout);
                 
                 result = DBcon.logoutUser(usernameLogout);
 
@@ -185,7 +187,7 @@ public class ScrabbleServer  implements Runnable{
                         break;
                     }
                 }
-                
+                System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);
                 if(result == 1) remove(ID);
                 
@@ -216,7 +218,7 @@ public class ScrabbleServer  implements Runnable{
                     }
 
                 }
-
+                System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);
                 break;
 
@@ -236,6 +238,7 @@ public class ScrabbleServer  implements Runnable{
                         ret = "CREATEROOM#OK#"+room+"#";
                         break;
                 }
+                System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);
                 
                 int ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), room); 
@@ -251,13 +254,14 @@ public class ScrabbleServer  implements Runnable{
                         ret = "JOINROOM#ERROR#";
                         break;
                 }
+                System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);
                 break;
             }
             case "JOINROOM":{
                 String room = findMessage(data, 9, 1);
-                System.out.println("JOINROOM room: " + room);
-                System.out.println("USERNAME JOINROOM: " + clients[findClient(ID)].username);
+                //System.out.println("JOINROOM room: " + room);
+                //System.out.println("USERNAME JOINROOM: " + clients[findClient(ID)].username);
                 result = DBcon.join(clients[findClient(ID)].username, findClient(ID), room);
                 
                 switch(result){
@@ -275,41 +279,43 @@ public class ScrabbleServer  implements Runnable{
                         break;
                 }
                 clients[findClient(ID)].send(ret);
-                System.out.println("[JOINROOM] ret: "+ret);
+                System.out.println("<< Sending: " + ret);
                 break;
             }
             case "VIEWROOMS":{
                 rooms = DBcon.receiveRooms();
                 clients[findClient(ID)].send("ROOMS#"+ rooms + "#");
+                System.out.println("<< Sending: " + "ROOMS#"+ rooms + "#");
                 break;
             }
             case "QUITROOM":{
                 String username = findMessage(data, 9, 1);
                 String room = findMessage(data, 9,2);
-                String[] players = DBcon.receiveRoomPlayers(room);
+                String[] players = DBcon.receiveRoomPlayers(room);                
                 String quit = DBcon.quitRoom(username, room);                
                 switch(quit){
-                    case "OWNER":
+                    case "OWNER":{
                         AnnounceRoom(players, "DELETE");
-                        System.out.println("QUITROOM#OWNER");
-                        break;
-                    case "USER":
+                        break;}
+                    case "USER":{
+                        players = DBcon.receiveRoomPlayers(room);
+                        clients[findClient(ID)].send("QUITROOM#OK#");
+                        System.out.println("<< Sending: " + "QUITROOM#OK#");
                         AnnounceRoom(players, "UPLAYERS");
-                        System.out.println("QUITROOM#UPLAYERS");
-                        break;
-                    case "ERROR":
-                        AnnounceRoom(players, "ERROR");
-                        break;
+                        break;}
+                    case "ERROR":{
+                        clients[findClient(ID)].send("QUITROOM#ERROR#");
+                        System.out.println("<< Sending: " + "QUITROOM#ERROR#");
+                        //AnnounceRoom(players, "ERROR");
+                        break;}
                 }
                 break;
             }
             case "CHAT": {
-                String usernameChat = findMessage(data,5,1);
-                
+                String usernameChat = findMessage(data,5,1);                
                 String messageChat = findMessage(data,5,2);
                 
-                System.out.println("[Server][Socket]" + " Username : " + usernameChat);
-                System.out.println("[Server][Socket]" + " Message : " + messageChat);
+                System.out.println("[CHAT]" + " Username: " + usernameChat+ " Message: " + messageChat);
 
                 DBcon.listChat(usernameChat,messageChat);
                 
@@ -321,7 +327,20 @@ public class ScrabbleServer  implements Runnable{
                 String[] players = DBcon.receiveRoomPlayers(findMessage(data, 9, 1));
                 AnnounceRoom(players, "UPLAYERS");
                 break;
-            }   
+            } 
+            case "READY":{
+                String username = findMessage(data, 6, 1);
+                String room = findMessage(data, 6, 2);               
+                String[] players = DBcon.roomState(username, room);
+                AnnounceRoom(players, "UPLAYERS");
+            }
+            case "RANKING":{
+                 String[] result_s = DBcon.ranking();
+                 ret = "RANKING#" + Arrays.toString(result_s) + "#";
+                 System.out.println("<< Sending: " + ret);
+                 clients[findClient(ID)].send(ret);                 
+                 break;
+             }
         }
     
     }

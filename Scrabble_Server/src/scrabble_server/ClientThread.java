@@ -55,7 +55,7 @@ class ClientThread extends Thread{
         while(true) {
             try{
                 String msg = inFromClient.readUTF();
-                System.out.println("[Server][Socket]" + "MSG = " + msg);
+                System.out.println(">> Received: " + msg);
                 server.handle(ID, msg);
             } catch(Exception ex){
                 System.out.println("[Server][Socket]" + ID + " ERROR reading: " + ex);

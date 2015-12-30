@@ -110,13 +110,13 @@ public class DBconnection {
             } else {
                 state = 0;
             }
-        System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
+        //System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
         return state;
     }
     
     public String receiveRooms(){
         Users database = new Users();
-        String rooms = database.getRoom();
+        String rooms = database.getRooms();
         return rooms;
     }
     public String[] receiveRoomPlayers(String room){
@@ -220,22 +220,22 @@ public class DBconnection {
         roomID = database.addPlayerRoom(roomName, username);      
         switch(roomID){
            case 1:{
-               System.out.println("INSERTING PLAYER ON Room1");
+               System.out.println("INSERTING PLAYER ON Room: "+roomName);
                //game1.joinPlayer(p);
                return 1;
            }
            case 2:{
-               System.out.println("INSERTING PLAYER ON Room2");
+               System.out.println("INSERTING PLAYER ON Room: "+roomName);
                //game2.joinPlayer(p);
                return 1;
            }
            case 3:{
-               System.out.println("INSERTING PLAYER ON Room3");
+               System.out.println("INSERTING PLAYER ON Room: "+roomName);
                //game3.joinPlayer(p);
                return 1;
            }
            case 4:{
-               System.out.println("INSERTING PLAYER ON Room4");
+               System.out.println("INSERTING PLAYER ON Room: "+roomName);
                //game4.joinPlayer(p);
                return 1;              
            }
@@ -246,7 +246,6 @@ public class DBconnection {
     
     public String quitRoom(String username, String room){
         Users database = new Users();
-        String[] players;
         String ret="";
         int i = 0;
         boolean owner = isOwner(username);
@@ -258,15 +257,13 @@ public class DBconnection {
             }     
         }
         else{
-            players = receiveRoomPlayers(room);
+            String[] players = receiveRoomPlayers(room);
             while(i<4 && !username.equals(players[i])){
                 i++;
             }
-            System.out.println("i: "+i);
             while(i<3){
                 players[i]=players[i+1];
                 players[i+4]=players[i+5];
-                System.out.println("PLAYERS::: "+Arrays.toString(players));
                 i++;
             }
             players[3] = "NULL";
@@ -279,5 +276,43 @@ public class DBconnection {
             }
         }
         return ret;
+    }
+    
+    public String[] roomState(String username, String room){
+        Users database = new Users();
+        String[] players = receiveRoomPlayers(room);
+        String ret = "";
+        int i = 0;
+        while(!players[i].equals(username)){
+            i++;
+        }
+        
+        switch(players[i+4]){
+            case "Ready":
+                if(database.updateRoomState(i+1, "Wait", room))
+                    players[i+4] = "Wait";
+                break;
+            case "Wait":
+                if(database.updateRoomState(i+1, "Ready", room))
+                    players[i+4] = "Ready";
+                break;
+        }
+        return players;
+    }
+    
+    public String[] ranking(){  
+        Users database = new Users();
+        int totalPlayers = database.getRegistedPlayers();
+        String[] rank_s = new String[totalPlayers+1];
+        String[] user = database.getUsername();
+        String[] p = database.getPoints();
+        String[] w = database.getWins();
+        String[] l = database.getLoses();
+        for(int i = 1; i< totalPlayers; i++ ){
+            int position = i+1;
+            rank_s[i] = position + "|" +user[i] + "|" + p[i] + "|" + w[i]+ "|" +l[i];
+        }
+        rank_s[0] = Integer.toString(totalPlayers);
+        return rank_s;
     }
 }

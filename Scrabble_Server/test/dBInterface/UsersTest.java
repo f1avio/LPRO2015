@@ -148,7 +148,7 @@ public class UsersTest extends TestCase {
         Users instance = new Users();
         instance.setTest(true);
         String expResult = "";
-        String result = instance.getRoom();
+        String result = instance.getRooms();
         assertNotEquals(expResult, result);
 
     }
