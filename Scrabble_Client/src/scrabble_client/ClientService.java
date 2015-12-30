@@ -213,7 +213,7 @@ public class ClientService {
                 z++;
             }
             z++;
-            System.out.println("Field[" + i + "] : " + field[i]);
+            //System.out.println("Field[" + i + "] : " + field[i]);
             i++;
             
             field[i] = "";
@@ -223,7 +223,7 @@ public class ClientService {
                 z++;
             }
             z++;
-            System.out.println("Field[" + i + "] : " + field[i]);
+            //System.out.println("Field[" + i + "] : " + field[i]);
             i++;
             
             field[i] = "";
@@ -233,7 +233,7 @@ public class ClientService {
                 z++;
             }
             z++;
-            System.out.println("Field[" + i + "] : " + field[i]);
+            //System.out.println("Field[" + i + "] : " + field[i]);
             i++;
             
             field[i] = "";
@@ -243,7 +243,7 @@ public class ClientService {
                 field[i] = field[i] + line[j].toCharArray()[z];
                 z++;
             }
-            System.out.println("Field[" + i + "] : " + field[i]);
+            //System.out.println("Field[" + i + "] : " + field[i]);
             i++;
             
             j++;
@@ -317,9 +317,9 @@ public class ClientService {
     }
         
     
-    public void receiveJoin(String msg){
+    public void receiveJoin(String room){
         //System.out.println("receiveJoin() msg: "+msg);
-        switch(msg){
+        switch(room){
             case "":
                 JOptionPane.showMessageDialog(null, "The room is full");
                 break;
@@ -328,13 +328,14 @@ public class ClientService {
                 break;    
             default:
                 
-                if(msg.charAt(msg.length() - 1) == '#'){
-                    mainFrame.selectPage("roomOwnerP");
-                    protocol.sendUpdatePlayers(msg);
+                if(room.charAt(room.length() - 1) == '#'){
+                    room = room.substring(0, room.length() - 1); // remove de final #
+                    mainFrame.selectPage("roomOwnerP");   
+                    protocol.sendUpdatePlayers(room);
                 }
                 else{
                     mainFrame.selectPage("roomP");
-                    protocol.sendUpdatePlayers(msg);
+                    protocol.sendUpdatePlayers(room);
                 }
         }
     }
@@ -353,6 +354,62 @@ public class ClientService {
     public void sendChat(String user, String msg) {
         protocol.sendChat(user, msg);
     }
+    
+    public void receiveReady(String ans, String username){
+        switch(ans){
+            case "ERROR":
+                JOptionPane.showMessageDialog(null, "Ready Error: try again!");
+                break;
+            case "ready":{
+                if(ans.equals(mainFrame.player2.getText())){
+                    mainFrame.player2Status.setText("Ready");
+                    mainFrame.player6Status.setText("Ready");
+                }
+                if(ans.equals(mainFrame.player3.getText())){
+                    mainFrame.player3Status.setText("Ready");
+                    mainFrame.player7Status.setText("Ready");
+                }
+                if(ans.equals(mainFrame.player4.getText())){
+                    mainFrame.player5Status.setText("Ready");
+                    mainFrame.player8Status.setText("Ready");
+                }
+                break;
+            }
+            case "wait":{
+                if(ans.equals(mainFrame.player2.getText())){
+                    mainFrame.player2Status.setText("Wait");
+                    mainFrame.player6Status.setText("Wait");
+                }
+                if(ans.equals(mainFrame.player3.getText())){
+                    mainFrame.player3Status.setText("Wait");
+                    mainFrame.player7Status.setText("Wait");
+                }
+                if(ans.equals(mainFrame.player4.getText())){
+                    mainFrame.player5Status.setText("Wait");
+                    mainFrame.player8Status.setText("Wait");
+                }
+                break;
+            }
+        }               
+    }
+    
+    public void requestRanking(){
+        protocol.sendRanking();
+    }
+    
+    public void receiveRanking(String msg){
+        String[] columnNames = new String[]{"Position", "Username", "Points", "Wins", "Loses"};  
+        DefaultTableModel tableModel = new DefaultTableModel(null,columnNames);
+        String player[] = msg.split(",");
+        for(int i = 1; i < Integer.parseInt(player[0]); i++){
+            tableModel.addRow(player[i].split("|"));
+        }
+        
+        mainFrame.ranking.setModel(tableModel);
+    }
+    public void ready(String username, String room){
+        protocol.sendReady(username, room);
+    }    
     public void receiveChat(String user, String msg) {
         mainFrame.chatarea.append(user + " :" + msg + "\n");
     }

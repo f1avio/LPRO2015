@@ -61,7 +61,7 @@ public class ClientProtocol implements Runnable {
         try{
             String login = "LOGIN" + SPACER + username + SPACER + password + SPACER;
             dataOut.writeUTF(login);
-            //System.out.println("sendLogin()-> OK");
+            System.out.println("<< Sending: " + login);
         } catch (IOException ex) {
             System.err.println("Couldn't get I/O for the connection to " + hostname);
         }
@@ -71,7 +71,7 @@ public class ClientProtocol implements Runnable {
         try{
             String signup = "SIGNUP" + SPACER + username + SPACER + password + SPACER + email + SPACER;
             dataOut.writeUTF(signup);
-            System.out.println("sendSignup()-> OK");
+            System.out.println("<< Sending: " + signup);
         } catch (IOException ex) {
             System.out.println("sendRegist() " + ex);
         }
@@ -81,7 +81,7 @@ public class ClientProtocol implements Runnable {
         try {
             String logout = "LOGOUT" + SPACER + username + SPACER;
             dataOut.writeUTF(logout);
-            System.out.println("sendLogout()-> OK");
+            System.out.println("<< Sending: " + logout);
         } catch (IOException ex) {
             System.out.println(" sendLogout() " + ex);
         }
@@ -125,6 +125,7 @@ public class ClientProtocol implements Runnable {
         try{
             String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER + room + SPACER;
             dataOut.writeUTF(create);
+            System.out.println("<< Sending: " + create);
         } catch (IOException ex) {
             System.out.println("sendCreateRoom() " + ex);
         }
@@ -134,6 +135,7 @@ public class ClientProtocol implements Runnable {
         try{
             String join = "JOINROOM" + SPACER + room + SPACER;
             dataOut.writeUTF(join);
+            System.out.println("<< Sending: " + join);
         } catch (IOException ex) {
              System.out.println("sendJoinRoom() " + ex);
         }
@@ -143,6 +145,7 @@ public class ClientProtocol implements Runnable {
         try{
             String quit = "QUITROOM" + SPACER + username + SPACER + room + SPACER;
             dataOut.writeUTF(quit);
+            System.out.println("<< Sending: " + quit);
         } catch (IOException ex) {
             System.out.println("sendQuitRoom() " + ex);
         }
@@ -152,6 +155,7 @@ public class ClientProtocol implements Runnable {
         try {
             String view = "VIEWROOMS" + SPACER;
             dataOut.writeUTF(view);
+            System.out.println("<< Sending: " + view);
         } catch (IOException ex) {
             System.out.println("sendViewRooms() " + ex);
         }
@@ -161,6 +165,7 @@ public class ClientProtocol implements Runnable {
         try {
             String chat = "CHAT" + SPACER + username + SPACER + msg + SPACER;
             dataOut.writeUTF(chat);
+            System.out.println("<< Sending: " + chat);
         } catch (IOException ioe) {
             System.out.println("[Client][Protocol]" + " sendChat " + ioe);
         }
@@ -168,13 +173,35 @@ public class ClientProtocol implements Runnable {
 
     public void sendUpdatePlayers(String room){
         try{
-            System.out.println("sendUpdatePlayers()");
             String update = "UPLAYERS" + SPACER + room + SPACER;
             dataOut.writeUTF(update);
+            System.out.println("<< Sending: " + update);
         } catch (IOException ex){
             System.out.println("sendUpdatePlayers() " + ex);
         }
     }
+    
+    public void sendReady(String username, String room){ 
+        try {
+            String ready = "READY" + SPACER + username + SPACER + room + SPACER;
+            dataOut.writeUTF(ready);
+            System.out.println("<< Sending: " + ready);
+        } catch (IOException ex) {
+            System.out.println("sendReady() " + ex);
+        }
+    }
+    
+    public void sendRanking() {
+        try {
+            String rank = "RANKING" + SPACER;
+            dataOut.writeUTF(rank);
+            System.out.println("<< Sending: " + rank);
+        } catch(IOException ex) {
+            System.out.println("sendRanking() " + ex);
+        }
+
+    }
+    
     @Override
     public void run() {
         System.out.println("[ClientProtocol -> Thread");
@@ -190,13 +217,13 @@ public class ClientProtocol implements Runnable {
             try{
                 String msg = dataIn.readUTF();
                 char[] data = msg.toCharArray();
-                System.out.println("ClientProtocol dataIn: "+ new String(data));
+                System.out.println(">> Received: "+ new String(data));
                 type = findType(data);
-                System.out.println("ClientProtocol type: " + type);
+                //System.out.println("ClientProtocol type: " + type);
                 switch(type){
-                    case "LOGIN":
+                    case "LOGIN":{
                         ans = findMessage(data, 6,1);
-                        System.out.println("ClientProtocol ans: " + ans);
+                        //System.out.println("ClientProtocol ans: " + ans);
                         String username="";
                         String aux="";
                         
@@ -232,10 +259,10 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveLogin(username, 0);
                         }
                         break;
-                        
-                    case "LOGOUT":
+                    }   
+                    case "LOGOUT":{
                         ans = findMessage(data, 7, 1);
-                        System.out.println("ClientProtocol "+ans);
+                        //System.out.println("ClientProtocol "+ans);
                         switch(ans){
                             case "OK":
                                 instance = null;
@@ -250,7 +277,8 @@ public class ClientProtocol implements Runnable {
                                 break;     
                         }
                         break;
-                    case "SIGNUP":
+                    }
+                    case "SIGNUP":{
                         ans = findMessage(data, 7, 1);
                         switch(ans){
                             case "OK":
@@ -263,9 +291,10 @@ public class ClientProtocol implements Runnable {
                                 clientService.receiveSignup(2);
                         }
                         break;
+                    }
                     case "CREATEROOM":{
                         ans = findMessage(data,11,1);
-                        System.out.println("[CREATEROOM] ans: "+ans);
+                        //System.out.println("[CREATEROOM] ans: "+ans);
                         switch(ans){
                             case "OK":
                                 clientService.receiveCreateRoom(1);
@@ -284,7 +313,7 @@ public class ClientProtocol implements Runnable {
                         switch(ans){
                             case "OWNER":
                                 room = findMessage(data, 9, 2);
-                                clientService.receiveJoin(room+"#");
+                                clientService.receiveJoin(room+"#"); // +# distinguish the Owner
                                 break;
                             case "OK":
                                 room = findMessage(data, 9, 2);
@@ -302,16 +331,18 @@ public class ClientProtocol implements Runnable {
                         }
                         break;
                     }
-                    case "ROOMS":
+                    case "ROOMS":{
                         String rooms = findMessage(data,6,1);
                         clientService.receiveRooms(rooms);
                         break;
-                    case "CHAT":
+                    }
+                    case "CHAT":{
                         usernameChat = findMessage(data,5,1);
                         messageChat = findMessage(data,5, 2);
                         clientService.receiveChat(usernameChat, messageChat);
                         break; 
-                    case "UPLAYERS":        //UPDATE room players
+                    }
+                    case "UPLAYERS":{        //UPDATE room players
                         String[] players = new String[8];
                         for(int h=1; h<9; h++){
                             if(!"NULL".equals(findMessage(data,9,h))){
@@ -321,13 +352,26 @@ public class ClientProtocol implements Runnable {
                                 players[h-1]="";
                             }
                         }
-                        System.out.println("players: "+Arrays.toString(players));
+                        //System.out.println("players: "+Arrays.toString(players));
                         clientService.updatePlayers(players);
                         break;
-                    case "QUITROOM":
+                    }
+                    case "QUITROOM":{                       
                         ans = findMessage(data, 9, 1);
                         clientService.roomDeleted(ans);
                         break;
+                    }
+                    case "READY":{
+                        ans = findMessage(data, 6, 1);
+                        String username = findMessage(data, 6, 2);
+                        clientService.receiveReady(ans, username);
+                        break; 
+                    }
+                    case "RANKING":{
+                        ans = findMessage(data, 8, 1);
+                        clientService.receiveRanking(ans);
+                        break;
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);

@@ -77,6 +77,8 @@ public class MainFrame extends javax.swing.JFrame {
         roomTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         rankingP = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ranking = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         settingsPage = new javax.swing.JPanel();
         volumeL = new javax.swing.JLabel();
@@ -421,6 +423,18 @@ public class MainFrame extends javax.swing.JFrame {
         rankingP.setMinimumSize(new java.awt.Dimension(500, 550));
         rankingP.setPreferredSize(new java.awt.Dimension(500, 550));
         rankingP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ranking.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Position", "Username", "Points", "Wins", "Loses"
+            }
+        ));
+        jScrollPane6.setViewportView(ranking);
+
+        rankingP.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         rankingP.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 550));
@@ -867,6 +881,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void rankingB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankingB1ActionPerformed
         selectPage("rankP");
+        ClientService clientService = ClientService.getInstance();
+        clientService.requestRanking();
     }//GEN-LAST:event_rankingB1ActionPerformed
 
     private void settingsB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsB1ActionPerformed
@@ -949,7 +965,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_quitRoomBActionPerformed
 
     private void readyBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyBActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        clientService.ready(username, room);
     }//GEN-LAST:event_readyBActionPerformed
 
     private void refreshBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshBMouseClicked
@@ -1029,6 +1046,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane6;
     public javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JButton joinB;
@@ -1066,6 +1084,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton quitB;
     private javax.swing.JDialog quitConfirm;
     private javax.swing.JButton quitRoomB;
+    public javax.swing.JTable ranking;
     private javax.swing.JButton rankingB1;
     private javax.swing.JPanel rankingP;
     private javax.swing.JButton readyB;
