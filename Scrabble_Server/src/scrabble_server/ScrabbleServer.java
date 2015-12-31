@@ -454,6 +454,8 @@ public class ScrabbleServer  implements Runnable{
      * @param args Stores the arguments passed through the terminal
      */
     public static void main(String args[]) {
+        DbSetup dbconn = new DbSetup();
+        dbconn.setDB();
         ScrabbleServer server = ScrabbleServer.getInstance();       
     }
 }

@@ -5,10 +5,6 @@
  */
 package dBInterface;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,6 +18,7 @@ import java.sql.Statement;
 public class Room {
     
     private boolean testConfigured;
+    private final DbSetup dbconn;
     /**
      * Configures the object to work with a specified schema.
      * <p>
@@ -34,67 +31,30 @@ public class Room {
     {
         this.testConfigured = testConfigured;
     }
-     /**
-     * Construtor that configures the PostgreSql Driver.
+    /**
+     * Initializes the test variable and the connection to the database.
      */
-    public Room(){
+        public Room() {
         this.testConfigured = false;
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch(ClassNotFoundException e){
-            System.out.println("Erro: Room()");
-        }        
+        this.dbconn = new DbSetup();
     }
     /**
-     * Seeks the necessary parameters to connect to the database.
-     * <p>
-     * These parameters reside on a document file named config.txt that provides
-     * the port, the path and username and password.
-     * @return an array of strings with the parameters mentioned on the description
-     * stored.
-     */
-    public String[] getDB(){
-        /*Step 0: Initialize the files*/
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[5];
-        String file = "config.txt";
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
-        }catch (FileNotFoundException f)
-              {
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
-            } 
-       
-        catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-            }  
-        finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    System.err.println("Caught IOException: " + ex.getMessage());
-                }
-            }
-        }
-        return aux;
-    }
-    /**
-     * Retrieves all the tuples of the "Rooms" table. 
+     * Retrieves some tuples of the "Rooms" table.
+     * <p>Those tuples are the name of the room, it's owner,
+     * the maximum number of players, and the actual number of players. 
      * @return A string if all the tuples specified.
      */
     public String getRooms(){
-        String[] aux = getDB();    
+        String[] aux = dbconn.getDB();    
         String rooms = "";
-        
+        String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.room");
+            if(!testConfigured)
+                query = "SELECT * FROM scrabble.room";
+            else
+                query = "SELECT * FROM test.room";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 rooms = rooms + rs.getString("name") + "&"+ rs.getString("maxplayers") + "&" + rs.getString("players") + "&" + rs.getString("owner")+"/";
             }
@@ -110,7 +70,7 @@ public class Room {
      */
     public boolean getOwner(String username){
         boolean owner = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
         Statement stmt = con.createStatement();
@@ -123,6 +83,7 @@ public class Room {
         while (rs.next()) {
             if (rs.getString("owner").equals(username)){
                     owner = true;
+                    System.out.println(rs.getString("owner"));
                     break;
                 }
         }
@@ -136,7 +97,7 @@ public class Room {
      * @return The amount of rooms
      */
     public int serverFull(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i=0;
         String query;
         try {
@@ -169,12 +130,16 @@ public class Room {
     public int createDBRoom(int nPlayers, String roomName, String owner){
         String sql;
         int roomID = serverFull() + 1;
-        String[] aux = getDB(); //Changed this position
+        String[] aux = dbconn.getDB();
+        String update;
         try(Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3])) {
             Statement stmt = con.createStatement();
-            sql = "INSERT INTO scrabble.room (maxplayers, name, players, owner, id) VALUES (" 
-                    + nPlayers + ", '" + roomName + "', 0, '" + owner + "', "+roomID+");";
-            
+            if(!testConfigured)
+                sql = "INSERT INTO scrabble.room (maxplayers, name, players, owner, id) VALUES (" 
+                    + nPlayers + ", '" + roomName + "', 1, '" + owner + "', "+roomID+");";
+            else
+                sql = "INSERT INTO test.room (maxplayers, name, players, owner, id) VALUES (" 
+                    + nPlayers + ", '" + roomName + "', 1, '" + owner + "', "+roomID+");";
             stmt.executeUpdate(sql);
             
         } catch (SQLException ex) {
@@ -192,22 +157,26 @@ public class Room {
     public boolean isRoomFull(String room){
         int players = 0;
         int maxPlayers = 0;
-        String[] aux = getDB();
+        String query;
+        String[] aux = dbconn.getDB();
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            
-            ResultSet rs = stmt.executeQuery("SELECT players FROM scrabble.room WHERE name ='" + room + "'");
+            if(!testConfigured)
+                query = "SELECT players FROM scrabble.room WHERE name ='" + room + "';";
+            else
+                query = "SELECT players FROM test.room WHERE name ='" + room + "';";
+            ResultSet rs = stmt.executeQuery(query);
             
             if (rs.next()) {
-                players = rs.getShort("players");
+                players = rs.getInt("players");
             }
             ResultSet rs1 = stmt.executeQuery("SELECT maxplayers FROM scrabble.room WHERE name ='" + room + "'");
             if (rs1.next()) {
                 maxPlayers= rs1.getInt("maxplayers");
             }
             
-            return players >= maxPlayers;
+            return players == maxPlayers;
         }
         catch(SQLException ex)
         {
@@ -224,19 +193,34 @@ public class Room {
     public int addPlayerRoom(String room, String username){
         int players = 0;
         int roomID = 0;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
+        String query;
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.room WHERE name = '" + room + "'");
+            if(!testConfigured)
+                query = "SELECT * FROM scrabble.room WHERE name = '" + room + "';";
+            else
+                query = "SELECT * FROM test.room WHERE name = '" + room + "';";
+            ResultSet rs = stmt.executeQuery(query);
             if(rs.next()){
                 players = rs.getShort("players");
             }
-            players = players + 1;
-            stmt.executeUpdate("UPDATE scrabble.room SET players = " + players + " WHERE name = " + "'" + room + "'");
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][1] = '"+ username +"' WHERE name = '" + room + "'");
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][2] = 'Wait' WHERE name = '" + room + "'");
-            rs = stmt.executeQuery("SELECT * FROM scrabble.room WHERE name = '" + room + "'");
+            players += 1;
+            if(!testConfigured)
+            {
+            stmt.executeUpdate("UPDATE scrabble.room SET players = " + players + " WHERE name = " + "'" + room + "';");
+            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][1] = '"+ username +"' WHERE name = '" + room + "';");
+            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+players+"][2] = 'Wait' WHERE name = '" + room + "';");
+            rs = stmt.executeQuery("SELECT * FROM scrabble.room WHERE name = '" + room + "';");
+            }
+            else
+            {
+            stmt.executeUpdate("UPDATE test.room SET players = " + players + " WHERE name = '" + room + "';");
+            stmt.executeUpdate("UPDATE test.room SET playernames["+players+"][1] = '"+ username +"' WHERE name = '" + room + "';");
+            stmt.executeUpdate("UPDATE test.room SET playernames["+players+"][2] = 'Wait' WHERE name = '" + room + "';");
+            rs = stmt.executeQuery("SELECT * FROM test.room WHERE name = '" + room + "';"); 
+            }    
             if(rs.next()){
                 roomID = rs.getInt("id");
             }
@@ -254,11 +238,16 @@ public class Room {
      * @return A boolean stating if the operation was successful or not.
      */
     public boolean updateRoomState(int index, String state, String room){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
+        String update;
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            stmt.executeUpdate("UPDATE scrabble.room SET playernames["+index+"][2] = '"+state+"' WHERE name = '" + room + "'");
+            if(!testConfigured)
+                update = "UPDATE scrabble.room SET playernames["+index+"][2] = '"+state+"' WHERE name = '" + room + "';";
+            else
+                update = "UPDATE test.room SET playernames["+index+"][2] = '"+state+"' WHERE name = '" + room + "';";
+            stmt.executeUpdate(update);
         }catch(SQLException ex){
             System.out.println("updateRoomState() " +ex);
             return false;
@@ -271,14 +260,19 @@ public class Room {
      * @return A string if a all the players on the room.
      */
     public String getRoomPlayers(String room){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String players = "";
+        String query;
         
         try {
             
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][1:1] FROM scrabble.room WHERE name = '"+room+"'");
+            if(!testConfigured)
+                query = "SELECT playernames[1:4][1:1] FROM scrabble.room WHERE name = '"+room+"';";
+            else
+                query = "SELECT playernames[1:4][1:1] FROM test.room WHERE name = '"+room+"';";
+            ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
                 players = players + rs.getString(1);
@@ -295,12 +289,17 @@ public class Room {
      * @return A string with the status of all the players.
      */
     public String getRoomStatus(String room){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String status = "";
+        String query;
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT playernames[1:4][2:2] FROM scrabble.room WHERE name = '"+room+"'");
+            if(!testConfigured)
+                query = "SELECT playernames[1:4][2:2] FROM scrabble.room WHERE name = '"+room+"';";
+            else
+                query = "SELECT playernames[1:4][2:2] FROM test.room WHERE name = '"+room+"';";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 status = status + rs.getString(1);
             }
@@ -316,23 +315,37 @@ public class Room {
      * @return either the operation was succesfful or not.
      */
     public String deleteRoom(String username){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
+        String update;
         try {
             Connection con = DriverManager.getConnection(aux[1], aux[2], aux[3]);
             Statement stmt = con.createStatement();
-            stmt.executeUpdate("DELETE FROM scrabble.room WHERE owner = '" + username + "'");
+            if(!testConfigured)
+                update = "DELETE FROM scrabble.room WHERE owner = '" + username + "';";
+            else
+                update = "DELETE FROM test.room WHERE owner = '" + username + "';";
+            stmt.executeUpdate(update);
         } catch (SQLException ex) {
             System.out.println("deleteRoom() " +ex);
             return "ERROR";
         }
         return "OK";
     }
-    //Don't have a clue
+    /**
+     * Allows a player to quit a room.
+     * @param players The updated list of players.
+     * @param room The room where the player wants to quit.
+     * @return A string stating the success of the operation.
+     */
     public String qRoom(String[] players, String room){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
+        String sql;
         String msg = "'{{"+players[0]+","+players[4]+"},{"+players[1]+","+players[5]+"},{"+players[2]+","+players[6]+"},{"
                 + players[3]+","+players[7]+"}}'";
-        String sql = "UPDATE scrabble.room SET playernames[1:4][1:2] =" + msg + "WHERE name = '" + room + "'";
+        if(!testConfigured)
+            sql = "UPDATE scrabble.room SET playernames[1:4][1:2] =" + msg + "WHERE name = '" + room + "'";
+        else
+            sql = "UPDATE test.room SET playernames[1:4][1:2] =" + msg + "WHERE name = '" + room + "'";
         int numplayers = 0;
         
         try {

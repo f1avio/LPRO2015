@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package dBInterface;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +18,15 @@ import java.util.Arrays;
 public class Users {
     
     private boolean testConfigured;
+    private final DbSetup dbconn;
+
+    /**
+     * Initializes the test variable and the connection to the database.
+     */
+    public Users() {
+        this.testConfigured = false;
+        this.dbconn = new DbSetup();
+    }
     /**
      * Configures the object to work with a specified schema.
      * <p>
@@ -35,56 +39,7 @@ public class Users {
     {
         this.testConfigured = testConfigured;
     }
-     /**
-     * Construtor that configures the PostgreSql Driver.
-     */
-    public Users(){
-        this.testConfigured = false;
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch(ClassNotFoundException e){
-            System.out.println("Erro: Users()");
-        }
-        
-    }
-    /**
-     * Seeks the necessary parameters to connect to the database.
-     * <p>
-     * These parameters reside on a document file named config.txt that provides
-     * the port, the path and username and password.
-     * @return an array of strings with the parameters mentioned on the description
-     * stored.
-     */
-    public String[] getDB(){
-        /*Step 0: Initialize the files*/
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[5];
-        String file = "config.txt";
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
-        }catch (FileNotFoundException f)
-              {
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
-            } 
-       
-        catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-            }  
-        finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    System.err.println("Caught IOException: " + ex.getMessage());
-                }
-            }
-        }
-        return aux;
-    }
+    
     /**
      * Verifies if the provided username already exists on the database.
      * @param user a string that stores the username
@@ -92,7 +47,7 @@ public class Users {
      */        
     public boolean usernameExist(String user){
         boolean exist = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             if(!testConfigured)
@@ -124,7 +79,7 @@ public class Users {
     public boolean insertUser(String username, String password, String email) {
         boolean state = false;
         String sql;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             if(!testConfigured)
@@ -151,7 +106,7 @@ public class Users {
      * operation failed.
      */    
     public String getPassword(String user) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String state = "PasswordNotFound";
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -182,7 +137,7 @@ public class Users {
      * @return A boolean stating if the operation was sucessful or not.
      */
     public boolean userActive(String username, boolean state) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         boolean ret = false;
         String update;
         try {
@@ -205,7 +160,7 @@ public class Users {
      * @return A boolean indicating if he is online or not.
      */
     public boolean getActive(String user) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         boolean active = false;
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -239,7 +194,7 @@ public class Users {
      */
     public String getState(String user){
         String state = "";
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) { 
             
@@ -271,7 +226,7 @@ public class Users {
      */
     public boolean setState (String state, String user) {
         boolean result = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         String update;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -312,7 +267,7 @@ public class Users {
      */
     public boolean getAdmin(String user){
         boolean admin = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
         Statement stmt = con.createStatement();
@@ -336,7 +291,7 @@ public class Users {
     }
     
     public int getRegistedPlayers(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
@@ -357,7 +312,7 @@ public class Users {
      * @return An array with all the registered users.
      */    
     public String[] getUsername(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] usernames = new String[i];
         i = 0;
@@ -382,7 +337,7 @@ public class Users {
      * @return An array with all the points sorted.
      */
     public String[] getPoints(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] points = new String[i];
         i = 0;
@@ -408,7 +363,7 @@ public class Users {
      * @return An array with all the victories sorted.
      */
     public String[] getWins(){        
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] wins = new String[i];
         i = 0;
@@ -434,7 +389,7 @@ public class Users {
      * @return An array with all the losses sorted.
      */
      public String[] getLoses(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] loses = new String[i];
         i = 0;

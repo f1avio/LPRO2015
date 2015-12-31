@@ -9,29 +9,36 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import junit.framework.TestCase;
-import static org.junit.Assert.assertNotEquals;
+
 /**
- *
- * @author Flávio
+ * @author Flávio Dias <ee11160@fe.up.pt>
  */
 public class UsersTest extends TestCase {
     
+        DbSetup obj = new DbSetup();
+    /**
+     * Constructor of the unit test for the class Users.
+     * @param testName The name of the test. 
+     */    
     public UsersTest(String testName) {
         super(testName);
+        
+       obj.setDB();
     }
-    
+    /**
+     * Creates a test table on the database and fills in some tuples.
+     * @throws Exception Throws any kind of exception.
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         
-        Users instance = new Users();
-        String aux[] = instance.getDB();
+        String aux[] = obj.getDB();
         
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
-            
+            stmt.executeUpdate("CREATE SCHEMA test;");
             stmt.executeUpdate("CREATE TABLE test.accounts (username VARCHAR(30) PRIMARY KEY NOT NULL, password VARCHAR(64) NOT NULL, isonline BOOLEAN NOT NULL, email VARCHAR(50) NOT NULL, Points INTEGER DEFAULT 0 NOT NULL, admin BOOLEAN NOT NULL, state VARCHAR(50) DEFAULT 'NORMAL' NOT NULL);");
             stmt.executeUpdate("INSERT INTO test.accounts VALUES('Jeremias', 'a269d2326633e4ed0249bc440824c3d4', FALSE, 'saldos@continente', 10, FALSE, 'NORMAL');");
             con.close();
@@ -40,38 +47,27 @@ public class UsersTest extends TestCase {
         }
         
     }      
-    
+    /**
+     * Drops the the table and the schema after the test has finished.
+     * @throws Exception Throws any kind of exception. 
+     */
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        Users instance = new Users();
-        String aux[] = instance.getDB();
+        String aux[] = obj.getDB();
         
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             
             stmt.executeUpdate("DROP TABLE test.accounts;");
+            stmt.executeUpdate("DROP Schema test;");
             con.close();    
         } catch (SQLException ex) {
             System.out.println("Error droping a table " +ex);
         }
         
     }
-
-    /**
-     * Test of getDB method, of class Users.
-     */
-    public void testGetDB() {
-        System.out.println("getDB");
-        Users instance = new Users();
-        instance.setTest(true);
-        String expResult = "[1513, jdbc:postgresql://vdbm.fe.up.pt/lpro1513, lpro1513, C4bhX7aai, null]";
-        String result = Arrays.toString(instance.getDB());
-        assertEquals(expResult, result);
-        
-        
-    }
-
+    
     /**
      * Test of usernameExist method, of class Users.
      */
@@ -181,7 +177,5 @@ public class UsersTest extends TestCase {
         boolean expResult = false;
         boolean result = instance.getAdmin(user);
         assertEquals(expResult, result);
-
     }
-    
 }
