@@ -17,7 +17,8 @@ public class ScrabbleServer  implements Runnable{
     public ServerSocket server = null;
     public Thread thread = null;
     public int clientCount = 0;
-    DBconnection DBcon = DBconnection.getInstance();
+    DBconnection DBcon = new DBconnection();
+    //DBconnection DBcon = DBconnection.getInstance();
     static int port;
     
     private static ScrabbleServer instance = null;

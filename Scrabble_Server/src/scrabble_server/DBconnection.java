@@ -22,9 +22,15 @@ public class DBconnection {
     
     Player p;
     int count = 0;
-    
+    /**
+     * @deprecated Use not recommended. Usual initialization preferred.
+     */
     private static DBconnection instance = null;
     
+    /**
+     * @deprecated Use not recommended. Usual initialization preferred.
+     * @return A new DBconnection object.
+     */
     public static DBconnection getInstance(){
         if (instance == null) {
             instance = new DBconnection();
