@@ -9,6 +9,7 @@ import game_model.Board;
 import game_model.Scrabble;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import scrabble_client.ClientService;
 
@@ -17,18 +18,20 @@ import scrabble_client.ClientService;
  *          Flavio Dias
  *          Hugo Pereira
  *          Jose Carvalho
- */
+ */ 
 public class GameGUI extends javax.swing.JFrame {
     
     public static Scrabble s;
     public static GameGUI frame;
     private Canvas boardCanvas;
-    ClientService clientService = ClientService.getInstance();
+    
     /**
      * Creates new form GameGUI
      */
     public GameGUI() {
         initComponents();
+        ClientService clientService = ClientService.getInstance();
+        clientService.setGameGui(this);
         boardCanvas = new Canvas()
         {
             private static final long serialVersionUID = 3678971088393809762L;
@@ -44,6 +47,7 @@ public class GameGUI extends javax.swing.JFrame {
         //drawPlayers(g);
         s = new Scrabble(1);
         s.firstLetters();
+        
     }
 
     /**
@@ -71,7 +75,10 @@ public class GameGUI extends javax.swing.JFrame {
         contentPane = new javax.swing.JPanel();
         tilePanel = new javax.swing.JPanel();
         boardPanel = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
+        quitGameB = new javax.swing.JButton();
 
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
@@ -182,10 +189,10 @@ public class GameGUI extends javax.swing.JFrame {
         TabsTableRank.addTab("Players", playersPanel);
 
         ChatP.add(TabsTableRank);
-        TabsTableRank.setBounds(30, 110, 220, 380);
+        TabsTableRank.setBounds(30, 0, 220, 380);
 
         getContentPane().add(ChatP);
-        ChatP.setBounds(530, 0, 270, 600);
+        ChatP.setBounds(530, 140, 270, 460);
 
         contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setMinimumSize(new java.awt.Dimension(530, 600));
@@ -206,6 +213,20 @@ public class GameGUI extends javax.swing.JFrame {
 
         getContentPane().add(contentPane);
         contentPane.setBounds(0, 0, 530, 600);
+
+        menuPanel.setPreferredSize(new java.awt.Dimension(270, 140));
+        menuPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        quitGameB.setText("QUIT");
+        quitGameB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitGameBActionPerformed(evt);
+            }
+        });
+        menuPanel.add(quitGameB, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, -1));
+
+        getContentPane().add(menuPanel);
+        menuPanel.setBounds(530, 0, 270, 140);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
@@ -231,6 +252,11 @@ public class GameGUI extends javax.swing.JFrame {
     private void chatinputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_chatinputFocusGained
+
+    private void quitGameBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitGameBActionPerformed
+        ClientService clientService = ClientService.getInstance();
+        clientService.exitGame();
+    }//GEN-LAST:event_quitGameBActionPerformed
 
     static void drawBoard(Graphics g)
     {
@@ -275,6 +301,39 @@ public class GameGUI extends javax.swing.JFrame {
                 }
             }
     }
+    
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GameGUI().setVisible(true);
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChatP;
     private javax.swing.JScrollPane PlayerScrollPane;
@@ -286,9 +345,11 @@ public class GameGUI extends javax.swing.JFrame {
     private javax.swing.JPanel contentPane;
     private javax.swing.JButton inviteB;
     public javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JPanel menuPanel;
     public javax.swing.JTable playerList;
     private javax.swing.JPanel playersPanel;
     private javax.swing.JPanel profsOptPanel;
+    private javax.swing.JButton quitGameB;
     private javax.swing.JButton sendmessageB;
     private javax.swing.JPanel tilePanel;
     // End of variables declaration//GEN-END:variables

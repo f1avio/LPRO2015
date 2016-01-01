@@ -445,4 +445,16 @@ public class ClientService {
     public void setGameGui(GameGUI gamegui){
         gameGui = gamegui;
     }
+    
+    public void startRoom(String room){
+        GameGUI gamegui= new GameGUI();
+        gamegui.setVisible(true);
+        setGameGui(gamegui);
+        mainFrame.setVisible(false);
+    }
+    
+    public void exitGame(){
+        gameGui.setVisible(false);
+        mainFrame.setVisible(true);
+    }
 }

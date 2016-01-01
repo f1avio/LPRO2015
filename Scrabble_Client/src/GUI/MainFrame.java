@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import scrabble_client.*;
 /**
  *
@@ -951,7 +952,22 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_createRoomBActionPerformed
 
     private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
-        // TODO add your handling code here:
+        boolean p2 = false;
+        boolean p3 = false;
+        boolean p4 = false;
+        if(player6Status.getText().equals("Ready"))
+            p2 = true;
+        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+            p3 = true;
+        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+            p4 = true;
+        
+        if(p2 && p3 && p4){
+        ClientService clientService = ClientService.getInstance();
+        clientService.startRoom(room);
+        }else{
+            JOptionPane.showMessageDialog(null, "Wait until everyone is ready!");
+        }
     }//GEN-LAST:event_startBActionPerformed
 
     private void quitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBActionPerformed
