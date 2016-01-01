@@ -289,14 +289,22 @@ public class Users {
         }
         return admin;
     }
-    
+    /**
+     * Counts the number of registered users on the system.
+     * @return The number of registered users.
+     */
     public int getRegistedPlayers(){
         String[] aux = dbconn.getDB();
+        String query;
         int i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT username FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT username FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 i++;
             }
@@ -315,11 +323,16 @@ public class Users {
         String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] usernames = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT username FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT username FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 usernames[i] = rs.getString("username");
                 i++;
@@ -331,6 +344,7 @@ public class Users {
         System.out.println("getUsername(): " + Arrays.toString(usernames));
         return usernames;
     }
+    
     /**
      * Retrieves the points of every registered user.
      * <p> This list is sorted according to their position on the ranking.
@@ -340,12 +354,16 @@ public class Users {
         String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] points = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT points FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT points FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT points FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
                 points[i] = rs.getString("points");
                 i++;
@@ -357,6 +375,7 @@ public class Users {
         System.out.println("getPoints(): " + Arrays.toString(points));
         return points;
     }
+    
     /**
      * Retrieves the number of victories of every registered user.
      * <p> This list is sorted downwards.
@@ -365,13 +384,17 @@ public class Users {
     public String[] getWins(){        
         String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
+        String query;
         String[] wins = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT wins FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT wins FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT wins FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
                 wins[i] = rs.getString("wins");
                 i++;
@@ -392,12 +415,16 @@ public class Users {
         String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] loses = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT loses FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT loses FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT loses FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 loses[i] = rs.getString("loses");
                 i++;

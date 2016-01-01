@@ -21,7 +21,10 @@ public class DbSetupTest extends TestCase {
     public DbSetupTest(String testName) {
         super(testName);
     }
-    
+    /**
+     * Sets up the class with the parameters read from the file config.
+     * @throws Exception Throws any kind of exception.
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -29,11 +32,6 @@ public class DbSetupTest extends TestCase {
         instance.setDB();
     }
     
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Test of getParameters method, of class DbSetup.
      */

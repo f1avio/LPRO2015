@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
@@ -39,8 +40,14 @@ public class UsersTest extends TestCase {
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             stmt.executeUpdate("CREATE SCHEMA test;");
-            stmt.executeUpdate("CREATE TABLE test.accounts (username VARCHAR(30) PRIMARY KEY NOT NULL, password VARCHAR(64) NOT NULL, isonline BOOLEAN NOT NULL, email VARCHAR(50) NOT NULL, Points INTEGER DEFAULT 0 NOT NULL, admin BOOLEAN NOT NULL, state VARCHAR(50) DEFAULT 'NORMAL' NOT NULL);");
-            stmt.executeUpdate("INSERT INTO test.accounts VALUES('Jeremias', 'a269d2326633e4ed0249bc440824c3d4', FALSE, 'saldos@continente', 10, FALSE, 'NORMAL');");
+            stmt.executeUpdate("CREATE TABLE test.accounts (username character varying(30) NOT NULL,"
+                    + " password character varying(64) NOT NULL, isonline boolean NOT NULL, email character varying(64) NOT NULL,"
+                    + " points integer DEFAULT 0 NOT NULL, admin boolean NOT NULL, state character varying(50) DEFAULT 'NORMAL'::character varying NOT NULL,"
+                    + " wins integer DEFAULT 0 NOT NULL, loses integer DEFAULT 0 NOT NULL);");
+            
+            stmt.executeUpdate("INSERT INTO test.accounts VALUES ('Jeremias', 'a269d2326633e4ed0249bc440824c3d4', false,"
+                    + " 'saldos@continente.pt', 10, false, 'NORMAL', 3, 4);");
+            
             con.close();
         } catch (SQLException ex) {
             System.out.println("Error creating a table " +ex);
@@ -176,6 +183,67 @@ public class UsersTest extends TestCase {
         instance.setTest(true);
         boolean expResult = false;
         boolean result = instance.getAdmin(user);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getRegistedPlayers method, of class Users.
+     */
+    public void testGetRegistedPlayers() {
+        System.out.println("getRegistedPlayers");
+        Users instance = new Users();
+        instance.setTest(true);
+        int expResult = 1;
+        int result = instance.getRegistedPlayers();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getUsername method, of class Users.
+     */
+    public void testGetUsername() {
+        System.out.println("getUsername");
+        Users instance = new Users();
+        instance.setTest(true);
+        String expResult = "[Jeremias]";
+        String result = Arrays.toString(instance.getUsername());
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getPoints method, of class Users.
+     */
+    public void testGetPoints() {
+        System.out.println("getPoints");
+        Users instance = new Users();
+        instance.setTest(true);
+        String expResult = "[10]";
+        String result = Arrays.toString(instance.getPoints());
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getWins method, of class Users.
+     */
+    public void testGetWins() {
+        System.out.println("getWins");
+        Users instance = new Users();
+        instance.setTest(true);
+        String expResult = "[3]";
+        String result = Arrays.toString(instance.getWins());
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getLoses method, of class Users.
+     */
+    public void testGetLoses() {
+        System.out.println("getLoses");
+        Users instance = new Users();
+        instance.setTest(true);
+        String expResult = "[4]";
+        String result = Arrays.toString(instance.getLoses());
         assertEquals(expResult, result);
     }
 }
