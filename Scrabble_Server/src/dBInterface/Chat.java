@@ -5,10 +5,6 @@
  */
 package dBInterface;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,62 +19,59 @@ import java.util.Date;
  * @author HUGUETA
  */
 public class Chat {
+    private boolean testConfigured;
+    private final DbSetup dbconn;
     
-    public Chat(){
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch(ClassNotFoundException e){
-            System.out.println("Erro: Users()");
-        }        
+    /**
+     * Configures the object to work with a specified schema.
+     * <p>
+     * Besides it's real use, the object can be used to apply some 
+     * tests. To do so, a boolean variable is modified and passed to this
+     * method.
+     * @param testConfigured Specifies if it is a test situation or not 
+     */
+    public void setTest(boolean testConfigured)
+    {
+        this.testConfigured = testConfigured;
     }
     
-    public String[] getDB(){
-        /*Step 0: Initialize the files*/
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[5];
-        String file = "config.txt";
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
-        }catch (FileNotFoundException f)
-              {
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
-            } 
-       
-        catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-            }  
-        finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    System.err.println("Caught IOException: " + ex.getMessage());
-                }
-            }
-        }
-        return aux;
+    /**
+     * Initializes the test variable and the connection to the database.
+     */
+        public Chat() {
+        this.testConfigured = false;
+        this.dbconn = new DbSetup();
     }
-    
-    void addChat_MSG(String usernameChat, String messageChat) {
-                 String sql;
-                 String[] aux = getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+        
+    /**
+     * Adds a message to the chat with a certain user.
+     * @param usernameChat The user that receives the message.
+     * @param messageChat The content of the message.
+     * @return A boolean stating if the operation was successful or not.
+     */
+    public boolean addChat_MSG(String usernameChat, String messageChat) {
+        String sql;
+        String[] aux = dbconn.getDB();
+        boolean success;
+        
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String today = formatter.format(date);
+        //System.out.println("Today : " + today);
+        try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
-            Date date = Calendar.getInstance().getTime();
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String today = formatter.format(date);
-            System.out.println("Today : " + today);
-            sql = "INSERT INTO scrabble.chat (remetente, mensagem, data)" + " VALUES ('" + usernameChat + "', '" + messageChat + "', '" + today + "')";
+           if(!testConfigured)
+                sql = "INSERT INTO scrabble.chat (remetente, mensagem, data)" + " VALUES ('" + usernameChat + "', '" + messageChat + "', '" + today + "')";
+           else
+               sql = "INSERT INTO test.chat (remetente, mensagem, data)" + " VALUES ('" + usernameChat + "', '" + messageChat + "', '" + today + "')";
             stmt.executeUpdate(sql);
-            con.close();
+            success = true;
        } catch (SQLException ex) 
           {
             System.out.println(ex);
+            success = false;
           }
+        
+        return success;
     }
 }

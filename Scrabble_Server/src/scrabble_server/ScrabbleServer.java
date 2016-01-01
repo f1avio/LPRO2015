@@ -17,7 +17,8 @@ public class ScrabbleServer  implements Runnable{
     public ServerSocket server = null;
     public Thread thread = null;
     public int clientCount = 0;
-    DBconnection DBcon = DBconnection.getInstance();
+    DBconnection DBcon = new DBconnection();
+    //DBconnection DBcon = DBconnection.getInstance();
     static int port;
     
     private static ScrabbleServer instance = null;
@@ -216,7 +217,6 @@ public class ScrabbleServer  implements Runnable{
                         ret = "SIGNUP#ERROR#";
                         break;
                     }
-
                 }
                 System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);
@@ -454,6 +454,8 @@ public class ScrabbleServer  implements Runnable{
      * @param args Stores the arguments passed through the terminal
      */
     public static void main(String args[]) {
+        DbSetup dbconn = new DbSetup();
+        dbconn.setDB();
         ScrabbleServer server = ScrabbleServer.getInstance();       
     }
 }

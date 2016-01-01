@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package dBInterface;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,56 +18,36 @@ import java.util.Arrays;
 public class Users {
     
     private boolean testConfigured;
-    
+    private final DbSetup dbconn;
+
+    /**
+     * Initializes the test variable and the connection to the database.
+     */
+    public Users() {
+        this.testConfigured = false;
+        this.dbconn = new DbSetup();
+    }
+    /**
+     * Configures the object to work with a specified schema.
+     * <p>
+     * Besides it's real use, the object can be used to apply some 
+     * tests. To do so, a boolean variable is modified and passed to this
+     * method.
+     * @param testConfigured Specifies if it is a test situation or not 
+     */
     public void setTest(boolean testConfigured)
     {
         this.testConfigured = testConfigured;
     }
     
-    public Users(){
-        this.testConfigured = false;
-        try{
-            Class.forName("org.postgresql.Driver");
-        } catch(ClassNotFoundException e){
-            System.out.println("Erro: Users()");
-        }
-        
-    }
-    
-    public String[] getDB(){
-        /*Step 0: Initialize the files*/
-        BufferedReader inputStream = null;
-        int i = 0;
-        String aux[] = new String[5];
-        String file = "config.txt";
-        try {
-            inputStream = new BufferedReader(new FileReader(file));
-            while ((aux[i] = inputStream.readLine()) != null) {
-                i++;
-            }
-        }catch (FileNotFoundException f)
-              {
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
-            } 
-       
-        catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-            }  
-        finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    System.err.println("Caught IOException: " + ex.getMessage());
-                }
-            }
-        }
-        return aux;
-    }
-            
+    /**
+     * Verifies if the provided username already exists on the database.
+     * @param user a string that stores the username
+     * @return a boolean stating if it exists or not
+     */        
     public boolean usernameExist(String user){
         boolean exist = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             if(!testConfigured)
@@ -94,11 +69,17 @@ public class Users {
         }
         return exist;
     }
-    
+    /**
+     * Inserts the newly approved user onto the database.
+     * @param username The unique username that identifies the new user.
+     * @param password The encrypted password that secures the user account.
+     * @param email An email address unique to the user, so he can retrieve his password.
+     * @return A boolean stating if the operation was successful or not
+     */
     public boolean insertUser(String username, String password, String email) {
         boolean state = false;
-        String sql="";
-        String[] aux = getDB();
+        String sql;
+        String[] aux = dbconn.getDB();
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             if(!testConfigured)
@@ -115,9 +96,17 @@ public class Users {
 
         return state;
     }
-    
+    /**
+     * Retrieves the password of specified user.
+     * <p>
+     * This operation is necessary whenever the user logs into the server, or 
+     * when he needs to change the password to a new one.
+     * @param user The user to which the password belongs.
+     * @return A string, storing either the password or the reason to why the 
+     * operation failed.
+     */    
     public String getPassword(String user) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String state = "PasswordNotFound";
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -141,9 +130,14 @@ public class Users {
         }
         return state;
     }
-    
+    /**
+     * Acknowledges that specified user is either online or offline.
+     * @param username The user username that will change is state.
+     * @param state The new state of the user, false if offline, true if online.
+     * @return A boolean stating if the operation was sucessful or not.
+     */
     public boolean userActive(String username, boolean state) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         boolean ret = false;
         String update;
         try {
@@ -160,9 +154,13 @@ public class Users {
         }
         return ret;
     }    
-    
+    /**
+     * Verifies if a user is online.
+     * @param user The user that will be verified.
+     * @return A boolean indicating if he is online or not.
+     */
     public boolean getActive(String user) {
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         boolean active = false;
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -186,10 +184,17 @@ public class Users {
 
         return active;
     }
-   
+   /**
+     * Returns the state of the specified user.
+     * <p>
+     * The states recognized are NORMAL, or BAN/KICK when an admin recognizes
+     * that this user is prejudicional to the community.
+     * @param user The specified user.
+     * @return A string if the state of the user.
+     */
     public String getState(String user){
         String state = "";
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) { 
             
@@ -213,10 +218,15 @@ public class Users {
         
         return state;
     }
-    
+    /**
+     * Changes the state of a user.
+     * @param state The new state of the user.
+     * @param user The user that the state will be changed.
+     * @return A boolean stating if the operation was successful or not.
+     */
     public boolean setState (String state, String user) {
         boolean result = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         String update;
         try (Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
@@ -250,10 +260,14 @@ public class Users {
         }
         return result;
     }
-    
+    /**
+     * Verifies if an user is an admin of the system.
+     * @param user the user that will be verified
+     * @return A boolean stating either the user is an admin or not.
+     */
     public boolean getAdmin(String user){
         boolean admin = false;
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         String query;
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
         Statement stmt = con.createStatement();
@@ -275,14 +289,22 @@ public class Users {
         }
         return admin;
     }
-    
+    /**
+     * Counts the number of registered users on the system.
+     * @return The number of registered users.
+     */
     public int getRegistedPlayers(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
+        String query;
         int i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT username FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT username FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 i++;
             }
@@ -292,16 +314,25 @@ public class Users {
         }
         return i;
     }
-        
+    /**
+     * Retrieves the registered users from the database.
+     * <p> These users are presented on an array, sorted by their score.
+     * @return An array with all the registered users.
+     */    
     public String[] getUsername(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] usernames = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT username FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT username FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 usernames[i] = rs.getString("username");
                 i++;
@@ -314,16 +345,25 @@ public class Users {
         return usernames;
     }
     
+    /**
+     * Retrieves the points of every registered user.
+     * <p> This list is sorted according to their position on the ranking.
+     * @return An array with all the points sorted.
+     */
     public String[] getPoints(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] points = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT points FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT points FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT points FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
                 points[i] = rs.getString("points");
                 i++;
@@ -336,16 +376,25 @@ public class Users {
         return points;
     }
     
+    /**
+     * Retrieves the number of victories of every registered user.
+     * <p> This list is sorted downwards.
+     * @return An array with all the victories sorted.
+     */
     public String[] getWins(){        
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
+        String query;
         String[] wins = new String[i];
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT wins FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT wins FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT wins FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
                 wins[i] = rs.getString("wins");
                 i++;
@@ -357,17 +406,25 @@ public class Users {
         System.out.println("getWins(): " + Arrays.toString(wins));
         return wins;
     }
-    
+     /**
+     * Retrieves the number of losses of every registered user.
+     * <p> This list is sorted downwards.
+     * @return An array with all the losses sorted.
+     */
      public String[] getLoses(){
-        String[] aux = getDB();
+        String[] aux = dbconn.getDB();
         int i = getRegistedPlayers();
         String[] loses = new String[i];
+        String query;
         i = 0;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT loses FROM scrabble.accounts ORDER BY points DESC");
+            if(!testConfigured)
+                query = "SELECT loses FROM scrabble.accounts ORDER BY points DESC;";
+            else
+                query = "SELECT loses FROM test.accounts ORDER BY points DESC;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 loses[i] = rs.getString("loses");
                 i++;
