@@ -14,6 +14,10 @@ import junit.framework.TestCase;
  */
 public class DbSetupTest extends TestCase {
     
+    /**
+     *Constructor of the unit test of the class DbSetup.
+     * @param testName
+     */
     public DbSetupTest(String testName) {
         super(testName);
     }

@@ -68,7 +68,7 @@ public class Room {
      * @param username The user that will be verified.
      * @return A boolean stating either the user is a room owner or not.
      */
-    public boolean getOwner(String username){
+    public boolean getHost(String username){
         boolean owner = false;
         String[] aux = dbconn.getDB();
         String query;
@@ -136,10 +136,10 @@ public class Room {
             Statement stmt = con.createStatement();
             if(!testConfigured)
                 sql = "INSERT INTO scrabble.room (maxplayers, name, players, owner, id) VALUES (" 
-                    + nPlayers + ", '" + roomName + "', 1, '" + owner + "', "+roomID+");";
+                    + nPlayers + ", '" + roomName + "', 0, '" + owner + "', "+roomID+");";
             else
                 sql = "INSERT INTO test.room (maxplayers, name, players, owner, id) VALUES (" 
-                    + nPlayers + ", '" + roomName + "', 1, '" + owner + "', "+roomID+");";
+                    + nPlayers + ", '" + roomName + "', 0, '" + owner + "', "+roomID+");";
             stmt.executeUpdate(sql);
             
         } catch (SQLException ex) {

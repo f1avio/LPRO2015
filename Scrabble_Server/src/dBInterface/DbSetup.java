@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * @author Flávio Dias <ee11160@fe.up.pt>
+ * @author Flávio Dias 
  */
 public class DbSetup {
     /**

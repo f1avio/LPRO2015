@@ -77,15 +77,15 @@ public class RoomTest extends TestCase {
     }
 
     /**
-     * Test of getOwner method, of class Room.
+     * Test of getHost method, of class Room.
      */
-    public void testGetOwner() {
+    public void testGetHost() {
         System.out.println("getOwner");
         String username = "Jeremias";
         Room instance = new Room();
         instance.setTest(true);
         boolean expResult = true;
-        boolean result = instance.getOwner(username);
+        boolean result = instance.getHost(username);
         assertEquals(expResult, result);
     }
 

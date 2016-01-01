@@ -216,7 +216,6 @@ public class ScrabbleServer  implements Runnable{
                         ret = "SIGNUP#ERROR#";
                         break;
                     }
-
                 }
                 System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);

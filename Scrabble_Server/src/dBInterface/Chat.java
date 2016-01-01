@@ -49,7 +49,7 @@ public class Chat {
      * @param messageChat The content of the message.
      * @return A boolean stating if the operation was successful or not.
      */
-    boolean addChat_MSG(String usernameChat, String messageChat) {
+    public boolean addChat_MSG(String usernameChat, String messageChat) {
         String sql;
         String[] aux = dbconn.getDB();
         boolean success;

@@ -1,8 +1,8 @@
-package dBInterface;
+package scrabble_server;
 
-import java.util.Arrays;
-import scrabble_server.Player;
-
+import dBInterface.Chat;
+import dBInterface.Room;
+import dBInterface.Users;
 /**@author Adam Kopnicky 
  * @author Ewa Godlewska 
  * @author Flavio Dias 
@@ -31,7 +31,16 @@ public class DBconnection {
         }
         return instance;
     }
-    
+    /**
+     * Verifies the provided info and if possible, logs the visitor as a user.
+     * <p> First it attempts to find the provided username on the database.
+     * If it exists, it compares the provided password, previously encrypted, to
+     * the one stored on the database.
+     * <p> At last, verifies if the user hasn't been expelled of the system.
+     * @param user The username that the visitor is attempting to use as login.
+     * @param password The password provided by the visitor.
+     * @return An integer, whose value depends of the method's results.
+     */
     public int logUser(String user, String password)
     {
         Users database = new Users();
@@ -60,7 +69,7 @@ public class DBconnection {
         }else return 0;
     }
     /**
-     * Attempts to signup a new user creating a new line on the specified database    
+     * Attempts to signup a new user creating a new tuple on the specified database    
      * @param user The user's username that will be registered on the system.
      * @param password The password needed to login into the system
      * @param email The user email, for administrative tasks
@@ -83,10 +92,8 @@ public class DBconnection {
                 state = 1;
             }
         }
-
         return state;
     }
-    
     
     /**
      * Logs out the user from the system, deactivating his flag "isOnline"
@@ -109,16 +116,24 @@ public class DBconnection {
             } else {
                 state = 0;
             }
-        //System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
+        System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
         return state;
     }
-    
+    /**
+     * Returns a list of all the rooms on the system.
+     * <p> Acts as an intermediate between lower level and the clientThread.
+     * @return A string with all the rooms listed.
+     */
     public String receiveRooms(){
         Room database = new Room();
         String rooms = database.getRooms();
         return rooms;
     }
-    
+    /**
+     * Returns a list of all the player on a certain room.
+     * @param room The room name where this information will be checked.
+     * @return A string with all the players listed.
+     */
     public String[] receiveRoomPlayers(String room){
         Room database = new Room();
         int i = 0;
@@ -156,20 +171,34 @@ public class DBconnection {
         //System.out.println("receiveRoomPlayers() "+Arrays.toString(players));
         return players;
     }
-    
-    public boolean isOwner(String username){
+    /**
+     * Return if a user is currently an host of a room.
+     * @param username The user's username that will ber verified.
+     * @return A boolean stating if the user is really a owner
+     */
+    public boolean isHost(String username){
         Room database = new Room();
-        boolean ans = database.getOwner(username);
+        boolean ans = database.getHost(username);
         return ans;
     }
-    
+    /**
+     * Adds a message to a certain user.
+     * @param usernameChat The user that will receive the message.
+     * @param messageChat The content of the message.
+     */
     public void listChat(String usernameChat, String messageChat) {
 
-        Chat database = new Chat();
+        Chat missive= new Chat();
        
-      database.addChat_MSG(usernameChat,messageChat);
+        boolean addChat_MSG = missive.addChat_MSG(usernameChat,messageChat);
     }
-    
+    /**
+     * Creates a new room in the system.
+     * @param nPlayers The maximum number of players allowed in the room.
+     * @param owner The user that creates the room.
+     * @param roomName The designed room's name.
+     * @return The room's name as a confirmation.
+     */
     public String createRoom(int nPlayers, String owner, String roomName){
         int ans = 0;
         Room database = new Room();
@@ -202,12 +231,20 @@ public class DBconnection {
                 return "";
         }
     }
-    
+    /**
+     * Joins a user as a player to a certain room.
+     * <p>It starts by verifying if the user is allowed to enter the room, and
+     * if allowed, verifies if the room is already full.
+     * @param username The user's username that will be registered.
+     * @param ID the user's identification number.
+     * @param roomName The room where he will enter.
+     * @return An integer that stores the status of the operation.
+     */
     public int join(String username, int ID, String roomName){
         Room databaseR = new Room();
         Users databaseU = new Users();
-        boolean ansFull = false;
-        int roomID = 0;
+        boolean ansFull;
+        int roomID;
         
         if(databaseU.getState(username).equals("KICK"))
             return 2;
@@ -244,12 +281,19 @@ public class DBconnection {
                return -1;
        }             
     }
-    
+    /**
+     * Allows a player to quit the room he is in.
+     * <p>If the player that is leaving is also the host, the room will also be
+     * closed.
+     * @param username The user that will leave.
+     * @param room The room which the user wants to leave.
+     * @return The status of the operation.
+     */
     public String quitRoom(String username, String room){
         Room database = new Room();
         String ret="";
         int i = 0;
-        boolean owner = isOwner(username);
+        boolean owner = isHost(username);
         if(owner){
             if("OK".equals(database.deleteRoom(username))){    
                 ret = "OWNER";
@@ -278,11 +322,19 @@ public class DBconnection {
         }
         return ret;
     }
-    
+    /**
+     * Changes the state of a player on the room.
+     * <p> The player can switch between two states, "Wait" where he isn't fully
+     * commited to start a game, so he simply waits for more players, or "Ready"
+     * where he signals the host that he is ready to play.
+     * @param username The user that intends to change his state.
+     * @param room The room where the player is.
+     * @return An update list of players and their states.
+     */
     public String[] roomState(String username, String room){
         Room database = new Room();
         String[] players = receiveRoomPlayers(room);
-        String ret = "";
+        //String ret = "";
         int i = 0;
         while(!players[i].equals(username)){
             i++;
@@ -300,17 +352,20 @@ public class DBconnection {
         }
         return players;
     }
-    
+    /**
+     *Retrieves the global rankings of the system. 
+     * @return An array of strings with the complete information.
+     */
     public String[] ranking(){  
         Users database = new Users();
         int totalPlayers = database.getRegistedPlayers();
         String[] rank_s = new String[totalPlayers+1];
         String[] user = database.getUsername();
-        String[] p = database.getPoints();
+        String[] points = database.getPoints();
         String[] w = database.getWins();
         String[] l = database.getLoses();
         for(int i = 1; i< totalPlayers+1; i++ ){            
-            rank_s[i] = i + "/" +user[i-1] + "/" + p[i-1] + "/" + w[i-1]+ "/" +l[i-1];
+            rank_s[i] = i + "/" +user[i-1] + "/" + points[i-1] + "/" + w[i-1]+ "/" +l[i-1];
         }
         rank_s[0] = Integer.toString(totalPlayers);
         return rank_s;
