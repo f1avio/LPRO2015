@@ -1,7 +1,6 @@
 package scrabble_client;
 
 import GUI.*;
-import java.util.Arrays;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
@@ -119,15 +118,15 @@ public class ClientService {
      * @return a boolean indicating the email's validaty
      */
     public static boolean isValidEmailAddress(String email) {
-   boolean result = true;
-   try {
-      InternetAddress emailAddr = new InternetAddress(email);
-      emailAddr.validate();
-   } catch (AddressException ex) {
-      result = false;
-   }
-   return result;
-}
+    boolean result = true;
+    try {
+        InternetAddress emailAddr = new InternetAddress(email);
+        emailAddr.validate();
+    } catch (AddressException ex) {
+        result = false;
+    }
+    return result;
+    }
     
     /**
      * Passes the command and the necessary arguments to the server to perform a logout
@@ -166,6 +165,10 @@ public class ClientService {
                 JOptionPane.showMessageDialog(null, "Error");
                 break;
         }
+    }
+    
+    public String getUsername(){
+        return name;
     }
     
     public void viewRooms(){
@@ -419,7 +422,7 @@ public class ClientService {
         protocol.sendReady(username, room);
     }    
     public void receiveChat(String user, String msg) {
-        mainFrame.chatarea.append(user + " :" + msg + "\n");
+            mainFrame.chatarea.append(user + ": " + msg + "\n");
     }
     
     public void joinRoom(String roomName){
@@ -447,9 +450,8 @@ public class ClientService {
     }
     
     public void startRoom(String room){
-        GameGUI gamegui= new GameGUI();
-        gamegui.setVisible(true);
-        setGameGui(gamegui);
+        GameGUI gameG = new GameGUI();
+        gameG.setVisible(true);
         mainFrame.setVisible(false);
     }
     

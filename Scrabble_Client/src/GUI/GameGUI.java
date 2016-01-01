@@ -9,7 +9,6 @@ import game_model.Board;
 import game_model.Scrabble;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
 import scrabble_client.ClientService;
 
@@ -78,10 +77,10 @@ public class GameGUI extends javax.swing.JFrame {
         menuPanel = new javax.swing.JPanel();
         quitGameB = new javax.swing.JButton();
 
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().setLayout(null);
+        setResizable(false);
+        setSize(new java.awt.Dimension(800, 600));
 
         ChatP.setMinimumSize(new java.awt.Dimension(270, 600));
         ChatP.setLayout(null);
@@ -191,9 +190,6 @@ public class GameGUI extends javax.swing.JFrame {
         ChatP.add(TabsTableRank);
         TabsTableRank.setBounds(30, 0, 220, 380);
 
-        getContentPane().add(ChatP);
-        ChatP.setBounds(530, 140, 270, 460);
-
         contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setMinimumSize(new java.awt.Dimension(530, 600));
         contentPane.setLayout(null);
@@ -211,9 +207,6 @@ public class GameGUI extends javax.swing.JFrame {
         contentPane.add(boardPanel);
         boardPanel.setBounds(3, 3, 518, 518);
 
-        getContentPane().add(contentPane);
-        contentPane.setBounds(0, 0, 530, 600);
-
         menuPanel.setPreferredSize(new java.awt.Dimension(270, 140));
         menuPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -225,8 +218,27 @@ public class GameGUI extends javax.swing.JFrame {
         });
         menuPanel.add(quitGameB, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, -1));
 
-        getContentPane().add(menuPanel);
-        menuPanel.setBounds(530, 0, 270, 140);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(contentPane, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChatP, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(contentPane, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(ChatP, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        setSize(new java.awt.Dimension(816, 639));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playerListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerListMouseReleased
@@ -242,7 +254,9 @@ public class GameGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_inviteBActionPerformed
 
     private void chatinputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatinputActionPerformed
-        // TODO add your handling code here:
+        ClientService clientService = ClientService.getInstance();
+        clientService.sendChat(clientService.getUsername(), chatinput.getText());
+        chatinput.setText("");
     }//GEN-LAST:event_chatinputActionPerformed
 
     private void chatinputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatinputFocusLost

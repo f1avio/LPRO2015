@@ -165,6 +165,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
         mainFramePanel.setName(""); // NOI18N
         mainFramePanel.setLayout(new java.awt.BorderLayout());
@@ -837,6 +838,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoBActionPerformed
@@ -955,11 +957,11 @@ public class MainFrame extends javax.swing.JFrame {
         boolean p2 = false;
         boolean p3 = false;
         boolean p4 = false;
-        if(player6Status.getText().equals("Ready"))
+        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
             p2 = true;
-        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+        if(player7Status.getText().equals("") || player7Status.getText().equals("Ready"))
             p3 = true;
-        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+        if(player8Status.getText().equals("") || player8Status.getText().equals("Ready"))
             p4 = true;
         
         if(p2 && p3 && p4){

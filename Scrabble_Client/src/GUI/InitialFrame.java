@@ -143,7 +143,9 @@ public class InitialFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setName("MainFrame"); // NOI18N
+        setResizable(false);
 
         MainPanel.setOpaque(false);
         MainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -357,6 +359,7 @@ public class InitialFrame extends javax.swing.JFrame {
         getAccessibleContext().setAccessibleName("mainF");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginPageBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginPageBActionPerformed
