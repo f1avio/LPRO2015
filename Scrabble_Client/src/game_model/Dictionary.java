@@ -17,14 +17,18 @@ import javax.swing.JOptionPane;
  * @author José Eduardo
  */
 public class Dictionary {
-            private TreeSet<String> ts = new TreeSet <String>();
-            
+            private TreeSet<String> ts = new TreeSet <>();
+            /**
+             * Constructor that initializes the tree containing the dictionary.
+             * <p> It starts by opening a the file Dictionary.txt and then copies
+             * its information to the program.
+             */
             public Dictionary()
             {
                 try
                 {
                     BufferedReader br = new BufferedReader (new FileReader ("Dictionary.txt"));
-                    String line = new String();
+                    String line;
                     
                     while ((line = br.readLine()) != null)
                     {
@@ -36,7 +40,11 @@ public class Dictionary {
                 }
               
             }
-            
+            /**
+             * Verifies if a certain word exists on the dictionary.
+             * @param w The word that will be verified.
+             * @return A boolean stating if the dictionary contains the word.
+             */
              public boolean checkWord(String w)
             {
                 return ts.contains(w);
