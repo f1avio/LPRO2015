@@ -47,15 +47,15 @@ public class Board {
     };   
     
     /**
-    * Position of letters on standard 15x15 Scrabble board.
+    * Position of the tiles on standard 15x15 Scrabble board.
     */
     private Letter[][] lettersOnBoard = new Letter[15][15];
     
     /**
-    * Gets what letter is currently stored in this cell
-    * @param x - X for cell coordinate, must be 0..14 where 0 is left, 14 - right side of the board
-    * @param y - Y for cell coordinate, must be 0..14 where 0 is top, 14 - bottom of the board
-    * @return A letter
+    * Gets what tile is currently stored in this cell.
+    * @param x - X for cell coordinate, must be 0..14 where 0 is left, 14 - right side of the board.
+    * @param y - Y for cell coordinate, must be 0..14 where 0 is top, 14 - bottom of the board.
+    * @return A letter.
     */
     public Letter getLetter(int x, int y)
     {
@@ -63,17 +63,17 @@ public class Board {
     }
     
     /**
-    * Puts a letter to the board.
-    * @param letter
-    * @param x for cell coordinate, must be [0,14] where 0 is left, 14 - right side of the board
-    * @param y for cell coordinate, must be [0,14] where 0 is top, 14 - bottom of the board
+    * Puts a tile on the board.
+    * @param letter The tile that will be placed. 
+    * @param x for cell coordinate, must be [0,14] where 0 is left, 14 - right side of the board.
+    * @param y for cell coordinate, must be [0,14] where 0 is top, 14 - bottom of the board.
     */
     public void setLetter(Letter letter, int x, int y) {
         lettersOnBoard[x][y] = letter;
     }
     
-    /*
-    * Gets a Premium Color
+    /**
+    * Gets a Premium Color.
     * @param x for cell coordinate, must be [0,14] where 0 is left, 14 - right side of the board
     * @param y for cell coordinate, must be [0,14] where 0 is top, 14 - bottom of the board
     * @return - enum Pcolor
@@ -82,53 +82,48 @@ public class Board {
         return premiumColorsLayout[x][y];
     }
     
+    /**
+     * Verifies if a word is valid.
+     * @param word The word that will ber verified.
+     * @return A boolean stating if the word is valid or not.
+     */
     public boolean CheckWordValidity(Word word){
         List<BoardLetters> letters = word.getWord();
-        /*
-        *
-        */
+
         if(word.getValidity() != Word.WordValidity.VALID)
             return false;
-        /*
-        *
-        */
+
         for(BoardLetters bl : letters)
             if(lettersOnBoard[bl.getX()][bl.getY()] != null)
             {
                 word.setValidity(Word.WordValidity.INV_BOARD_OCCUPIED);
                 return false;
             }    
-        
-        /*
-        *
-        */
+
         SurroundingLetters(word);
-        
-        /*
-        *
-        */
+
         if(!hasGaps(word))
         {
             word.setValidity(Word.WordValidity.INV_HAS_GAPS);
             return false;
         }
         
-        /*
-        *
-        */
         if(!Solitare(word))
         {
             word.setValidity(Word.WordValidity.INV_SOLITARE);
             return false;
         }
         
-        /*
-        *
-        */
+
         word.setValidity(Word.WordValidity.VALID);
         return true;
     }
 
+    /**
+     * Verifies if a word has gaps in them.
+     * @param word The word that will verified.
+     * @return A boolean stating if a word has gaps or not.
+     */
     private boolean hasGaps(Word word)
     {
         int start = word.getStart();
@@ -153,36 +148,30 @@ public class Board {
         return true;
     }
     
+    //If you see this commentary here, change this before delivery.
+    /**
+     * Don't Know.
+     * @param word something.
+     * @return something.
+     */
     private boolean Solitare(Word word)
     {
         int start = word.getStart();
         int end = word.getEnd();
         
-        /*
-        *
-        */
         if(firstMove())
         {
             return (word.getLetterFrom(7,7) != null);
         }
         
-        /*
-        *
-        */
         if(word.getDirection() == Word.Direction.HORIZONTAL)
         {
             int y=word.getMaxY();
             
             for(int x=start; x<(end+1); x++)
             {
-                /*
-                *
-                */
                 if(getLetter(x,y)!= null)
                     return true;
-                /*
-                *
-                */
                 if(y-1 >= 0)
                     if(getLetter(x,y-1) != null)
                         return true;
@@ -218,7 +207,7 @@ public class Board {
             for(Letter x : y)
                 if(x != null)
                     return false;
-		
+        
         return true;
     }
     
