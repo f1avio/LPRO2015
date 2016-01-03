@@ -397,4 +397,42 @@ public class DBconnection {
         System.out.println("Ranking: " + Arrays.toString(rank_s));
         return rank_s;
     }
+    
+    public int sendMessage(String sender, String receiver, String text_msg){    
+        int ret = 0;
+        Users database = new Users();
+        ret = database.sendMessage(sender,receiver,text_msg);
+        ret=database.addPrivate_MSG(sender, receiver, text_msg);
+    
+        System.out.println("RETURN sendMessage = " + ret);
+        return ret;  
+    }
+    
+    public String getUserList(){
+        Users database = new Users();
+       
+        String infos = database.getUsernameList();
+       
+        return infos;
+   }
+    
+    public String PrivMsgList(String user, int counter){
+        Chat database = new Chat();
+        boolean flag=false; 
+               
+        String Msg=database.PrivMsgList(user);
+        /*flag=database.PrivMsgListDelete(user);
+        if(flag==false){
+            System.out.println("erro a eliminar mensagens");}
+            */
+        return Msg;
+   
+    }
+    
+    int nrmsg(String userNR) {
+        Chat database = new Chat();
+        int nr=database.getNrMsg(userNR);
+        return nr;
+
+    }
 }

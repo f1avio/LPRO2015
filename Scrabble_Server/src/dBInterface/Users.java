@@ -9,7 +9,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -435,5 +439,79 @@ public class Users {
         }
         System.out.println("getLoses(): " + Arrays.toString(loses));
         return loses;
+    }
+     
+     public int addPrivate_MSG(String user_msg, String friend_msg,String texto){
+
+        String sql;
+        int ret=0;
+        String[] aux = dbconn.getDB();
+        try {
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            System.out.println("OHOHOH");
+            Date date = Calendar.getInstance().getTime();
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String today = formatter.format(date);
+            System.out.println("Today : " + today);
+            sql = "INSERT INTO scrabble.private" + " (sender, message, receiver ,date)" + " VALUES ('" + user_msg + "', '" + texto + "','" + friend_msg + "','" + today + "')";
+            stmt.executeUpdate(sql);
+            ret = 1;
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            ret=0;
+        }
+
+        return ret;
+}
+    
+    
+    public int sendMessage(String user_msg, String friend_msg,String texto){
+        String[] aux = dbconn.getDB();
+    try {
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            
+            int msgs_nlidas=0;
+            String mensagem_list="";
+
+            String sql = "SELECT FROM scrabble.accounts WHERE username = '" + friend_msg + "'";
+            
+            System.out.println(sql);
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            if(rs.next())
+            {
+                mensagem_list =rs.getString("MSG");
+                System.out.println("SQL RESULT mensagem_list : "+mensagem_list);
+            } 
+            mensagem_list=mensagem_list+user_msg+"!";
+            mensagem_list=mensagem_list+texto+"«";
+            
+            stmt.executeUpdate("UPDATE \"scrabble\".\"USERS\" SET \"MSG\"='"+mensagem_list+"' WHERE \"USERNAME\"='"+friend_msg+"'");
+            return 1;
+            //stmt.executeUpdate("INSERT INTO \"poker\".\"USERS\"" + " (FRIENDS)" + " VALUES ('" + friend + "')");
+        }catch (SQLException ex) {
+            Throwable cause;
+            cause = ex.getCause();
+            System.out.println("ERROR IN DATABASE"+cause);
+            return 0;}
+    }
+    
+    public String getUsernameList(){
+        String players = "";
+        String[] aux = dbconn.getDB();
+        try {
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.accounts");
+            while (rs.next()) {
+                players = players + rs.getString("username")+"/";                
+            }
+        } catch (SQLException ex) { System.out.println("getUserInfo() " +ex); }
+        return players;
     }
 }
