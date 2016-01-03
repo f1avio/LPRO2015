@@ -455,6 +455,7 @@ public class Board {
                 for(int x=start;x<(end+1);x++)
                 {
                     BoardLetters bl = word.getLetterFrom(x,y);
+                    //System.out.println("What's passing on the for " + word.getLetterFrom(x, y));
                     if(getLetter(x,y)==null && (bl!=null))
                     {
                         wordBonus*= getWordBonus(bl);
@@ -462,10 +463,13 @@ public class Board {
                     }
                     else
                     {
+                        //System.out.println("Whatever comes out of the getLetter." + getLetter(x, y));
+                        //System.out.println("The value of what gets out " + getLetter(x,y).getValueForLetter());
                         points+= getLetter(x,y).getValueForLetter();
                     }
                 }
             
+                //System.out.println("What's the word bonus "+ wordBonus);
                 points*=wordBonus;
             
                 if(dic.checkWord(getHorizontalWord(word,start,end,y)))
@@ -474,7 +478,9 @@ public class Board {
                 }
                 else
                 {
+                    //System.out.println("What appears on getHorizontal "+ getHorizontalWord(word,start,end,y));
                     word.setValidity(Word.WordValidity.INV_NOT_A_WORD);
+                    //System.out.println("The word is not valid.");
                     return 0;
                 }
             }
