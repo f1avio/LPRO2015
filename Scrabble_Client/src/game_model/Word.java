@@ -26,7 +26,7 @@ public class Word {
     */
     public static enum WordValidity {VALID, INV_SYNTAX, INV_BOARD_OCCUPIED, INV_HAS_GAPS, INV_SOLITARE, INV_NOT_A_WORD, INV_OTHER }
    
-    private List<BoardLetters> letters = new ArrayList<BoardLetters>();
+    private List<BoardLetters> letters = new ArrayList<>();
     private Direction wordDirection;
    
     private int startOnBoard;  //Describes where the new word starts
