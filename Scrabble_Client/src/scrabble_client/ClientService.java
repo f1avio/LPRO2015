@@ -2,6 +2,7 @@ package scrabble_client;
 
 import GUI.*;
 import java.util.Arrays;
+import java.util.Collections;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JOptionPane;
@@ -20,6 +21,7 @@ public class ClientService {
     GameGUI gameGui;
     MainFrame mainFrame;
     String name;
+    public String[] messages;
     
     private ClientService(){
         clientThread = new Thread(protocol);
@@ -168,6 +170,18 @@ public class ClientService {
         }
     }
     
+    public String getUsername(){
+        return name;
+    }
+    
+    public void receiveList(String list){
+        String[] users = list.split("/");
+        DefaultTableModel table = (DefaultTableModel) mainFrame.playerList2.getModel();
+        for(int k=0; k < users.length; k++){
+            table.addRow(new Object[]{users[k]});//missing get points
+            table.fireTableRowsInserted(table.getRowCount(),table.getRowCount());
+            }
+    }
     public void viewRooms(){
         protocol.sendViewRooms();
     }
@@ -444,5 +458,46 @@ public class ClientService {
     
     public void setGameGui(GameGUI gamegui){
         gameGui = gamegui;
+    }
+    
+    public void startRoom(String room){
+        GameGUI gameG = new GameGUI();
+        gameG.setVisible(true);
+    }
+    
+    public void exitGame(){
+        gameGui.setVisible(false);
+    }
+    
+    public void sendMessageRequest(String user, String friend, String text) {        
+        protocol.sendMessage(user, friend,text);
+    }
+    
+    public void display(){
+        protocol.requestDisplay();
+    }
+    
+    public void requestMsglist(String username) {
+        protocol.sendMsgList(username);
+    }
+    
+    void receiveMsgList(String msgList) {
+        String Nr_texto= mainFrame.msgsLabel.getText();
+        //System.out.println("\nNr_texto"+Nr_texto);
+        int nr_msgs= Integer.parseInt(Nr_texto);
+        messages = new String[nr_msgs];
+        
+        messages = msgList.split("«", nr_msgs);
+        messages[nr_msgs-1] = messages[nr_msgs-1].substring(0, messages[nr_msgs-1].length()-1); // remove « from the last message
+        Collections.reverse(Arrays.asList(messages));       // reverse of the array
+        //System.out.println("receiveMsgList() messages: "+Arrays.toString(messages));       
+    }
+    
+    void receiveNRMSGS(String NR) {
+        mainFrame.msgsLabel.setText(NR);   
+    }
+    
+    public void NrMsgRequest(String user) {
+          protocol.sendNrMsg(user); //To change body of generated methods, choose Tools | Templates.
     }
 }

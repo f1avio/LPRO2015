@@ -194,12 +194,51 @@ public class ClientProtocol implements Runnable {
     public void sendRanking() {
         try {
             String rank = "RANKING" + SPACER;
-            dataOut.writeUTF(rank);
             System.out.println("<< Sending: " + rank);
+            dataOut.writeUTF(rank);            
         } catch(IOException ex) {
             System.out.println("sendRanking() " + ex);
         }
+    }
+    
+    public void sendMessage(String username, String friend, String texto){
+     try {
+            String log = "PRIVATE" + SPACER + username + SPACER + friend + SPACER + texto + SPACER;
+            dataOut.writeUTF(log);
+        } catch (IOException ioe) {
+            System.out.println("[Client][Protocol]" + " sendMessage " + ioe);
+        }    
+    }
+    
+    public void requestDisplay(){
+        String msg = "DISPLAY#";
+        try{
+            dataOut.writeUTF(msg);
+            System.out.println("<< Sending: " + msg);
+        } catch(IOException ex){
+            System.out.println("requestDisplay() " + ex);
+        } 
+    }
+    
+    public void sendMsgList(String user) {
 
+        try {
+            String log = "MSGLIST" + SPACER + user + SPACER;
+            System.out.println("<< Sending: " + log);
+            dataOut.writeUTF(log);
+        } catch(IOException ioe) {
+            System.out.println("sendMsgList() " + ioe);
+        }
+    }
+    
+    public void sendNrMsg(String user) {
+        try {
+            String log = "MSGNR" + SPACER + user + SPACER;
+            System.out.println("<< Sending: " + log);
+            dataOut.writeUTF(log);
+        } catch(IOException ex) {
+            System.out.println("sendNrMsg() " + ex);
+        }
     }
     
     @Override
@@ -232,10 +271,8 @@ public class ClientProtocol implements Runnable {
                                 aux = findMessage(data, 6, 2);
                                 switch(aux){
                                     case "NORMAL":
-                                        //System.out.println("ClientProtocol: LOGIN#OK#NORMAL#");
                                         username = findMessage(data, 6, 3);
                                         clientService.receiveLogin(username, 1);
-                                        System.out.println("ClientProtocol: User login success" );
                                         break;
                                     case "ADMIN":
                                         break;
@@ -372,6 +409,19 @@ public class ClientProtocol implements Runnable {
                         clientService.receiveRanking(ans);
                         break;
                     }
+                    case "DISPLAY":{
+                        ans = findMessage(data, 8, 1);                        
+                        clientService.receiveList(ans);
+                        break;
+                    }
+                    case "MSGLIST":{
+                       String msgList=findMessage(data,8,1);
+                       clientService.receiveMsgList(msgList);
+                       break;}
+                    case "MSGNR":{
+                        String NR = findMessage(data,6, 1);
+                        clientService.receiveNRMSGS(NR);
+                        break;}
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);

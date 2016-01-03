@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import scrabble_client.*;
 /**
  *
@@ -14,6 +15,7 @@ import scrabble_client.*;
  */
 public class MainFrame extends javax.swing.JFrame {
     static private String username;
+    private String userFromProfileTable = "";
     String room = "";
     /**
      * Creates new form MainFrame1
@@ -25,6 +27,9 @@ public class MainFrame extends javax.swing.JFrame {
         ClientService clientService = ClientService.getInstance();
         clientService.setMainFrame(this);
         usernameL.setText(user);
+        clientService.display();
+        clientService.NrMsgRequest(user);
+        clientService.requestMsglist(user);
     }
 
     private MainFrame() {
@@ -45,6 +50,17 @@ public class MainFrame extends javax.swing.JFrame {
         NoB = new javax.swing.JButton();
         yesB = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        privMsgDialog = new javax.swing.JDialog();
+        privMsgInput = new javax.swing.JTextField();
+        destinationLabel = new javax.swing.JLabel();
+        sendMsgB = new javax.swing.JButton();
+        inboxDialog = new javax.swing.JDialog();
+        inboxCloseB = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        msgArea = new javax.swing.JTextArea();
+        senderLabel = new javax.swing.JLabel();
+        nextMsgB = new javax.swing.JButton();
         mainFramePanel = new javax.swing.JPanel();
         ChatP = new javax.swing.JPanel();
         TabsTableRank = new javax.swing.JTabbedPane();
@@ -73,8 +89,11 @@ public class MainFrame extends javax.swing.JFrame {
         welcome = new javax.swing.JLabel();
         joinB = new javax.swing.JButton();
         createB = new javax.swing.JButton();
+        msgsLabel = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         roomScrollPane = new javax.swing.JScrollPane();
         roomTable = new javax.swing.JTable();
+        inboxB = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         rankingP = new javax.swing.JPanel();
         ranksScroll = new javax.swing.JScrollPane();
@@ -130,6 +149,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         quitConfirm.setAlwaysOnTop(true);
         quitConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        quitConfirm.setMinimumSize(new java.awt.Dimension(400, 200));
+        quitConfirm.setResizable(false);
         quitConfirm.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         quitConfirm.setLocationRelativeTo(null);
         quitConfirm.setSize(new Dimension(400,200));
@@ -160,10 +181,94 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel7.setText("Are You Sure?");
-        quitConfirm.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+        quitConfirm.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
+
+        privMsgDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        privMsgDialog.setAlwaysOnTop(true);
+        privMsgDialog.setMinimumSize(new java.awt.Dimension(400, 240));
+        privMsgDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        privMsgDialog.setResizable(false);
+        privMsgDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        privMsgDialog.setLocationRelativeTo(null);
+        privMsgDialog.setSize(new Dimension(400,240));
+
+        privMsgInput.setText("Introduza texto aqui");
+        privMsgInput.setToolTipText("");
+        privMsgInput.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        privMsgInput.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                privMsgInputFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                privMsgInputFocusLost(evt);
+            }
+        });
+        privMsgInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                privMsgInputActionPerformed(evt);
+            }
+        });
+        privMsgDialog.getContentPane().add(privMsgInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 300, 80));
+
+        destinationLabel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        destinationLabel.setText("username");
+        privMsgDialog.getContentPane().add(destinationLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
+
+        sendMsgB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        sendMsgB.setText("Send ");
+        sendMsgB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMsgBActionPerformed(evt);
+            }
+        });
+        privMsgDialog.getContentPane().add(sendMsgB, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 110, 50));
+
+        inboxDialog.setAlwaysOnTop(true);
+        inboxDialog.setMinimumSize(new java.awt.Dimension(400, 260));
+        inboxDialog.setResizable(false);
+        inboxDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        inboxDialog.setLocationRelativeTo(null);
+        inboxDialog.setSize(new Dimension(400,260));
+
+        inboxCloseB.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        inboxCloseB.setText("Close");
+        inboxCloseB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inboxCloseBActionPerformed(evt);
+            }
+        });
+        inboxDialog.getContentPane().add(inboxCloseB, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 90, 30));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel13.setText("Received Messages");
+        inboxDialog.getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 220, 30));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        msgArea.setColumns(20);
+        msgArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        msgArea.setRows(5);
+        jScrollPane1.setViewportView(msgArea);
+
+        inboxDialog.getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 360, 100));
+
+        senderLabel.setBackground(new java.awt.Color(153, 255, 153));
+        senderLabel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        senderLabel.setForeground(new java.awt.Color(0, 102, 0));
+        senderLabel.setText("sender");
+        inboxDialog.getContentPane().add(senderLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 360, 30));
+
+        nextMsgB.setText("Next Message");
+        nextMsgB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextMsgBActionPerformed(evt);
+            }
+        });
+        inboxDialog.getContentPane().add(nextMsgB, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
         mainFramePanel.setName(""); // NOI18N
         mainFramePanel.setLayout(new java.awt.BorderLayout());
@@ -251,16 +356,9 @@ public class MainFrame extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         playerList2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -390,6 +488,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mainPage.add(createB, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 180, 40));
 
+        msgsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        msgsLabel.setText("0");
+        mainPage.add(msgsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 30, 30));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel10.setText("You have     new messages");
+        mainPage.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 220, 30));
+
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -411,6 +517,16 @@ public class MainFrame extends javax.swing.JFrame {
         roomScrollPane.setViewportView(roomTable);
 
         mainPage.add(roomScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 370, 180));
+
+        inboxB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        inboxB.setText("Messages");
+        inboxB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        inboxB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inboxBActionPerformed(evt);
+            }
+        });
+        mainPage.add(inboxB, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 100, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(500, 550));
@@ -836,6 +952,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoBActionPerformed
@@ -868,7 +985,16 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_inviteB2ActionPerformed
 
     private void sendmessageB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendmessageB2ActionPerformed
-        // TODO add your handling code here:
+        int row = playerList2.getSelectedRow();
+        if(row!=-1){
+            userFromProfileTable = playerList2.getModel().getValueAt(row, 0).toString();
+            destinationLabel.setText(userFromProfileTable);
+            privMsgDialog.pack();
+            privMsgDialog.setVisible(true);
+        }else
+             JOptionPane.showMessageDialog(null, "Select an user to send a message");
+        
+        
     }//GEN-LAST:event_sendmessageB2ActionPerformed
 
     private void playerList2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerList2MouseReleased
@@ -890,6 +1016,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_settingsB1ActionPerformed
 
     private void logoutB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutB1ActionPerformed
+        quitConfirm.pack();
         quitConfirm.setVisible(true);
     }//GEN-LAST:event_logoutB1ActionPerformed
 
@@ -951,7 +1078,22 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_createRoomBActionPerformed
 
     private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
-        // TODO add your handling code here:
+        boolean p2 = false;
+        boolean p3 = false;
+        boolean p4 = false;
+        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+            p2 = true;
+        if(player7Status.getText().equals("") || player7Status.getText().equals("Ready"))
+            p3 = true;
+        if(player8Status.getText().equals("") || player8Status.getText().equals("Ready"))
+            p4 = true;
+        
+        if(p2 && p3 && p4){
+        ClientService clientService = ClientService.getInstance();
+        clientService.startRoom(room);
+        }else{
+            JOptionPane.showMessageDialog(null, "Wait until everyone is ready!");
+        }
     }//GEN-LAST:event_startBActionPerformed
 
     private void quitBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBActionPerformed
@@ -973,6 +1115,68 @@ public class MainFrame extends javax.swing.JFrame {
         ClientService clientService = ClientService.getInstance();
         clientService.viewRooms();
     }//GEN-LAST:event_refreshBMouseClicked
+
+    private void privMsgInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_privMsgInputFocusGained
+        
+    }//GEN-LAST:event_privMsgInputFocusGained
+
+    private void privMsgInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_privMsgInputFocusLost
+        
+    }//GEN-LAST:event_privMsgInputFocusLost
+
+    private void privMsgInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_privMsgInputActionPerformed
+        // Same action as Send Ptivate Message Button
+    }//GEN-LAST:event_privMsgInputActionPerformed
+
+    private void sendMsgBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMsgBActionPerformed
+        ClientService clientService=ClientService.getInstance();
+        String friendMsg=userFromProfileTable;
+        String text=privMsgInput.getText();
+
+        if(text.length()>60){
+            JOptionPane.showMessageDialog(null, "The message must be less than 60 characters");
+        }
+        else{
+            clientService.sendMessageRequest(username,friendMsg,text);
+            JOptionPane.showMessageDialog(null, "Message sent!");
+
+        }
+               // TODO add your handling code here:
+    }//GEN-LAST:event_sendMsgBActionPerformed
+
+    private void inboxBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inboxBActionPerformed
+        ClientService clientservice = ClientService.getInstance();
+        String nr_msgs = msgsLabel.getText();
+         
+        if(nr_msgs.equalsIgnoreCase("0")){
+        JOptionPane.showMessageDialog(null, "There isn't any new message");         
+        }
+        else{
+        inboxDialog.pack();
+        inboxDialog.setVisible(true);
+        nextMsgB.doClick();
+        }
+    }//GEN-LAST:event_inboxBActionPerformed
+
+    private void inboxCloseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inboxCloseBActionPerformed
+        inboxDialog.setVisible(false);
+    }//GEN-LAST:event_inboxCloseBActionPerformed
+
+    private void nextMsgBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextMsgBActionPerformed
+        ClientService clientService=ClientService.getInstance();  
+        int nr_msg = Integer.parseInt(msgsLabel.getText()) -1;
+        if(nr_msg>-1){                 
+            msgsLabel.setText(Integer.toString(nr_msg));
+            String sender = clientService.messages[nr_msg].substring(0, clientService.messages[nr_msg].indexOf("£"));
+            String text = clientService.messages[nr_msg].substring(clientService.messages[nr_msg].indexOf("£")+1);
+            msgArea.setText(text);
+            senderLabel.setText("User "+sender+" sent you a message");
+            msgsLabel.setText(Integer.toString(nr_msg));
+        } else{
+            msgArea.setText("No more messages!!");
+            senderLabel.setText("");
+        }
+    }//GEN-LAST:event_nextMsgBActionPerformed
 
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
@@ -1018,46 +1222,56 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel ChatP;
-    private javax.swing.JButton NoB;
-    private javax.swing.JComboBox<String> PlayersNumber;
-    private javax.swing.JTabbedPane TabsTableRank;
-    private javax.swing.JButton backB;
-    private javax.swing.JPanel basePanel;
+    public javax.swing.JPanel ChatP;
+    public javax.swing.JButton NoB;
+    public javax.swing.JComboBox<String> PlayersNumber;
+    public javax.swing.JTabbedPane TabsTableRank;
+    public javax.swing.JButton backB;
+    public javax.swing.JPanel basePanel;
     public javax.swing.JPanel chatPanel;
     public javax.swing.JTextArea chatarea;
-    private javax.swing.JTextField chatinput;
-    private javax.swing.JPasswordField confirmPassInput;
-    private javax.swing.JLabel confirmPassL;
-    private javax.swing.JButton createB;
-    private javax.swing.JButton createRoomB;
-    private javax.swing.JPasswordField currentPassInput;
-    private javax.swing.JLabel currentPassL;
-    private javax.swing.JButton helpB1;
-    private javax.swing.JButton homeB1;
-    private javax.swing.JButton inviteB2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    public javax.swing.JTextField chatinput;
+    public javax.swing.JPasswordField confirmPassInput;
+    public javax.swing.JLabel confirmPassL;
+    public javax.swing.JButton createB;
+    public javax.swing.JButton createRoomB;
+    public javax.swing.JPasswordField currentPassInput;
+    public javax.swing.JLabel currentPassL;
+    public javax.swing.JLabel destinationLabel;
+    public javax.swing.JButton helpB1;
+    public javax.swing.JButton homeB1;
+    public javax.swing.JButton inboxB;
+    public javax.swing.JButton inboxCloseB;
+    public javax.swing.JDialog inboxDialog;
+    public javax.swing.JButton inviteB2;
+    public javax.swing.JButton jButton1;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel10;
+    public javax.swing.JLabel jLabel13;
+    public javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel4;
+    public javax.swing.JLabel jLabel5;
+    public javax.swing.JLabel jLabel6;
+    public javax.swing.JLabel jLabel7;
+    public javax.swing.JLabel jLabel8;
+    public javax.swing.JLabel jLabel9;
+    public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JButton joinB;
-    private javax.swing.JButton logoutB1;
-    private javax.swing.JPanel mainFramePanel;
-    private javax.swing.JPanel mainPage;
-    private javax.swing.JPanel menuBarSettings;
-    private javax.swing.JTextField newEmailInput;
-    private javax.swing.JLabel newEmailL;
-    private javax.swing.JPasswordField newPassInput;
-    private javax.swing.JLabel newPassL;
-    private javax.swing.JPanel newRoomPage;
+    public javax.swing.JScrollPane jScrollPane8;
+    public javax.swing.JButton joinB;
+    public javax.swing.JButton logoutB1;
+    public javax.swing.JPanel mainFramePanel;
+    public javax.swing.JPanel mainPage;
+    public javax.swing.JPanel menuBarSettings;
+    public javax.swing.JTextArea msgArea;
+    public javax.swing.JLabel msgsLabel;
+    public javax.swing.JTextField newEmailInput;
+    public javax.swing.JLabel newEmailL;
+    public javax.swing.JPasswordField newPassInput;
+    public javax.swing.JLabel newPassL;
+    public javax.swing.JPanel newRoomPage;
+    public javax.swing.JButton nextMsgB;
     public javax.swing.JLabel player1;
     public javax.swing.JLabel player1Status;
     public javax.swing.JLabel player2;
@@ -1076,33 +1290,37 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel player8Status;
     public javax.swing.JTable playerList2;
     public javax.swing.JPanel playersGrid;
-    private javax.swing.JPanel playersPanel;
+    public javax.swing.JPanel playersPanel;
     public javax.swing.JPanel playersRoomGrid;
-    private javax.swing.JCheckBox privateGameCheckBox;
-    private javax.swing.JPanel profsOptPanel2;
-    private javax.swing.JButton quitB;
-    private javax.swing.JDialog quitConfirm;
-    private javax.swing.JButton quitRoomB;
+    public javax.swing.JDialog privMsgDialog;
+    public javax.swing.JTextField privMsgInput;
+    public javax.swing.JCheckBox privateGameCheckBox;
+    public javax.swing.JPanel profsOptPanel2;
+    public javax.swing.JButton quitB;
+    public javax.swing.JDialog quitConfirm;
+    public javax.swing.JButton quitRoomB;
     public javax.swing.JTable ranking;
-    private javax.swing.JButton rankingB1;
-    private javax.swing.JPanel rankingP;
-    private javax.swing.JScrollPane ranksScroll;
-    private javax.swing.JButton readyB;
-    private javax.swing.JLabel refreshB;
-    private javax.swing.JTextField roomNameInput;
-    private javax.swing.JLabel roomNameLabel;
+    public javax.swing.JButton rankingB1;
+    public javax.swing.JPanel rankingP;
+    public javax.swing.JScrollPane ranksScroll;
+    public javax.swing.JButton readyB;
+    public javax.swing.JLabel refreshB;
+    public javax.swing.JTextField roomNameInput;
+    public javax.swing.JLabel roomNameLabel;
     public javax.swing.JPanel roomOwnerPage;
     public javax.swing.JPanel roomPage;
-    private javax.swing.JScrollPane roomScrollPane;
+    public javax.swing.JScrollPane roomScrollPane;
     public javax.swing.JTable roomTable;
-    private javax.swing.JButton sendmessageB2;
-    private javax.swing.JButton settingsB1;
-    private javax.swing.JPanel settingsPage;
-    private javax.swing.JButton startB;
-    private javax.swing.JLabel usernameL;
-    private javax.swing.JLabel volumeL;
-    private javax.swing.JSlider volumeSlider;
-    private javax.swing.JLabel welcome;
-    private javax.swing.JButton yesB;
+    public javax.swing.JButton sendMsgB;
+    public javax.swing.JLabel senderLabel;
+    public javax.swing.JButton sendmessageB2;
+    public javax.swing.JButton settingsB1;
+    public javax.swing.JPanel settingsPage;
+    public javax.swing.JButton startB;
+    public javax.swing.JLabel usernameL;
+    public javax.swing.JLabel volumeL;
+    public javax.swing.JSlider volumeSlider;
+    public javax.swing.JLabel welcome;
+    public javax.swing.JButton yesB;
     // End of variables declaration//GEN-END:variables
 }
