@@ -9,7 +9,6 @@ import game_model.Word.Direction;
 import java.util.List;
 
 /**
- *
  * @author HUGUETA
  */
 public class Board {
@@ -148,12 +147,7 @@ public class Board {
         return true;
     }
     
-    //If you see this commentary here, change this before delivery.
-    /**
-     * Don't Know.
-     * @param word something.
-     * @return something.
-     */
+    
     private boolean Solitare(Word word)
     {
         int start = word.getStart();
@@ -201,6 +195,10 @@ public class Board {
         return false;
     }
     
+    /**
+     * Verifies if this is the first move.
+     * @return A boolean stating if this is the first move.
+     */
     private boolean firstMove()
     {
         for(Letter y[] : lettersOnBoard)
@@ -210,7 +208,11 @@ public class Board {
         
         return true;
     }
-    
+    /**
+     * Retrieves the X coordinate of starting point of the word.
+     * @param word The word that will be evaluated.
+     * @return The X coordinate.
+     */
     private int getHorizontalStart(Word word)
     {
         int startX = word.getMinX();
@@ -224,7 +226,11 @@ public class Board {
 		
         return startX+1;
     }
-    
+    /**
+     * Retrieves the X coordinate of starting point of some letters on the board.
+     * @param bl A group of letters placed on the board.
+     * @return The X coordinate.
+     */
     private int getHorizontalStart(BoardLetters bl)
     {
         int startX = bl.getX();
@@ -238,7 +244,11 @@ public class Board {
 		
         return startX+1;
     }
- 
+    /**
+     * Retrieves the X coordinate of ending point of the word.
+     * @param word The word that will be evaluated.
+     * @return The X coordinate.
+     */
     private int getHorizontalEnd(Word word)
     {
 	int startX = word.getMaxX();
@@ -252,7 +262,11 @@ public class Board {
 		
         return startX-1;
     }	
-	
+    /**
+     * Retrieves the X coordinate of ending point of some letters on the board.
+     * @param bl A group of letters placed on the board.
+     * @return The X coordinate.
+     */
     private int getHorizontalEnd(BoardLetters bl)
     {
         int startX = bl.getX();
@@ -267,6 +281,11 @@ public class Board {
         return startX-1;
     }
     
+    /**
+     * Retrieves the Y coordinate of starting point of the word.
+     * @param word The word that will be evaluated.
+     * @return The Y coordinate.
+     */
     private int getVerticalStart(Word word)
     {
         int x = word.getMinX();
@@ -280,7 +299,12 @@ public class Board {
 		
         return startY+1;
     }
-	
+
+    /**
+     * Retrieves the Y coordinate of starting point of some letters on the board.
+     * @param bl A group of letters placed on the board.
+     * @return The Y coordinate.
+     */
     private int getVerticalStart(BoardLetters bl)
     {
         int x = bl.getX();
@@ -291,10 +315,15 @@ public class Board {
             if(getLetter(x, startY) == null)
             break;			
         }
-		
+        
         return startY+1;
     }
-	
+    
+    /**
+     * Retrieves the Y coordinate of ending point of the word.
+     * @param word The word that will be evaluated.
+     * @return The Y coordinate.
+     */
     private int getVerticalEnd(Word word)
     {
         int x = word.getMinX();
@@ -307,8 +336,13 @@ public class Board {
         }
 		
         return startY-1;
-    }		
-	
+    }
+    
+    /**
+     * Retrieves the Y coordinate of ending point of some letters on the board.
+     * @param bl A group of letters placed on the board.
+     * @return The Y coordinate.
+     */
     private int getVerticalEnd(BoardLetters bl)
     {
         int x = bl.getX();
@@ -323,9 +357,7 @@ public class Board {
         return startY-1;
     }    
     
-    /*
-    *
-    */ 
+    
     public void addWord(Word word)
     {
         List<BoardLetters> letters = word.getWord();
