@@ -141,7 +141,6 @@ public class DBconnection {
             } else {
                 state = 0;
             }
-        System.out.println("[Server][Service]" + "RETURN LOGOUT = " + state);
         return state;
     }
     /**
@@ -394,17 +393,14 @@ public class DBconnection {
             rank_s[i] = i + "/" +user[i-1] + "/" + points[i-1] + "/" + w[i-1]+ "/" +l[i-1];
         }
         rank_s[0] = Integer.toString(totalPlayers);
-        System.out.println("Ranking: " + Arrays.toString(rank_s));
+        //System.out.println("Ranking: " + Arrays.toString(rank_s));
         return rank_s;
     }
     
     public int sendMessage(String sender, String receiver, String text_msg){    
         int ret = 0;
         Users database = new Users();
-        ret = database.sendMessage(sender,receiver,text_msg);
         ret=database.addPrivate_MSG(sender, receiver, text_msg);
-    
-        System.out.println("RETURN sendMessage = " + ret);
         return ret;  
     }
     
@@ -417,14 +413,8 @@ public class DBconnection {
    }
     
     public String PrivMsgList(String user, int counter){
-        Chat database = new Chat();
-        boolean flag=false; 
-               
+        Chat database = new Chat();               
         String Msg=database.PrivMsgList(user);
-        /*flag=database.PrivMsgListDelete(user);
-        if(flag==false){
-            System.out.println("erro a eliminar mensagens");}
-            */
         return Msg;
    
     }
