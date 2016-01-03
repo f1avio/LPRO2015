@@ -482,15 +482,14 @@ public class ClientService {
     }
     
     void receiveMsgList(String msgList) {
-        String Nr_texto= mainFrame.msgsLabel.getText();
-        //System.out.println("\nNr_texto"+Nr_texto);
-        int nr_msgs= Integer.parseInt(Nr_texto);
-        messages = new String[nr_msgs];
-        
-        messages = msgList.split("«", nr_msgs);
-        messages[nr_msgs-1] = messages[nr_msgs-1].substring(0, messages[nr_msgs-1].length()-1); // remove « from the last message
-        Collections.reverse(Arrays.asList(messages));       // reverse of the array
-        //System.out.println("receiveMsgList() messages: "+Arrays.toString(messages));       
+        String Nr_text= mainFrame.msgsLabel.getText();
+        int nr_msgs= Integer.parseInt(Nr_text);
+        if(nr_msgs>0){
+            messages = new String[nr_msgs];        
+            messages = msgList.split("«", nr_msgs);
+            messages[nr_msgs-1] = messages[nr_msgs-1].substring(0, messages[nr_msgs-1].length()-1); // remove « from the last message
+            Collections.reverse(Arrays.asList(messages));       // reverse of the array
+        }
     }
     
     void receiveNRMSGS(String NR) {

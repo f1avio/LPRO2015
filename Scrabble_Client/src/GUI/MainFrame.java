@@ -192,9 +192,8 @@ public class MainFrame extends javax.swing.JFrame {
         privMsgDialog.setLocationRelativeTo(null);
         privMsgDialog.setSize(new Dimension(400,240));
 
-        privMsgInput.setText("Introduza texto aqui");
+        privMsgInput.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         privMsgInput.setToolTipText("");
-        privMsgInput.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         privMsgInput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 privMsgInputFocusGained(evt);
@@ -212,7 +211,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         destinationLabel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         destinationLabel.setText("username");
-        privMsgDialog.getContentPane().add(destinationLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
+        privMsgDialog.getContentPane().add(destinationLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 300, 30));
 
         sendMsgB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sendMsgB.setText("Send ");
@@ -988,7 +987,7 @@ public class MainFrame extends javax.swing.JFrame {
         int row = playerList2.getSelectedRow();
         if(row!=-1){
             userFromProfileTable = playerList2.getModel().getValueAt(row, 0).toString();
-            destinationLabel.setText(userFromProfileTable);
+            destinationLabel.setText("Message to "+userFromProfileTable);
             privMsgDialog.pack();
             privMsgDialog.setVisible(true);
         }else
@@ -1139,6 +1138,7 @@ public class MainFrame extends javax.swing.JFrame {
         else{
             clientService.sendMessageRequest(username,friendMsg,text);
             JOptionPane.showMessageDialog(null, "Message sent!");
+            privMsgDialog.dispose();
 
         }
                // TODO add your handling code here:
