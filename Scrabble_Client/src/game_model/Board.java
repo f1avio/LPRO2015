@@ -357,17 +357,25 @@ public class Board {
         return startY-1;
     }    
     
-    
+    /**
+     * Adds a word to the board.
+     * @param word The word that will be added.
+     */
     public void addWord(Word word)
     {
         List<BoardLetters> letters = word.getWord();
         if(word.getValidity() != Word.WordValidity.VALID)
             return;
         
-        for(BoardLetters bl : letters)
+        letters.stream().forEach((bl) -> {
             lettersOnBoard[bl.getX()][bl.getY()]= bl;
+        });
     }
     
+    /**
+     * Gets the surrounding letters to a certain word.
+     * @param word The word that will be verified.
+     */
     public void SurroundingLetters(Word word)
     {
         /**
@@ -420,6 +428,11 @@ public class Board {
 		
     }
     
+    /**
+     * Calcutes the points awarded to a certain word
+     * @param word The word whose points will be calculated.
+     * @return The number of points.
+     */
     public int CalculatePoints(Word word)
     {
         int Tpoints=0;
@@ -432,9 +445,6 @@ public class Board {
         
         if(word.getDirection() == Direction.HORIZONTAL)
         {
-            /*
-            *   1
-            */
             {
                 int points=0;
                 int wordBonus=1;
@@ -469,9 +479,7 @@ public class Board {
                 }
             }
             
-            /*
-            * 2
-            */
+
             {
                 for(BoardLetters bl : word.getWord())
                 {
@@ -617,6 +625,11 @@ public class Board {
         return Tpoints;
     }
     
+    /**
+     * Returns the bonus from the board.
+     * @param bl The letter placed on the board.
+     * @return The bonus multiplier.
+     */
     private int getLetterBonus(BoardLetters bl)
     {
         switch(premiumColorsLayout[bl.getX()][bl.getY()])
@@ -633,6 +646,11 @@ public class Board {
         }
     }
     
+    /**
+     * Returns the bonus from the board for single letter word.
+     * @param bl The single letter word.
+     * @return The bonus multiplier.
+     */
     private int getWordBonus(BoardLetters bl)
     {
         switch(premiumColorsLayout[bl.getX()][bl.getY()])
@@ -648,7 +666,14 @@ public class Board {
                 return 1;
         }
     }
-    
+    /**
+     * Translates an horizontal word on the board to string.
+     * @param word The word to be translated.
+     * @param startX The start of word.
+     * @param endX The position of the end of the word.
+     * @param y The Y coordinate on the board.
+     * @return The word translated to string.
+     */
     public String getHorizontalWord(Word word, int startX, int endX, int y)
     {
         StringBuilder wordOut = new StringBuilder();
@@ -661,7 +686,14 @@ public class Board {
 		
         return wordOut.toString();
     }
-    
+    /**
+     * Translates a vertical word on the board to string.
+     * @param word The word to be translated.
+     * @param x The X coordinates on the board.
+     * @param startY The start of word.
+     * @param endY The position of the end of the word.
+     * @return The word translated to string.
+     */
     public String getVerticalWord(Word word, int x, int startY, int endY)
     {
         StringBuilder wordOut = new StringBuilder();
