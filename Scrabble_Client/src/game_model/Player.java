@@ -45,7 +45,7 @@ public class Player {  /*It will be used later on to more complicated things*/
     
     /**
      * Set the name to be used
-     * @param name
+     * @param name The name that will be used.
      */
     public void setName(String name){
         this.name= name;
@@ -63,7 +63,7 @@ public class Player {  /*It will be used later on to more complicated things*/
     /**
 	 * Adds points to player's score
 	 * 
-	 * @param addS
+	 * @param addS The number of points to be added.
 	 * @return Amount of points after adding
 	 */
     public int addScore(int addS){

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author José Eduardo
  */
 public class Word {
@@ -27,7 +26,7 @@ public class Word {
     */
     public static enum WordValidity {VALID, INV_SYNTAX, INV_BOARD_OCCUPIED, INV_HAS_GAPS, INV_SOLITARE, INV_NOT_A_WORD, INV_OTHER }
    
-    private List<BoardLetters> letters = new ArrayList<BoardLetters>();
+    private List<BoardLetters> letters = new ArrayList<>();
     private Direction wordDirection;
    
     private int startOnBoard;  //Describes where the new word starts
@@ -35,24 +34,34 @@ public class Word {
     
    
     private WordValidity validity;
-  
-    public Word(){
-    }
-  
+ 
+    /**
+     * Appends the position and its value to a tile positioned on the board,
+     * and converts it to string.
+     * @return A string with the letter plus important information. 
+     */
+    @Override
     public String toString()
     {
-        StringBuffer sb= new StringBuffer();
+        StringBuilder sb= new StringBuilder();
        
         sb.append("[");
        
-        for (BoardLetters bl : letters)
-            sb.append(bl + "(" + bl.getX() + "," + bl.getY() + ")(" + bl.getValueForLetter() + ") ");
+        letters.stream().forEach((BoardLetters bl) -> {
+            sb.append(bl).append("(").append(bl.getX()).append(",").append(bl.getY()).append(")(").append(bl.getValueForLetter()).append(") ");
+        });
        
         sb.append("]");
        
         return sb.toString();
     }
    
+    /**
+     * Adds a new letter/tile to the board.
+     * @param l The letter/tile to be added.
+     * @param x Its position on the X-axis.
+     * @param y Its position on the Y-axis.
+     */
     public void addLetter(Letter l, int x, int y)
     {
         BoardLetters bl = new BoardLetters(l, x, y);
@@ -82,21 +91,28 @@ public class Word {
         validity = WordValidity.VALID;
         letters.add(bl);
     }
-  
+    /**
+     * @return The word that was formed. 
+     */
     public List<BoardLetters> getWord()
     {
         return letters;
     }
-  
-    public int getMinX()  //Check where word begins
+    
+   /**
+   * @return The position where the word starts on the X-axis. 
+   */
+    public int getMinX() 
     {
         int min=15;
         for(BoardLetters bl : letters)
             min = Math.min(min, bl.getX());
         return min;
     }
-   
-    public int getMaxX()  //Check where word ends
+   /**
+    * @return The position where the word ends on the X-axis.
+    */
+    public int getMaxX()  
     {
         int max=0;
 		
@@ -105,7 +121,10 @@ public class Word {
 		
         return max;
     }
-   
+    
+  /**
+   * @return The position where the word starts on the Y-axis. 
+   */
     public int getMinY()  //Check where word begins
     {
         int min=15;
@@ -115,7 +134,10 @@ public class Word {
 		
         return min;
     }
-   
+    
+    /**
+    * @return The position where the word ends on the X-axis.
+    */
     public int getMaxY()  //Check where word ends
     {
         int max=0;
@@ -125,16 +147,23 @@ public class Word {
 		
         return max;
     }
-   
+   /**
+    * Retur the letter/tile from a specified position.
+    * @param x The x coordinate.
+    * @param y The y coordinate.
+    * @return  The letter on the provided position.
+    */
     public BoardLetters getLetterFrom(int x, int y)  
     {
         for(BoardLetters bl : letters)
-        if(bl.getX() == x && bl.getY() == y)
-            return bl;
+            if(bl.getX() == x && bl.getY() == y)
+                return bl;
 		
         return null;
     }
-   
+   /** 
+    * @return The direction of the word.
+    */
     public Direction getDirection()
     {
         if(wordDirection != null)
@@ -160,45 +189,44 @@ public class Word {
     }
 
     /**
-    * @return the validity
+    * @return the validity of a word.
     */
     public WordValidity getValidity() {
         return validity;
     }
 
     /**
-    * @param validity the validity to set
+    * @param validity Sets the validity of a word.
     */
     public void setValidity(WordValidity validity) {
         this.validity = validity;
     }
 
     /**
-    * @return the startOnBoard
+    * @return the position where the word starts.
     */
     public int getStart() {
         return startOnBoard;
     }
 
     /**
-    * @param startOnBoard the startOnBoard to set
+    * @param startOnBoard sets the position of where the word starts.
     */
     public void setStartOnBoard(int startOnBoard) {
         this.startOnBoard = startOnBoard;
     }
 
     /**
-    * @return the endOnBoard
+    * @return The position where the word ends.
     */
     public int getEnd() {
         return endOnBoard;
     }
 
     /**
-    * @param endOnBoard the endOnBoard to set
+    * @param endOnBoard sets the position of where the word ends.
     */
     public void setEndOnBoard(int endOnBoard) {
         this.endOnBoard = endOnBoard;
     }
-   
 }
