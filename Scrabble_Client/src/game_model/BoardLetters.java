@@ -6,7 +6,6 @@
 package game_model;
 
 /*
- *
  * @author HUGUETA
  */
 public class BoardLetters extends Letter {
@@ -16,7 +15,12 @@ public class BoardLetters extends Letter {
     
     private int crossingWordStarts;
     private int crossingWordEnds;
-	
+    /**
+     * Maps a specific tile to its coordinates in the board.
+     * @param l The tile to be mapped.
+     * @param x The position on the x axis.
+     * @param y The position on the y axis.
+     */
     public BoardLetters(Letter l, int x, int y)
     {
         super(l.getChar());

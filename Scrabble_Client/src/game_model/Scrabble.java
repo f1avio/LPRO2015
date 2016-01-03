@@ -15,16 +15,22 @@ public class Scrabble {
     public final Board board = new Board();
     public ArrayList<Player> players;
     public Bag bag = new Bag();
-    
+    /**
+     * Constructs an empty list with the specified initial capacity.
+     * @param playersNumber The specified initial capacity.
+     */
     public Scrabble(int playersNumber)
     {
-        players = new ArrayList<Player>(playersNumber);
+        players = new ArrayList<>(playersNumber);
     }
+    //
+    //public void run(){
+    //    
+    //}
     
-    public void run(){
-        
-    }
-    
+    /**
+     * Gives to each player seven tiles from the bag.
+     */
     public void firstLetters()
     {
         for(Player p : players)
