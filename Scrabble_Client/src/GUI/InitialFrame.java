@@ -357,6 +357,7 @@ public class InitialFrame extends javax.swing.JFrame {
         getAccessibleContext().setAccessibleName("mainF");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginPageBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginPageBActionPerformed

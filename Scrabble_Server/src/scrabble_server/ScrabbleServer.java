@@ -340,7 +340,62 @@ public class ScrabbleServer  implements Runnable{
                  System.out.println("<< Sending: " + ret);
                  clients[findClient(ID)].send(ret);                 
                  break;
-             }
+            }
+            case "PRIVATE":{                
+               String sender = findMessage(data,8,1);
+               String receiver = findMessage(data,8,2);
+               String txt_msg = findMessage(data,8,3);
+               
+               //System.out.println("\n\ntext"+txt_msg);
+               result = DBcon.sendMessage(sender,receiver,txt_msg);
+               
+                switch (result) {
+                    case 0: {
+                        ret = "PRIVATE#FAIL#";
+                        break;
+                    }
+                    case 1: {
+                        ret = "PRIVATE#OK#";
+                        break;
+                    }
+                    default: {
+                        ret = "PRIVATE#ERROR#";
+                        break;
+                    }
+
+                }
+                System.out.println("<< Sending: " + ret);        
+                clients[findClient(ID)].send(ret);
+                break;
+            
+            }
+            case "DISPLAY": {
+                 ret = "DISPLAY#" + DBcon.getUserList() + "#";
+                 System.out.println("<< Sending: " + ret);
+                 clients[findClient(ID)].send(ret);
+                 break;
+            }
+            case "MSGLIST":{
+                String user=findMessage(data,8,1);
+                //System.out.println("Socket Server username detetada: "+user);
+                //String Nr_msg=findMessage(data,8,2);
+                int nr_msg =0; //Integer.parseInt(Nr_msg);
+                String chat = DBcon.PrivMsgList(user,nr_msg);
+                ret = "MSGLIST#" + chat + "#";
+                System.out.println("<< Sending: " + ret);
+                clients[findClient(ID)].send(ret);    
+                break;
+            }
+            case "MSGNR":{
+                 int nr;
+                 String user_NR=findMessage(data,6,1);
+                 
+                 nr=DBcon.nrmsg(user_NR);
+                 
+                 ret="MSGNR#"+nr+"#";
+                 clients[findClient(ID)].send(ret);
+                 break;
+            }
         }
     
     }
