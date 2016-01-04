@@ -87,6 +87,16 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    public void sendChange(String actualPassword, String newPass, String email, String username){        
+        try {
+            String send = "CHANGE#"+actualPassword+SPACER+newPass+SPACER+email+SPACER+username+SPACER;
+            System.out.println("<< Sending: " + send);
+            dataOut.writeUTF(send);
+        } catch (IOException ex) {
+            System.out.println(" sendChange() " + ex);
+        }
+    }
+    
     /**
     * Constructor that reads the config.txt file to set parameters to the connection
     */
@@ -329,6 +339,10 @@ public class ClientProtocol implements Runnable {
                         }
                         break;
                     }
+                    case "CHANGE":{
+                        String state = findMessage(data, 7, 1);
+                        clientService.receiveChange(state);
+                        break;}
                     case "CREATEROOM":{
                         ans = findMessage(data,11,1);
                         //System.out.println("[CREATEROOM] ans: "+ans);

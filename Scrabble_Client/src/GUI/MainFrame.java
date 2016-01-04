@@ -110,7 +110,7 @@ public class MainFrame extends javax.swing.JFrame {
         currentPassInput = new javax.swing.JPasswordField();
         newPassInput = new javax.swing.JPasswordField();
         confirmPassInput = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        changesB = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         newRoomPage = new javax.swing.JPanel();
         roomNameLabel = new javax.swing.JLabel();
@@ -146,6 +146,10 @@ public class MainFrame extends javax.swing.JFrame {
         player8 = new javax.swing.JLabel();
         player8Status = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        helpPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
 
         quitConfirm.setAlwaysOnTop(true);
         quitConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -265,11 +269,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
         inboxDialog.getContentPane().add(nextMsgB, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
-        mainFramePanel.setName(""); // NOI18N
         mainFramePanel.setLayout(new java.awt.BorderLayout());
 
         ChatP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -369,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         playersPanel.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        TabsTableRank.addTab("Jogadores", playersPanel);
+        TabsTableRank.addTab("Players", playersPanel);
 
         ChatP.add(TabsTableRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 220, 380));
 
@@ -414,6 +416,11 @@ public class MainFrame extends javax.swing.JFrame {
         helpB1.setMaximumSize(new java.awt.Dimension(140, 40));
         helpB1.setMinimumSize(new java.awt.Dimension(140, 40));
         helpB1.setPreferredSize(new java.awt.Dimension(140, 40));
+        helpB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpB1ActionPerformed(evt);
+            }
+        });
         menuBarSettings.add(helpB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 5, -1, -1));
 
         settingsB1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -624,12 +631,17 @@ public class MainFrame extends javax.swing.JFrame {
         });
         settingsPage.add(confirmPassInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton1.setText("Confirm Changes");
-        jButton1.setMaximumSize(new java.awt.Dimension(130, 60));
-        jButton1.setMinimumSize(new java.awt.Dimension(130, 60));
-        jButton1.setPreferredSize(new java.awt.Dimension(130, 60));
-        settingsPage.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 220, -1));
+        changesB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        changesB.setText("Confirm Changes");
+        changesB.setMaximumSize(new java.awt.Dimension(130, 60));
+        changesB.setMinimumSize(new java.awt.Dimension(130, 60));
+        changesB.setPreferredSize(new java.awt.Dimension(130, 60));
+        changesB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changesBActionPerformed(evt);
+            }
+        });
+        settingsPage.add(changesB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 220, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         jLabel3.setMaximumSize(new java.awt.Dimension(500, 550));
@@ -637,7 +649,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setPreferredSize(new java.awt.Dimension(500, 550));
         settingsPage.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        basePanel.add(settingsPage, "card7");
+        basePanel.add(settingsPage, "settingP");
 
         newRoomPage.setToolTipText("");
         newRoomPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -927,6 +939,23 @@ public class MainFrame extends javax.swing.JFrame {
 
         basePanel.add(roomPage, "roomP");
 
+        helpPanel.setMinimumSize(new java.awt.Dimension(500, 550));
+        helpPanel.setPreferredSize(new java.awt.Dimension(500, 550));
+        helpPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText("        Frequently Asked Questions (FAQ)\n\nQ1: How to Sign Up/Create Account?\n\nA1: Press Sign Up button above and follow the \nsteps.\n\nQ2: How to Login?\n\nA2: Press Login button above and fill in with your\naccount details (Username and Password).\n\nQ3:How to play?\n\nA3:After the Login is done, press \"Create room\" or \n\"Join room\" and you will be redirected to game board.\n\nQ4: What are the rules ?\n\nA4:\n\n\n");
+        jScrollPane2.setViewportView(jTextArea1);
+
+        helpPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 480, 470));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
+        helpPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 550));
+
+        basePanel.add(helpPanel, "helpP");
+
         mainFramePanel.add(basePanel, java.awt.BorderLayout.WEST);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1178,6 +1207,29 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nextMsgBActionPerformed
 
+    private void changesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changesBActionPerformed
+        String actualPassword = new String (currentPassInput.getPassword());
+        String email = newEmailInput.getText();
+        String password = new String (newPassInput.getPassword());
+        String confpassword = new String (confirmPassInput.getPassword());
+        if(!ClientService.isValidEmailAddress(email)){
+            JOptionPane.showMessageDialog(null,"The email must be valid");
+        }else if((password.equals("")) || (confpassword.equals("")) || (actualPassword.equals(""))){
+            JOptionPane.showMessageDialog(null, "Password fields must be filled");
+        }else if(password.equals(confpassword)){
+            ClientService clientService = ClientService.getInstance();
+            clientService.changeRequest(actualPassword,password,email, username);
+            currentPassInput.setText("");
+            newEmailInput.setText("");
+            newPassInput.setText("");
+            confirmPassInput.setText("");
+        } else JOptionPane.showMessageDialog(null, "Passwords must be equal");
+    }//GEN-LAST:event_changesBActionPerformed
+
+    private void helpB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpB1ActionPerformed
+        selectPage("helpP");
+    }//GEN-LAST:event_helpB1ActionPerformed
+
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
@@ -1228,6 +1280,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JTabbedPane TabsTableRank;
     public javax.swing.JButton backB;
     public javax.swing.JPanel basePanel;
+    public javax.swing.JButton changesB;
     public javax.swing.JPanel chatPanel;
     public javax.swing.JTextArea chatarea;
     public javax.swing.JTextField chatinput;
@@ -1239,14 +1292,15 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel currentPassL;
     public javax.swing.JLabel destinationLabel;
     public javax.swing.JButton helpB1;
+    public javax.swing.JPanel helpPanel;
     public javax.swing.JButton homeB1;
     public javax.swing.JButton inboxB;
     public javax.swing.JButton inboxCloseB;
     public javax.swing.JDialog inboxDialog;
     public javax.swing.JButton inviteB2;
-    public javax.swing.JButton jButton1;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
+    public javax.swing.JLabel jLabel11;
     public javax.swing.JLabel jLabel13;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
@@ -1257,8 +1311,10 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel9;
     public javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JScrollPane jScrollPane7;
     public javax.swing.JScrollPane jScrollPane8;
+    public javax.swing.JTextArea jTextArea1;
     public javax.swing.JButton joinB;
     public javax.swing.JButton logoutB1;
     public javax.swing.JPanel mainFramePanel;

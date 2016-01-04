@@ -156,6 +156,21 @@ public class ClientService {
         }
     }
     
+    public void receiveChange(String state){
+        switch(state){
+            case "OK":
+                JOptionPane.showMessageDialog(null, "Changes Done");
+                mainFrame.selectPage("mainP");
+                break;
+            case "FAIL":
+                JOptionPane.showMessageDialog(null, "Wrong Password");
+                break;
+            case "ERROR":
+                JOptionPane.showMessageDialog(null, "Error, try again");
+                break;
+        }
+    }
+    
     public void receiveCreateRoom(int msg){
         switch(msg){
             case 1:{
@@ -330,6 +345,10 @@ public class ClientService {
         return ret; 
     }
         
+    public void changeRequest(String actualPassword, String password, String email, String username){
+        MD5 hash = new MD5();
+        protocol.sendChange(hash.convert(actualPassword), hash.convert(password), email, username);
+    }
     
     public void receiveJoin(String room){
         //System.out.println("receiveJoin() msg: "+msg);

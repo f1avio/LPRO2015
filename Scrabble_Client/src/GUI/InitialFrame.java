@@ -70,9 +70,12 @@ public class InitialFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         pagesPanel = new javax.swing.JPanel();
         homePanel = new javax.swing.JPanel();
+        jTextArea2 = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         passInputText = new javax.swing.JPasswordField();
         userInputText = new javax.swing.JTextField();
         remembermeB = new javax.swing.JCheckBox();
@@ -90,8 +93,11 @@ public class InitialFrame extends javax.swing.JFrame {
         passInputPassT = new javax.swing.JPasswordField();
         pass2InputText = new javax.swing.JPasswordField();
         signupB = new javax.swing.JToggleButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         helpPanel = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
@@ -218,6 +224,18 @@ public class InitialFrame extends javax.swing.JFrame {
         homePanel.setName(""); // NOI18N
         homePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jTextArea2.setForeground(new java.awt.Color(255, 255, 255));
+        jTextArea2.setRows(5);
+        jTextArea2.setText("Welcome to ScrabbleRabble!\n\nIf you have any doubt on how to play , press Help.\n\nHope you enjoy play with us!");
+        jTextArea2.setOpaque(false);
+        homePanel.add(jTextArea2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 430, 120));
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dragonforce.jpg"))); // NOI18N
+        homePanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, 470, 150));
+
         jToggleButton1.setText("Server");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,6 +250,9 @@ public class InitialFrame extends javax.swing.JFrame {
         pagesPanel.add(homePanel, "homeP");
 
         loginPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jori.jpg"))); // NOI18N
+        loginPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 220, 370));
 
         passInputText.setMinimumSize(new java.awt.Dimension(200, 40));
         passInputText.setPreferredSize(new java.awt.Dimension(200, 40));
@@ -330,6 +351,12 @@ public class InitialFrame extends javax.swing.JFrame {
         });
         signupPanel.add(signupB, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 370, 200, 90));
 
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rider.JPG"))); // NOI18N
+        signupPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, 130, 150));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/youradhere.JPG"))); // NOI18N
+        signupPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, 120, 210));
+
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         signupPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 550));
 
@@ -337,13 +364,17 @@ public class InitialFrame extends javax.swing.JFrame {
 
         helpPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/projsenior.JPG"))); // NOI18N
+        helpPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 160, 320));
+
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("        Frequently Asked Questions (FAQ)\n\nQ1: How to Sign Up/Create Account?\n\nA1: Press Sign Up button above and follow the \nsteps.\n\nQ2: How to Login?\n\nA2: Press Login button above and fill in with your\naccount details (Username and Password).\n\nQ3:How to play?\n\nA3:After the Login is done, press \"Create room\" or \n\"Join room\" and you will be redirected to game board.\n\nQ4: What are the rules ?\n\nA4:\n\n\n");
+        jTextArea1.setOpaque(false);
         jScrollPane1.setViewportView(jTextArea1);
 
-        helpPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 580, 470));
+        helpPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 500, 460));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pageBackground.png"))); // NOI18N
         helpPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 550));
@@ -402,13 +433,13 @@ public class InitialFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_passInputTextActionPerformed
 
     private void signupBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupBActionPerformed
-        
         String username = (String)((userInputSignupT.getText()));
         String password = new String(passInputPassT.getPassword());
         String Cpassword = new String(pass2InputText.getPassword());
         String email = (String)((emailInputText.getText()));
-        
-        if (!password.equals(Cpassword)) {
+        if(!ClientService.isValidEmailAddress(email)){
+            JOptionPane.showMessageDialog(null,"The email must be valid");
+        } else if (!password.equals(Cpassword)) {
             JOptionPane.showMessageDialog(null,"The passwords do not match. Please try again!","Wrong password",JOptionPane.WARNING_MESSAGE);
         } else {
             newUsername=username;
@@ -518,12 +549,18 @@ public class InitialFrame extends javax.swing.JFrame {
     private javax.swing.JButton homePageB;
     private javax.swing.JPanel homePanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton loginB;
     private javax.swing.JButton loginPageB;
