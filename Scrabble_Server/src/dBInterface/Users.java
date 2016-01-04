@@ -134,6 +134,33 @@ public class Users {
         }
         return state;
     }
+    
+    public int changes(String pass, String email, String username){
+        String[] aux = dbconn.getDB();
+        int ret = 0;
+        String updatePassword;
+        String updateEmail;
+        try {
+            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
+            Statement stmt = con.createStatement();
+            if(!testConfigured){
+                updatePassword = "UPDATE scrabble.accounts SET password ='" + pass + "' WHERE username ='" + username + "'";
+                updateEmail = "UPDATE scrabble.accounts SET email ='" + email + "' WHERE username ='" + username + "'";
+            }else{
+                updatePassword = "UPDATE test.accounts SET isonline ='" + pass + "' WHERE username ='" + username + "'";
+                updateEmail = "UPDATE scrabble.accounts SET email ='" + email + "' WHERE username ='" + username + "'";
+            }
+            stmt.executeUpdate(updatePassword);
+            stmt.executeUpdate(updateEmail);
+            
+            ret = 2;
+        } catch (SQLException ex) {
+            ret = 0;
+            System.out.println("userActive() "+ ex);
+        }
+        return ret;
+    }
+    
     /**
      * Acknowledges that specified user is either online or offline.
      * @param username The user username that will change is state.

@@ -223,6 +223,30 @@ public class ScrabbleServer  implements Runnable{
                 break;
 
             }
+            case "CHANGE":{
+                String actualPass = findMessage(data, 7, 1);
+                String newPass = findMessage(data, 7, 2);
+                String email = findMessage(data, 7, 3);
+                String username = findMessage(data, 7, 4);
+                result = DBcon.change(actualPass, newPass, email, username);
+                switch(result){
+                    case 2:{
+                        ret = "CHANGE#OK#";
+                        break;
+                    }
+                    case 1:{
+                        ret="CHANGE#FAIL#";     //actualPass wrong
+                        break;
+                    }
+                    case 0:{
+                        ret = "CHANGE#ERROR#";
+                        break;
+                    }
+                }
+                System.out.println("<< Sending: " + ret);
+                clients[findClient(ID)].send(ret);
+                break;
+            }
             case "CREATEROOM":{
                 String owner = findMessage(data, 11,2);
                 String roomName = findMessage(data,11, 3);

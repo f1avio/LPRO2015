@@ -143,6 +143,16 @@ public class DBconnection {
             }
         return state;
     }
+    
+    public int change(String actualPass, String newPass, String email, String username){
+        int state=0;
+        if(!actualPass.equals(database.getPassword(username))){
+            return 1;
+        }
+        state = database.changes(newPass, email, username);
+        return state;
+    }
+    
     /**
      * Returns a list of all the rooms on the system.
      * <p> Acts as an intermediate between lower level and the clientThread.
