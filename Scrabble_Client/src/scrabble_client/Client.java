@@ -18,10 +18,9 @@ public class Client {
 
     /**
      * Initiates the Graphical Interface, redirecting the client to the Homepage
-     * @param args Arguments passed from the command mine. They are ignored.
-     * @throws IOException
+     * @param args Arguments passed from the command line. They are ignored.
      */
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[])  {
         InitialFrame scrabblegui = new InitialFrame("homeP");
         scrabblegui.pack();
         scrabblegui.setVisible(true);

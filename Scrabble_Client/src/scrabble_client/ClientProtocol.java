@@ -32,9 +32,10 @@ public class ClientProtocol implements Runnable {
     private static ClientProtocol instance = null;
     private final String SPACER = "#";
     
-    
-    
-    private ClientProtocol(){
+    /**
+     * Sets the connection to the server, using the parameters read from a config file.
+     */
+    public ClientProtocol(){
         final JPanel frame = new JPanel();
         readServer();
         try {
@@ -49,14 +50,21 @@ public class ClientProtocol implements Runnable {
         }
         
     }
-    
+    /**
+     * Creates a new instance of the class ClientProtocol.
+     * @return An instance of ClientProtocol.
+     */
     public static ClientProtocol getInstance(){
         if(instance == null){
             instance = new ClientProtocol();
         }
         return instance;
     }
-    
+    /**
+     * Creates a login command to be sent to the server.
+     * @param username The identifier of the user who wants to log in.
+     * @param password The password of the user who wants to log in.
+     */
     public void sendLogin(String username, String password){
         try{
             String login = "LOGIN" + SPACER + username + SPACER + password + SPACER;
@@ -67,6 +75,12 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    /**
+     * Creates a Sign up command to be sent to the server.
+     * @param username The identifier that the visitor expects to use.
+     * @param password The password the visitor expects to use.
+     * @param email The email of the visitor.
+     */
     public void sendSignup(String username, String password, String email){
         try{
             String signup = "SIGNUP" + SPACER + username + SPACER + password + SPACER + email + SPACER;
@@ -76,7 +90,10 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendRegist() " + ex);
         }
     }
-    
+    /**
+     * Creates a Log out command to be sent to the server.
+     * @param username The user identifying username.
+     */
     public void sendLogout(String username){
         try {
             String logout = "LOGOUT" + SPACER + username + SPACER;
@@ -86,7 +103,13 @@ public class ClientProtocol implements Runnable {
             System.out.println(" sendLogout() " + ex);
         }
     }
-    
+    /**
+     * Creates a Change password command to be sent to the server.
+     * @param actualPassword The actual password of the user.
+     * @param newPass The new password the user wants to use.
+     * @param email The email of the user.
+     * @param username The user identifying username.
+     */
     public void sendChange(String actualPassword, String newPass, String email, String username){        
         try {
             String send = "CHANGE#"+actualPassword+SPACER+newPass+SPACER+email+SPACER+username+SPACER;
@@ -98,8 +121,8 @@ public class ClientProtocol implements Runnable {
     }
     
     /**
-    * Constructor that reads the config.txt file to set parameters to the connection
-    */
+     * Reads the parameters from the configuration file, in order to connect to the server.
+     */
     public static void readServer(){
         /*Attempts to read a configuration file */
         /*Step 0: Initialize the files*/
@@ -130,7 +153,12 @@ public class ClientProtocol implements Runnable {
             }
         }
     }
-    
+    /**
+     * Creates a create room command to be sent to the server.
+     * @param nPlayers The number of players the room can hold.
+     * @param owner The player that will host the room.
+     * @param room The room's name.
+     */
     public void sendCreateRoom(int nPlayers, String owner, String room){
         try{
             String create = "CREATEROOM" + SPACER + nPlayers + SPACER + owner + SPACER + room + SPACER;
@@ -140,7 +168,10 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendCreateRoom() " + ex);
         }
     }
-    
+    /**
+     * Creates a command to join a room, that will be sent to the server.
+     * @param room The room that the player wants to join.
+     */
     public void sendJoinRoom(String room){
         try{
             String join = "JOINROOM" + SPACER + room + SPACER;
@@ -151,6 +182,11 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    /**
+     * Creates a command to quit the room, that will be sent to the server.
+     * @param username The player that wants to quit.
+     * @param room The room where he is.
+     */
     public void sendQuitRoom(String username, String room){
         try{
             String quit = "QUITROOM" + SPACER + username + SPACER + room + SPACER;
@@ -160,7 +196,9 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendQuitRoom() " + ex);
         }
     }
-    
+    /**
+     * Creates a command to view the rooms, that will be sent to the server.
+     */
     public void sendViewRooms(){
         try {
             String view = "VIEWROOMS" + SPACER;
@@ -171,6 +209,11 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    /**
+     * Creates a command to send a message to the chat, that will be sent to the server.
+     * @param username The sender's name.
+     * @param msg The contents of the message.
+     */
     public void sendChat(String username, String msg) {
         try {
             String chat = "CHAT" + SPACER + username + SPACER + msg + SPACER;
@@ -181,6 +224,10 @@ public class ClientProtocol implements Runnable {
         }
     }
 
+    /**
+     * Creates a command to update the number of player in a room.
+     * @param room The room where the numbers will be updated.
+     */
     public void sendUpdatePlayers(String room){
         try{
             String update = "UPLAYERS" + SPACER + room + SPACER;
@@ -190,7 +237,11 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendUpdatePlayers() " + ex);
         }
     }
-    
+    /**
+     * Creates a command to change a player state in a room.
+     * @param username The player whose state will change.
+     * @param room The room where the player is at.
+     */
     public void sendReady(String username, String room){ 
         try {
             String ready = "READY" + SPACER + username + SPACER + room + SPACER;
@@ -201,6 +252,9 @@ public class ClientProtocol implements Runnable {
         }
     }
     
+    /**
+     * Creates a command to see the ranking.
+     */
     public void sendRanking() {
         try {
             String rank = "RANKING" + SPACER;
@@ -210,7 +264,12 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendRanking() " + ex);
         }
     }
-    
+    /**
+     * Creates a command to send a private message to a friend, that will be sent to the server.
+     * @param username The sender of the message.
+     * @param friend The receiver of the message.
+     * @param texto The content of the message.
+     */
     public void sendMessage(String username, String friend, String texto){
      try {
             String log = "PRIVATE" + SPACER + username + SPACER + friend + SPACER + texto + SPACER;
@@ -220,6 +279,9 @@ public class ClientProtocol implements Runnable {
         }    
     }
     
+    /**
+     * Creates a command to display the user's pending messages, and sends it to the server.
+     */
     public void requestDisplay(){
         String msg = "DISPLAY#";
         try{
@@ -415,7 +477,7 @@ public class ClientProtocol implements Runnable {
                     case "READY":{
                         ans = findMessage(data, 6, 1);
                         String username = findMessage(data, 6, 2);
-                        clientService.receiveReady(ans, username);
+                        clientService.receiveReady(ans);
                         break; 
                     }
                     case "RANKING":{
@@ -446,11 +508,10 @@ public class ClientProtocol implements Runnable {
     }
     
     /**
-     *
-     * @param data contains the data to obtain the message type
-     * @return
+     * Reads some of the content of the message of the server.
+     * @param data contains the data to obtain the message type.
+     * @return Some content of the message.
      */
-
     public String findType(char data[]){
         int i= 0;
         String type="";
@@ -461,6 +522,7 @@ public class ClientProtocol implements Runnable {
         
         return type;
     }
+    
     
     public String findMessage(char data[],int i,int arg ){
         String message ="";

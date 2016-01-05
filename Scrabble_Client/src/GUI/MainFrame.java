@@ -12,15 +12,13 @@ import scrabble_client.*;
 /**
  *
  * @author HUGUETA
+
  */
 public class MainFrame extends javax.swing.JFrame {
     static private String username;
     private String userFromProfileTable = "";
     String room = "";
-    /**
-     * Creates new form MainFrame1
-     * @param user
-     */
+ 
     public MainFrame(String user) {
         initComponents();
         MainFrame.username = user;
@@ -1118,7 +1116,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         if(p2 && p3 && p4){
         ClientService clientService = ClientService.getInstance();
-        clientService.startRoom(room);
+        //clientService.startRoom(room);
+        clientService.startRoom();
         }else{
             JOptionPane.showMessageDialog(null, "Wait until everyone is ready!");
         }
