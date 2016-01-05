@@ -75,65 +75,6 @@ public class Chat {
         
         return success;
     }
-    
-    public String PrivMsgList(String user) {
-        String[] aux = dbconn.getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-            
-            String msgList="";
 
-            String sql = "SELECT * FROM scrabble.private WHERE receiver = '" + user+ "'";
-            ResultSet rs = stmt.executeQuery(sql);            
-            while(rs.next())
-            {
-                msgList = msgList + rs.getString("sender")+ "£" + rs.getString("message")+"«";
-            }
-            return msgList;
-          
-        } catch (SQLException ex) {
-            System.out.println("PrivMsgList() "+ex);
-            return "ERRO";}
-    }
-    
-    boolean PrivMsgListDelete(String user) {
-        String[] aux = dbconn.getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-           
-            String msg="";
-            stmt.executeUpdate("UPDATE scrabble.private SET \"MSG\"='"+msg+"' WHERE \"USERNAME\"='"+user+"'");
-                
-                //stmt.executeUpdate("INSERT INTO USERS" + " (FRIENDS)" + " VALUES ('" + friend + "')");
-        } catch (SQLException ex) 
-        {
-            System.out.println("PrivMsgListDelete() " +ex);
-            return false;
-        }
-        return true;
-    }
-    
-    public int getNrMsg(String user) {
-        String[] aux = dbconn.getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-            int nr_msg = 0;
 
-            String sql = "SELECT * FROM scrabble.private WHERE receiver = '" + user+ "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            while(rs.next())
-            {
-                nr_msg++;
-            } 
-            return nr_msg;
-          
-        } catch (SQLException ex) {
-            System.out.println("getNrMsg() "+ex);
-            return -1;}
-         
-        }
 }
