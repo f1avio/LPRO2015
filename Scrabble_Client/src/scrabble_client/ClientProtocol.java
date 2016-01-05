@@ -36,7 +36,7 @@ public class ClientProtocol implements Runnable {
      * Sets the connection to the server, using the parameters read from a config file.
      */
     public ClientProtocol(){
-        final JPanel frame = new JPanel();
+        final JPanel frame = new JPanel(); 
         readServer();
         try {
             System.out.println(hostname);
