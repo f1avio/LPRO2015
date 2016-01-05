@@ -1,4 +1,4 @@
 /**
- * Implements the bridge between the client and server.
+ * Implements the bridge between the client and the server.
  */
 package scrabble_client;
