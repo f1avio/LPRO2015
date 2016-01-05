@@ -404,7 +404,7 @@ public class ScrabbleServer  implements Runnable{
                 //System.out.println("Socket Server username detetada: "+user);
                 //String Nr_msg=findMessage(data,8,2);
                 int nr_msg =0; //Integer.parseInt(Nr_msg);
-                String chat = DBcon.PrivMsgList(user,nr_msg);
+                String chat = DBcon.PrivMsgList(user);
                 ret = "MSGLIST#" + chat + "#";
                 System.out.println("<< Sending: " + ret);
                 clients[findClient(ID)].send(ret);    
