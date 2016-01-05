@@ -19,6 +19,10 @@ public class PrivateMSGTest extends TestCase {
     PrivateMSG instance = null;
     DbSetup obj = null;
     
+    /**
+     * Constructor of the unit test for the class PrivateMSG.
+     * @param testName The name of the test. 
+     */ 
     public PrivateMSGTest(String testName) {
         super(testName);
         
@@ -29,6 +33,10 @@ public class PrivateMSGTest extends TestCase {
         obj.setDB();
     }
     
+    /**
+     * Creates a test table on the database and fills in some tuples.
+     * @throws Exception Throws any kind of exception.
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -51,6 +59,10 @@ public class PrivateMSGTest extends TestCase {
         
     }
     
+    /**
+     * Drops the the table and the schema after the test has finished.
+     * @throws Exception Throws any kind of exception. 
+     */
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
