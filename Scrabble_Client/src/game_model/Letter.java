@@ -5,11 +5,13 @@
  */
 package game_model;
 
-/**@author  Adam Kopnicky
- *          Ewa Godlewska
- *          Flavio Dias
- *          Hugo Pereira
- *          Jose Carvalho
+/**
+ * Generates the letters used, the amount of them and their value.
+ * @author  Adam Kopnicky
+ * @author  Ewa Godlewska
+ * @author  Flavio Dias
+ * @author  Hugo Pereira
+ * @author  Jose Carvalho
  */
 public class Letter {
     protected Character Char;

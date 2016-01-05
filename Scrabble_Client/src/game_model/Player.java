@@ -5,22 +5,19 @@ import game_model.Letter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**@author  Adam Kopnicky
- *          Ewa Godlewska
- *          Flavio Dias
- *          Hugo Pereira
- *          Jose Carvalho
+/**
+ * Stores the player name, points and letters on hand.
+ * @author  Adam Kopnicky
+ * @author  Ewa Godlewska
+ * @author  Flavio Dias
+ * @author  Hugo Pereira
+ * @author  Jose Carvalho
  */
 public class Player {  /*It will be used later on to more complicated things*/
     private String name =null;
     private int score;
     private ArrayList<Letter> letters = new ArrayList<Letter>();
-    
-    
-    public Player(){
-        
-    }
-    
+   
     /**
      * @param name The username to be stored
      */

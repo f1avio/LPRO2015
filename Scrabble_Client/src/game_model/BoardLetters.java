@@ -6,6 +6,7 @@
 package game_model;
 
 /*
+ * Deals with letters placed on the board.
  * @author HUGUETA
  */
 public class BoardLetters extends Letter {

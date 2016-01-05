@@ -9,6 +9,7 @@ import game_model.Word.Direction;
 import java.util.List;
 
 /**
+ * Represents the standard board of scrabble.
  * @author HUGUETA
  */
 public class Board {

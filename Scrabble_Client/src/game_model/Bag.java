@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Fills in the bag with the necessary letters, with their positions randomized.
- * @author Flávio
+ * Represents a virtual bag of tiles, where they are placed randomly.
+ * @author Flávio Dias
  */
 public class Bag {
      private List<Letter> bag;

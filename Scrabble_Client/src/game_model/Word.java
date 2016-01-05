@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Builds words using the letters placed on the board.
  * @author José Eduardo
  */
 public class Word {

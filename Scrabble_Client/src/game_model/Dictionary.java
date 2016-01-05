@@ -13,7 +13,7 @@ import java.util.TreeSet;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Retrieves information from the dictionary.
  * @author José Eduardo
  */
 public class Dictionary {

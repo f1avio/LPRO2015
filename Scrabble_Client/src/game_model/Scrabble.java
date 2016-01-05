@@ -8,10 +8,11 @@ package game_model;
 import java.util.ArrayList;
 
 /**
- *
+ * Initiates the a game of scrabble, distributing the letters among them.
  * @author HUGUETA
  */
 public class Scrabble {
+
     public final Board board = new Board();
     public ArrayList<Player> players;
     public Bag bag = new Bag();
