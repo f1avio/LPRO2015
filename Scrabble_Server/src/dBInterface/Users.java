@@ -9,11 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -135,9 +131,16 @@ public class Users {
         return state;
     }
     
+    /**
+     * Changes the password or email of a certain user.
+     * @param pass The new password that might be changed.
+     * @param email The email that might be changed.
+     * @param username The username that indentifies the user.
+     * @return A status code reflecting the success of the operation.
+     */
     public int changes(String pass, String email, String username){
         String[] aux = dbconn.getDB();
-        int ret = 0;
+        int ret;
         String updatePassword;
         String updateEmail;
         try {
@@ -147,8 +150,8 @@ public class Users {
                 updatePassword = "UPDATE scrabble.accounts SET password ='" + pass + "' WHERE username ='" + username + "'";
                 updateEmail = "UPDATE scrabble.accounts SET email ='" + email + "' WHERE username ='" + username + "'";
             }else{
-                updatePassword = "UPDATE test.accounts SET isonline ='" + pass + "' WHERE username ='" + username + "'";
-                updateEmail = "UPDATE scrabble.accounts SET email ='" + email + "' WHERE username ='" + username + "'";
+                updatePassword = "UPDATE test.accounts SET password ='" + pass + "' WHERE username ='" + username + "'";
+                updateEmail = "UPDATE test.accounts SET email ='" + email + "' WHERE username ='" + username + "'";
             }
             stmt.executeUpdate(updatePassword);
             stmt.executeUpdate(updateEmail);
@@ -291,6 +294,7 @@ public class Users {
         }
         return result;
     }
+    
     /**
      * Verifies if an user is an admin of the system.
      * @param user the user that will be verified
@@ -320,6 +324,7 @@ public class Users {
         }
         return admin;
     }
+    
     /**
      * Counts the number of registered users on the system.
      * @return The number of registered users.
@@ -345,6 +350,7 @@ public class Users {
         }
         return i;
     }
+    
     /**
      * Retrieves the registered users from the database.
      * <p> These users are presented on an array, sorted by their score.
@@ -465,42 +471,28 @@ public class Users {
         return loses;
     }
      
-     public int addPrivate_MSG(String user_msg, String friend_msg,String texto){
-
-        String sql;
-        int ret=0;
-        String[] aux = dbconn.getDB();
-        try {
-            Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
-            Statement stmt = con.createStatement();
-            Date date = Calendar.getInstance().getTime();
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String today = formatter.format(date);
-            //System.out.println("Today : " + today);
-            sql = "INSERT INTO scrabble.private" + " (sender, message, receiver ,date)" + " VALUES ('" + user_msg + "', '" + texto + "','" + friend_msg + "','" + today + "')";
-            stmt.executeUpdate(sql);
-            ret = 1;
-            con.close();
-
-        } catch (SQLException ex) {
-            System.out.println(ex);
-            ret=0;
-        }
-
-        return ret;
-}
-   
-    public String getUsernameList(){
+     /**
+      * Returns a list with the names of all registered users.
+      * @return A list with the users names.
+      */    
+     public String getUsernameList(){
         String players = "";
         String[] aux = dbconn.getDB();
+        String query;
         try {
             Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3]);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM scrabble.accounts");
+            if(!testConfigured)
+                query = "SELECT * FROM scrabble.accounts;";
+            else
+                query = "SELECT * FROM test.accounts;";
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 players = players + rs.getString("username")+"/";                
             }
         } catch (SQLException ex) { System.out.println("getUserInfo() " +ex); }
+        System.out.println(players);
         return players;
     }
+    
 }

@@ -246,4 +246,32 @@ public class UsersTest extends TestCase {
         String result = Arrays.toString(instance.getLoses());
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of changes method, of class Users.
+     */
+    public void testChanges() {
+        System.out.println("changes");
+        String pass = "password";
+        String email = "charliebrown@depressed.com";
+        String username = "Jeremias";
+        Users instance = new Users();
+        instance.setTest(true);
+        int expResult = 2;
+        int result = instance.changes(pass, email, username);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getUsernameList method, of class Users.
+     */
+    public void testGetUsernameList() {
+        System.out.println("getUsernameList");
+        Users instance = new Users();
+        instance.setTest(true);
+        String expResult = "Jeremias/";
+        String result = instance.getUsernameList();
+        assertEquals(expResult, result);
+    }
 }
