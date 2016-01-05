@@ -5,6 +5,7 @@ import java.net.*;
 import dBInterface.*;
 import java.util.Arrays;
 
+
 /**@author  Adam Kopnicky
  *          Ewa Godlewska
  *          Flavio Dias
@@ -20,6 +21,8 @@ public class ScrabbleServer  implements Runnable{
     DBconnection DBcon = new DBconnection();
     //DBconnection DBcon = DBconnection.getInstance();
     static int port;
+    /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
+    private static final boolean debug = true;
     
     private static ScrabbleServer instance = null;
     
@@ -100,6 +103,8 @@ public class ScrabbleServer  implements Runnable{
             case "DELETE":
                 ret = "QUITROOM#OK#";
                 break;
+            case "STARTGAME":
+                ret = "STARTGAME#OK#";
         }
         
         while(i<players.length && !"NULL".equals(players[i])){
@@ -304,6 +309,21 @@ public class ScrabbleServer  implements Runnable{
                 }
                 clients[findClient(ID)].send(ret);
                 System.out.println("<< Sending: " + ret);
+                break;
+            }
+            
+            case "STARTGAME":{
+                //Step 1: Retrieve the room name
+                String room = findMessage(data, 10, 1);
+                if(debug)
+                    System.out.println("The room is" + room);
+                //Step 2: Retrieve the players on them.
+                String players[] = DBcon.receiveRoomPlayers(room);
+                if(debug)
+                    System.out.println(Arrays.toString(players));
+
+                //Step 3: Send message to every that the game will start.
+                AnnounceRoom(players, "STARTGAME");
                 break;
             }
             case "VIEWROOMS":{

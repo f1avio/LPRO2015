@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,6 +29,7 @@ public class InitialFrame extends javax.swing.JFrame {
     static private String page = "homeP";
     static private String newUsername;
     static String identifier;  //mudar para uma int
+    static InitialFrame f = null;
     //static User user = new User();
     
     
@@ -502,6 +504,7 @@ public class InitialFrame extends javax.swing.JFrame {
         CardLayout card = (CardLayout) pagesPanel.getLayout();
         card.show(pagesPanel, page);   
     }
+        
     /**
      * @param args the command line arguments
      */
@@ -529,11 +532,14 @@ public class InitialFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+                
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InitialFrame().setVisible(true);
+                f = new InitialFrame();
+                f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                f.setVisible(true);
+               // new InitialFrame().setVisible(true);
             }
         });
     }

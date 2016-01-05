@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
 /**
@@ -1107,7 +1108,7 @@ public class MainFrame extends javax.swing.JFrame {
         boolean p2 = false;
         boolean p3 = false;
         boolean p4 = false;
-        if(player6Status.getText().equals("") || player6Status.getText().equals("Ready"))
+        if( player6Status.getText().equals("Ready"))
             p2 = true;
         if(player7Status.getText().equals("") || player7Status.getText().equals("Ready"))
             p3 = true;
@@ -1117,7 +1118,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(p2 && p3 && p4){
         ClientService clientService = ClientService.getInstance();
         //clientService.startRoom(room);
-        clientService.startRoom();
+        clientService.sendStart(room);
         }else{
             JOptionPane.showMessageDialog(null, "Wait until everyone is ready!");
         }
@@ -1229,6 +1230,17 @@ public class MainFrame extends javax.swing.JFrame {
         selectPage("helpP");
     }//GEN-LAST:event_helpB1ActionPerformed
 
+    /**
+     * Processes an event caused by pressing the [X] button.
+     * @param e The event caused by the user pressing the [X] button. 
+     */
+    public void windowClosed(WindowEvent e) {
+        //This will only be seen on standard output.
+        //Step 1: We need to certificate that the user really logged out of the database.
+        ClientService clienteservice = ClientService.getInstance();
+        clienteservice.logoutRequest(username);
+    }
+    
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
@@ -1267,7 +1279,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+               // new MainFrame().setVisible(true);
             }
         });
     }

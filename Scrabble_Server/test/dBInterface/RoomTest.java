@@ -37,7 +37,7 @@ public class RoomTest extends TestCase {
         try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
             Statement stmt = con.createStatement();
             stmt.executeUpdate("CREATE Schema test");
-            stmt.executeUpdate("CREATE TABLE test.room (maxplayers INTEGER NOT NULL DEFAULT 4, name VARCHAR(50) NOT NULL, players INTEGER NOT NULL DEFAULT 1, owner VARCHAR(50) NOT NULL, playernames text[] DEFAULT '{{NULL,NULL},{NULL,NULL},{NULL,NULL},{NULL,NULL}}'::text[], id INTEGER PRIMARY KEY);");
+            stmt.executeUpdate("CREATE TABLE test.room (maxplayers INTEGER NOT NULL DEFAULT 4, name VARCHAR(50) NOT NULL, players INTEGER NOT NULL DEFAULT 1, owner VARCHAR(50) NOT NULL, playernames text[] DEFAULT '{{NULL,\"Ready\"},{NULL,NULL},{NULL,NULL},{NULL,NULL}}'::text[], id INTEGER PRIMARY KEY);");
             stmt.executeUpdate("INSERT INTO test.room VALUES(3, 'testroom', 2, 'Jeremias', '{{Jeremias, Activo}, {Inacio, Activo}, {NULL, NULL}, {NULL, NULL}}', 666);");
             con.close();
         } catch (SQLException ex) {

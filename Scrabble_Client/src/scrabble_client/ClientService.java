@@ -579,11 +579,32 @@ public class ClientService {
     public void setGameGui(GameGUI gamegui){
         gameGui = gamegui;
     }
+    
+   /**
+    * Sends message to start the game.
+    * @param room The room where the game will start.
+    */ 
+   public void sendStart(String room){
+        protocol.sendStart(room);
+   }
+   
+    /**
+     * Receives the condition to see if it can start a game.
+     * @param status The condition to start the game.
+     */
+    public void receiveGame(int status)
+    {
+        if(-1 == status)
+            JOptionPane.showMessageDialog(null,"Someone wasn't ready at time!","Error",JOptionPane.ERROR_MESSAGE);
+        else
+            startRoom();
+    }
+   
     /**
      * Starts the graphical interface of a room.
      */
     public void startRoom(){
-         //public void startRoom(String room){
+    //public void startRoom(String room){
         GameGUI gameG = new GameGUI();
         gameG.setVisible(true);
     }

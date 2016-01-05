@@ -32,6 +32,9 @@ public class ClientProtocol implements Runnable {
     private static ClientProtocol instance = null;
     private final String SPACER = "#";
     
+    /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
+    private static final boolean debug = true;
+    
     /**
      * Sets the connection to the server, using the parameters read from a config file.
      */
@@ -196,6 +199,25 @@ public class ClientProtocol implements Runnable {
             System.out.println("sendQuitRoom() " + ex);
         }
     }
+    
+    /**
+     * Creates a command to start the game, that will be distributed by the other players.
+     * @param room The room where the game will start.
+     */
+    public void sendStart(String room)
+    {
+        String start = "STARTGAME" + SPACER + room +SPACER;
+        if(debug)
+            System.out.println("ClientProtocol.sendstart: " + start);
+        
+        try {
+            dataOut.writeUTF(start);
+            System.out.println("<< Sending: " + start);
+        } catch (IOException ex) {
+            System.out.println("sendStart() " + ex);
+        }
+    }
+    
     /**
      * Creates a command to view the rooms, that will be sent to the server.
      */
@@ -444,6 +466,14 @@ public class ClientProtocol implements Runnable {
                         }
                         break;
                     }
+                    
+                    case "STARTGAME": //The game has started. open game gui
+                        ans = findMessage(data, 9, 1);
+                        if(ans.equals("ERROR"))
+                            clientService.receiveGame(-1);
+                        else
+                            clientService.receiveGame(1);
+                        break;
                     case "ROOMS":{
                         String rooms = findMessage(data,6,1);
                         clientService.receiveRooms(rooms);

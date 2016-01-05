@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game_model;
+package game;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -31,7 +31,7 @@ public class DictionaryTest {
      */
     @Test
     public void testCheckWord2() {
-        System.out.println("checkWord");
+        System.out.println("checkWord2");
         String w = "home";
         Dictionary instance = new Dictionary();
         boolean expResult = false;
