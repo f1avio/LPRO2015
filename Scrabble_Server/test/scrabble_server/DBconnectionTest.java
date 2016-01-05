@@ -80,6 +80,20 @@ public class DBconnectionTest extends TestCase {
         } catch (SQLException ex) {
             System.out.println("Error creating the chat table " +ex);
         }
+        
+        //Creates the private chat table and fills it with some chat messages.
+        try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("CREATE TABLE test.private (message character varying NOT NULL, sender character varying NOT NULL,\n" +
+                               "    receiver character varying NOT NULL, date character varying NOT NULL);");
+            
+            stmt.executeUpdate("INSERT INTO test.private VALUES ('ola', 'Jeremias', 'admin', '05/01/2016');");
+            stmt.executeUpdate("INSERT INTO test.private VALUES ('123456789', 'admin', 'admin', '03/01/2016');");
+            
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error creating a table " +ex);
+        }    
     }
     
     /**
@@ -98,6 +112,7 @@ public class DBconnectionTest extends TestCase {
             stmt.executeUpdate("DROP TABLE test.accounts;");
             stmt.executeUpdate("DROP TABLE test.room;");
             stmt.executeUpdate("DROP TABLE test.chat;");
+            stmt.executeUpdate("DROP TABLE test.private;");
             stmt.executeUpdate("DROP Schema test;");
             con.close();    
         } catch (SQLException ex) {
@@ -243,5 +258,69 @@ public class DBconnectionTest extends TestCase {
         String expResult = "[2, 1/Inacio/12/3/6, 2/Jeremias/10/3/4]";
         String result = Arrays.toString(instance.ranking());
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of change method, of class DBconnection.
+     */
+    public void testChange() {
+        System.out.println("change");
+        String actualPass = "a269d2326633e4ed0249bc440824c3d4";
+        String newPass = "Sorry, but the princess is in another castle";
+        String email = "toad@mushroomkingdom.io";
+        String username = "Jeremias";
+        int expResult = 2;
+        int result = instance.change(actualPass, newPass, email, username);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of sendMessage method, of class DBconnection.
+     */
+    public void testSendMessage() {
+        System.out.println("sendMessage");
+        String sender = "Julio Cesar";
+        String receiver = "Brutus";
+        String text_msg = "Et tu, Brute?";
+        int expResult = 1;
+        int result = instance.sendMessage(sender, receiver, text_msg);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getUserList method, of class DBconnection.
+     */
+    public void testGetUserList() {
+        System.out.println("getUserList");
+        String expResult = "Jeremias/Inacio/";
+        String result = instance.getUserList();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of PrivMsgList method, of class DBconnection.
+     */
+    public void testPrivMsgList() {
+        System.out.println("PrivMsgList");
+        String user = "admin";
+        String expResult = "Jeremias£ola«admin£123456789«";
+        String result = instance.PrivMsgList(user);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of nrmsg method, of class DBconnection.
+     */
+    public void testNrmsg() {
+        System.out.println("nrmsg");
+        String userNR = "admin";
+        int expResult = 2;
+        int result = instance.nrmsg(userNR);
+        assertEquals(expResult, result);
+
     }
 }

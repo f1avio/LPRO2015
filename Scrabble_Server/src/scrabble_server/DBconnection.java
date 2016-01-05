@@ -3,6 +3,7 @@ package scrabble_server;
 import dBInterface.Chat;
 import dBInterface.Room;
 import dBInterface.Users;
+import dBInterface.PrivateMSG;
 import java.util.Arrays;
 
 /**@author Adam Kopnicky 
@@ -26,6 +27,7 @@ public class DBconnection {
     Users database = new Users();
     Room db = new Room();
     Chat missive= new Chat();
+    PrivateMSG pmsg = new PrivateMSG();
     Player p;
     int count = 0;
     
@@ -46,7 +48,7 @@ public class DBconnection {
     }
     /**
      * Configures some classes to operate under test conditions.
-     *<p> List of configured classes: Chat, Room, Users.
+     *<p> List of configured classes: Chat, Room, Users and PrivateMSG.
      * @param y_n (de)activates the test conditions.
      */
     public void setTest(boolean y_n)
@@ -54,6 +56,7 @@ public class DBconnection {
         database.setTest(y_n);
         db.setTest(y_n);
         missive.setTest(y_n);
+        pmsg.setTest(y_n);
     }
     
     /**
@@ -234,7 +237,7 @@ public class DBconnection {
      * @return The room's name as a confirmation.
      */
     public String createRoom(int nPlayers, String owner, String roomName){
-        int ans = 0;
+        int ans;
         //Room database = new Room();
         
         if(db.serverFull()>3) return "";
@@ -407,32 +410,47 @@ public class DBconnection {
         return rank_s;
     }
     
+    /**
+     * Sends a private message a specific user.
+     * @param sender The sender of the message.
+     * @param receiver The receiver of the message.
+     * @param text_msg The content of the message.
+     * @return The status of the operation.
+     */
     public int sendMessage(String sender, String receiver, String text_msg){    
         int ret = 0;
-        Users database = new Users();
-        ret=database.addPrivate_MSG(sender, receiver, text_msg);
+        ret=pmsg.addPrivate_MSG(sender, receiver, text_msg);
         return ret;  
     }
-    
+    /**
+     * Retrieves a list with all the registered users.
+     * @return A list with the names.
+     */
     public String getUserList(){
-        Users database = new Users();
        
         String infos = database.getUsernameList();
        
         return infos;
    }
-    
-    public String PrivMsgList(String user, int counter){
-        Chat database = new Chat();               
-        String Msg=database.PrivMsgList(user);
+    /**
+     * Returns the private messages stored on th database
+     * @param user The receiver of the message.
+     * @return The private messages stored on a string.
+     */
+    public String PrivMsgList(String user){              
+        String Msg=pmsg.PrivMsgList(user);
         return Msg;
    
     }
     
+    /**
+     * Counts the number of pending messages.
+     * @param userNR The receiver of those messages.
+     * @return The number of messages.
+     */
     int nrmsg(String userNR) {
-        Chat database = new Chat();
-        int nr=database.getNrMsg(userNR);
-        return nr;
 
+        int nr=pmsg.getNrMsg(userNR);
+        return nr;
     }
 }
