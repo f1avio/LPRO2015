@@ -8,12 +8,7 @@ package GUI;
 import static GUI.InitialFrame.f;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
 import scrabble_client.*;
 /**
  *

@@ -24,8 +24,7 @@ public class ClientService {
     String name;
     public String[] messages;
     
-   /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
-    private static final boolean debug = true;
+
     
     /**
      * Starts a new thread to the client.

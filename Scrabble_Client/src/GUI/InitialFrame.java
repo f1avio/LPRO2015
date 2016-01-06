@@ -7,15 +7,13 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
 
@@ -458,11 +456,9 @@ public class InitialFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_serverFieldActionPerformed
 
     private void confirmBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBActionPerformed
-        try{
-            PrintWriter out = new PrintWriter(new FileWriter("config.txt"));
+        try(PrintWriter out = new PrintWriter(new FileWriter("config.txt"))) {
             out.println(portField.getText());
             out.println(serverField.getText());
-            out.close();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -472,7 +468,7 @@ public class InitialFrame extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         
-        BufferedReader inputStream = null;
+        BufferedReader inputStream;
         int i = 0;
         String aux[] = new String[3];
         String file = "config.txt";
@@ -482,8 +478,8 @@ public class InitialFrame extends javax.swing.JFrame {
                 i++;
             }
             inputStream.close();
-        }catch (FileNotFoundException f){
-            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+        }catch (FileNotFoundException f1){
+            System.err.println("Caught FileNotFoundException: " + f1.getMessage());
         }catch (IOException e) {
             System.err.println("Caught IOException: " + e.getMessage());
         }
@@ -523,26 +519,21 @@ public class InitialFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InitialFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
                 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                f = new InitialFrame();
-                f.setVisible(true);
-                
-               // new InitialFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            f = new InitialFrame();
+            f.setVisible(true);
+            
+            // new InitialFrame().setVisible(true);
         });
     }
 
