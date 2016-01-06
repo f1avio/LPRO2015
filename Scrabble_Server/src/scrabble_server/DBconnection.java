@@ -238,35 +238,14 @@ public class DBconnection {
      */
     public String createRoom(int nPlayers, String owner, String roomName){
         int ans;
-        //Room database = new Room();
-        
-        if(db.serverFull()>3) return "";
-        
+        String rooms;
+        if(db.serverFull()>3) return "NO";
+
         ans = db.createDBRoom(nPlayers, roomName, owner);
-        switch(ans){
-            case 1:
-                /*game1 = new GameManager("Room1");
-                t1 = new Thread(game1);
-                t1.start();*/
-                return roomName;
-            case 2:
-                /*game2 = new GameManager("Room2");
-                t2 = new Thread(game2);
-                t2.start();*/
-                return roomName;
-            case 3:
-                /*game3 = new GameManager("Room3");
-                t3 = new Thread(game3);
-                t3.start();*/
-                return roomName;
-            case 4:
-                /*game4 = new GameManager("Room4");
-                t4 = new Thread(game4);
-                t4.start();*/
-                return roomName;  
-            default:
-                return "";
-        }
+        if(-1 != ans)
+            return roomName;
+        else
+            return "NO";
     }
     /**
      * Joins a user as a player to a certain room.

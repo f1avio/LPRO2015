@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -193,15 +194,22 @@ public class ClientService {
      * @param msg The status code of the operation.
      */
     public void receiveCreateRoom(int msg){
+        
+        
         switch(msg){
             case 1:{
+                mainFrame.selectPage("roomOwnerP");
                 break;
             }
             case 0:
-                JOptionPane.showMessageDialog(null, "The server is full");
+                mainFrame.selectPage("homeP");
+                //JOptionPane.showMessageDialog(mainFrame,"Verify if the room name isn't repeated or equal to other user name!","Failed to create a room",JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "The server is full");
                 break;
-            case -1:
-                JOptionPane.showMessageDialog(null, "Error");
+            case 2:
+                mainFrame.selectPage("homeP");
+                    //JOptionPane.showMessageDialog(mainFrame,"Someone wasn't ready at time!","Error",JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Error");
                 break;
         }
     }

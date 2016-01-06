@@ -42,7 +42,7 @@ public class Room {
      * Retrieves some tuples of the "Rooms" table.
      * <p>Those tuples are the name of the room, it's owner,
      * the maximum number of players, and the actual number of players. 
-     * @return A string if all the tuples specified.
+     * @return A string with all the tuples specified.
      */
     public String getRooms(){
         String[] aux = dbconn.getDB();    

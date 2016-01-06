@@ -256,36 +256,51 @@ public class ScrabbleServer  implements Runnable{
                 String owner = findMessage(data, 11,2);
                 String roomName = findMessage(data,11, 3);
                 int nPlayers = Character.getNumericValue(data[11]);
+                String room = DBcon.receiveRooms();
+                String users = DBcon.getUserList();
                 
-                String room = DBcon.createRoom(nPlayers, owner, roomName);
-                
-                switch(room){
-                    case "":
+                if(debug)
+                {
+                    System.out.println("ReceiveRooms " +room);
+                    System.out.println("Users list " + users);
+                }
+                //Erro está aqui.
+                if(users.contains(roomName) || room.contains(roomName) ) //In order to simplify the program, this behaviour is inhibited.
+                    ret = "CREATEROOM#FAIL#";                 
+                else
+                {
+                    room = DBcon.createRoom(nPlayers, owner, roomName);
+                    if(debug)
+                        System.out.println("Result of create room: " + room);
+                    
+                    if(room.equals("NO"))
                         ret = "CREATEROOM#FAIL#";
-                        break;
-                    default:
-                        ret = "CREATEROOM#OK#"+room+"#";
-                        break;
-                }
-                System.out.println("<< Sending: " + ret);
-                clients[findClient(ID)].send(ret);
+                    else
+                    {
+                        ret = "CREATEROOM#OK#"+roomName+"#";
+                    
+                        System.out.println("<< Sending: " + ret);
+                        clients[findClient(ID)].send(ret);
                 
-                int ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), room); 
+                        int ansJoin = DBcon.join(clients[findClient(ID)].username, findClient(ID), roomName); 
                 
-                switch(ansJoin){
-                    case 0:
-                        ret = "JOINROOM#FAIL#";
-                        break;
-                    case 1:
-                        ret = "JOINROOM#OWNER#"+room+"#";
-                        break;
-                    default:
-                        ret = "JOINROOM#ERROR#";
-                        break;
+                        switch(ansJoin){
+                            case 0:
+                                ret = "JOINROOM#FAIL#";
+                                break;
+                            case 1:
+                                ret = "JOINROOM#OWNER#"+roomName+"#";
+                                break;
+                            default:
+                                ret = "JOINROOM#ERROR#";
+                                break;
+                        }
+                        
+                        clients[findClient(ID)].send(ret);
+                    } 
                 }
-                System.out.println("<< Sending: " + ret);
-                clients[findClient(ID)].send(ret);
-                break;
+            System.out.println("<< Sending: " + ret);
+            break;
             }
             case "JOINROOM":{
                 String room = findMessage(data, 9, 1);

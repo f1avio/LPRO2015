@@ -1101,7 +1101,8 @@ public class MainFrame extends javax.swing.JFrame {
                 break;     
         }
         clientService.createRoom(nPlayers, username, room);
-        selectPage("roomOwnerP");
+        
+        //selectPage("roomOwnerP");
     }//GEN-LAST:event_createRoomBActionPerformed
 
     private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
