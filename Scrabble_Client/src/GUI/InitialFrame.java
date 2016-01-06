@@ -7,6 +7,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import scrabble_client.*;
 
@@ -537,8 +539,8 @@ public class InitialFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 f = new InitialFrame();
-                f.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 f.setVisible(true);
+                
                // new InitialFrame().setVisible(true);
             }
         });

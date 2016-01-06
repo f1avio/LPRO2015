@@ -5,10 +5,15 @@
  */
 package GUI;
 
+import static GUI.InitialFrame.f;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import scrabble_client.*;
 /**
  *
@@ -29,11 +34,31 @@ public class MainFrame extends javax.swing.JFrame {
         clientService.display();
         clientService.NrMsgRequest(user);
         clientService.requestMsglist(user);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        if (JOptionPane.showConfirmDialog(f, 
+            "Are you sure to close this window?", "Really Closing?", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+               ClientService clientservice = ClientService.getInstance(); 
+                clientservice.logoutRequest(username);
+                clientservice.disposeMainFrame();
+                System.exit(0);
+            }
+        }
+    });
+        
+        
+        //this.setDefaultCloseOperation(PROPERTIES);
     }
 
     private MainFrame() {
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1230,18 +1255,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void helpB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpB1ActionPerformed
         selectPage("helpP");
     }//GEN-LAST:event_helpB1ActionPerformed
-
-    /**
-     * Processes an event caused by pressing the [X] button.
-     * @param e The event caused by the user pressing the [X] button. 
-     */
-    public void windowClosed(WindowEvent e) {
-        //This will only be seen on standard output.
-        //Step 1: We need to certificate that the user really logged out of the database.
-        ClientService clienteservice = ClientService.getInstance();
-        clienteservice.logoutRequest(username);
-    }
-    
+ 
         /**
      * Changes homegui front Page (selects card to show from CardLayout)
      * 
@@ -1260,6 +1274,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -1280,7 +1295,8 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               // new MainFrame().setVisible(true);
+                //new MainFrame().setVisible(true);
+              
             }
         });
     }
@@ -1391,4 +1407,5 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel welcome;
     public javax.swing.JButton yesB;
     // End of variables declaration//GEN-END:variables
+
 }

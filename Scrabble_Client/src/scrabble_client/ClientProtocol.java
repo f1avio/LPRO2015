@@ -429,7 +429,7 @@ public class ClientProtocol implements Runnable {
                         break;}
                     case "CREATEROOM":{
                         ans = findMessage(data,11,1);
-                        //System.out.println("[CREATEROOM] ans: "+ans);
+                        System.out.println("« Received: " + data);
                         switch(ans){
                             case "OK":
                                 clientService.receiveCreateRoom(1);

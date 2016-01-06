@@ -20,9 +20,12 @@ public class ClientService {
     ClientProtocol protocol = ClientProtocol.getInstance();
     public Thread clientThread;
     GameGUI gameGui;
-    MainFrame mainFrame;
+    public MainFrame mainFrame;
     String name;
     public String[] messages;
+    
+   /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
+    private static final boolean debug = true;
     
     /**
      * Starts a new thread to the client.
@@ -195,23 +198,17 @@ public class ClientService {
      */
     public void receiveCreateRoom(int msg){
         
-        
         switch(msg){
             case 1:{
                 mainFrame.selectPage("roomOwnerP");
                 break;
             }
-            case 0:
-                mainFrame.selectPage("homeP");
-                //JOptionPane.showMessageDialog(mainFrame,"Verify if the room name isn't repeated or equal to other user name!","Failed to create a room",JOptionPane.ERROR_MESSAGE);
-                //JOptionPane.showMessageDialog(null, "The server is full");
+            default:
+                JOptionPane.showMessageDialog(mainFrame,"Verify if the room name isn't repeated or equal to other user name!","Failed to create a room",JOptionPane.ERROR_MESSAGE);
+                mainFrame.selectPage("mainP");
+                viewRooms();
                 break;
-            case 2:
-                mainFrame.selectPage("homeP");
-                    //JOptionPane.showMessageDialog(mainFrame,"Someone wasn't ready at time!","Error",JOptionPane.ERROR_MESSAGE);
-                //JOptionPane.showMessageDialog(null, "Error");
-                break;
-        }
+        }    
     }
     
     /**
@@ -579,6 +576,10 @@ public class ClientService {
      */
     public void setMainFrame(MainFrame main){
         mainFrame = main;
+    }
+    
+    public void disposeMainFrame(){
+        mainFrame.dispose();
     }
     /**
      * Sets the Gamegui instance of to which a instance will be connected to.
