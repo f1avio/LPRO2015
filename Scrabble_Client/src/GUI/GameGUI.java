@@ -5,11 +5,15 @@
  */
 package GUI;
 
+
 import game_model.Board;
+
 import game_model.Scrabble;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import scrabble_client.ClientService;
 
 /**@author  Adam Kopnicky
@@ -23,6 +27,7 @@ public class GameGUI extends javax.swing.JFrame {
     public static Scrabble s;
     public static GameGUI frame;
     private Canvas boardCanvas;
+
     
     /**
      * Creates new form GameGUI
@@ -57,11 +62,17 @@ public class GameGUI extends javax.swing.JFrame {
     //@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         ChatP = new javax.swing.JPanel();
         contentPane = new javax.swing.JPanel();
         tilePanel = new javax.swing.JPanel();
+        rackButton2 = new javax.swing.JButton();
+        rackButton3 = new javax.swing.JButton();
+        rackButton4 = new javax.swing.JButton();
+        rackButton5 = new javax.swing.JButton();
+        rackButton6 = new javax.swing.JButton();
+        rackButton7 = new javax.swing.JButton();
+        rackButton8 = new javax.swing.JButton();
         boardPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         quitGameB = new javax.swing.JButton();
@@ -81,8 +92,72 @@ public class GameGUI extends javax.swing.JFrame {
         tilePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tilePanel.setMinimumSize(new java.awt.Dimension(518, 60));
         tilePanel.setLayout(null);
+
+        rackButton2.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton2ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton2);
+        rackButton2.setBounds(0, 0, 70, 62);
+
+        rackButton3.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton3ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton3);
+        rackButton3.setBounds(70, 0, 70, 62);
+
+        rackButton4.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton4ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton4);
+        rackButton4.setBounds(140, 0, 70, 62);
+
+        rackButton5.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton5ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton5);
+        rackButton5.setBounds(210, 0, 70, 62);
+
+        rackButton6.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton6ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton6);
+        rackButton6.setBounds(420, 0, 70, 62);
+
+        rackButton7.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton7ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton7);
+        rackButton7.setBounds(280, 0, 70, 62);
+
+        rackButton8.setPreferredSize(new java.awt.Dimension(80, 62));
+        rackButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rackButton8ActionPerformed(evt);
+            }
+        });
+        tilePanel.add(rackButton8);
+        rackButton8.setBounds(350, 0, 70, 62);
+
         contentPane.add(tilePanel);
-        tilePanel.setBounds(3, 530, 518, 60);
+        tilePanel.setBounds(23, 530, 490, 60);
 
         boardPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         boardPanel.setFocusable(false);
@@ -107,7 +182,9 @@ public class GameGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(contentPane, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ChatP, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -130,6 +207,118 @@ public class GameGUI extends javax.swing.JFrame {
         clientService.exitGame();
     }//GEN-LAST:event_quitGameBActionPerformed
 
+    private void rackButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton2ActionPerformed
+
+    private void rackButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton3ActionPerformed
+
+    private void rackButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton4ActionPerformed
+
+    private void rackButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton5ActionPerformed
+
+    private void rackButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton6ActionPerformed
+
+    private void rackButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton7ActionPerformed
+
+    private void rackButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rackButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rackButton8ActionPerformed
+
+        public void addRackButton2ActionListener(ActionListener listener) {
+        rackButton2.addActionListener(listener);
+    }//end addRackButton1ActionListener
+
+    public void addRackButton3ActionListener(ActionListener listener) {
+        rackButton3.addActionListener(listener);
+    }//end addRackButton1ActionListener
+
+    public void addRackButton4ActionListener(ActionListener listener) {
+        rackButton4.addActionListener(listener);
+    }//end addRackButton1ActionListener
+
+    public void addRackButton5ActionListener(ActionListener listener) {
+        rackButton5.addActionListener(listener);
+    }//end addRackButton1ActionListener
+
+    public void addRackButton6ActionListener(ActionListener listener) {
+        rackButton6.addActionListener(listener);
+    }//end addRackButton1ActionListener
+
+    public void addRackButton7ActionListener(ActionListener listener) {
+        rackButton7.addActionListener(listener);
+    }//end addRackButton1ActionListener
+    
+    public void addRackButton8ActionListener(ActionListener listener) {
+        rackButton8.addActionListener(listener);
+    }//end addRackButton1ActionListener
+    
+    public void setRackButton2Enabled(boolean enabled) {
+        rackButton2.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton3Enabled(boolean enabled) {
+        rackButton3.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton4Enabled(boolean enabled) {
+        rackButton4.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton5Enabled(boolean enabled) {
+        rackButton5.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton6Enabled(boolean enabled) {
+        rackButton6.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton7Enabled(boolean enabled) {
+        rackButton7.setEnabled(enabled);
+    }//end set button
+    
+    public void setRackButton8Enabled(boolean enabled) {
+        rackButton8.setEnabled(enabled);
+    }//end set button
+
+    public void setRackButton2bg(java.awt.Color color) {
+        rackButton2.setBackground(color);
+    }// end background set
+
+    public void setRackButton3bg(java.awt.Color color) {
+        rackButton3.setBackground(color);
+    }// end background set
+
+    public void setRackButton4bg(java.awt.Color color) {
+        rackButton4.setBackground(color);
+    }// end background set
+
+    public void setRackButton5bg(java.awt.Color color) {
+        rackButton5.setBackground(color);
+    }// end background set
+
+    public void setRackButton6bg(java.awt.Color color) {
+        rackButton6.setBackground(color);
+    }// end background set
+
+    public void setRackButton7bg(java.awt.Color color) {
+        rackButton7.setBackground(color);
+    }// end background set
+    
+    public void setRackButton8bg(java.awt.Color color) {
+        rackButton8.setBackground(color);
+    }// end background set
+ 
     static void drawBoard(Graphics g)
     {
         for(int y=0; y<15; y++)
@@ -212,6 +401,13 @@ public class GameGUI extends javax.swing.JFrame {
     private javax.swing.JPanel contentPane;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton quitGameB;
+    private javax.swing.JButton rackButton2;
+    private javax.swing.JButton rackButton3;
+    private javax.swing.JButton rackButton4;
+    private javax.swing.JButton rackButton5;
+    private javax.swing.JButton rackButton6;
+    private javax.swing.JButton rackButton7;
+    private javax.swing.JButton rackButton8;
     private javax.swing.JPanel tilePanel;
     // End of variables declaration//GEN-END:variables
 }

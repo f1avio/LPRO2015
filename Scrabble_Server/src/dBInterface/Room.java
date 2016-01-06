@@ -39,7 +39,7 @@ public class Room {
         this.dbconn = new DbSetup();
     }
     /**
-     * Retrieves some tuples of the "Rooms" table.
+     * Retrieves all tuples of the "Rooms" table.
      * <p>Those tuples are the name of the room, it's owner,
      * the maximum number of players, and the actual number of players. 
      * @return A string with all the tuples specified.

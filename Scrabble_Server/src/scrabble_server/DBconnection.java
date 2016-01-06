@@ -134,11 +134,16 @@ public class DBconnection {
         //Users database = new Users();
         boolean userExist;
         boolean active;
-        
+        boolean ishost;
         userExist = database.usernameExist(username);
         active = database.getActive(username);
+        ishost = db.getHost(username);
         
-            if (userExist && active) {
+        //An additional step is necessary to remove him from the game.
+        if(ishost)
+            db.deleteRoom(username);
+            
+        if (userExist && active) {
                 database.userActive(username, false);
                 state = 1;
             } else {
