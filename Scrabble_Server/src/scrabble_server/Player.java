@@ -17,7 +17,7 @@ public class Player {
     
     String username;
     int ID;
-    public int points=0;
+    int points=0;
     
     /**
      * Creates a new player instance.

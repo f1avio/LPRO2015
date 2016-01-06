@@ -15,10 +15,10 @@ import java.util.Arrays;
  */
 public class ScrabbleServer  implements Runnable{
     
-    public ClientThread clients[];
-    public ServerSocket server = null;
-    public Thread thread = null;
-    public int clientCount = 0;
+     ClientThread clients[];
+     ServerSocket server = null;
+     Thread thread = null;
+     int clientCount = 0;
     DBconnection DBcon = new DBconnection();
     //DBconnection DBcon = DBconnection.getInstance();
     static int port;
