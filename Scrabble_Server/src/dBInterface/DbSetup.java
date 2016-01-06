@@ -11,7 +11,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * @author Flávio Dias 
+ * Reads the configuration parameters from file and stores them for later use.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 public class DbSetup {
     /**
@@ -24,7 +29,7 @@ public class DbSetup {
     private static String parameters[] = new String[5];
     
     /**
-     * Construtor that configures the PostgreSql Driver.
+     * Configures the PostgreSql Driver.
      */
     public DbSetup(){
         try{
@@ -39,7 +44,7 @@ public class DbSetup {
      * Seeks the necessary parameters to connect to the database.
      * <p>
      * These parameters reside on a document file named config.txt that provides
-     * the port, the url and username and password.
+     * the port, the url, the username and password.
      */
     public void setDB(){
         /*Step 0: Initialize the files*/
@@ -72,7 +77,7 @@ public class DbSetup {
     }
     /**
      * Retrieves the necessary parameters to the connection of the database.
-     * @return A string with the mentioned parameters.
+     * @return An array of strings with the mentioned parameters.
      */
     public String[] getDB()
     {

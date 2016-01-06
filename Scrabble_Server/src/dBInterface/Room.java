@@ -12,8 +12,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
- * @author HUGUETA
+ * Is responsible for creating and managing the game rooms.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 public class Room {
     
@@ -25,7 +29,7 @@ public class Room {
      * Besides it's real use, the object can be used to apply some 
      * tests. To do so, a boolean variable is modified and passed to this
      * method.
-     * @param testConfigured Specifies if it is a test situation or not 
+     * @param testConfigured Specifies if it is a test situation or not. 
      */
     public void setTest(boolean testConfigured)
     {
@@ -39,8 +43,8 @@ public class Room {
         this.dbconn = new DbSetup();
     }
     /**
-     * Retrieves all tuples of the "Rooms" table.
-     * <p>Those tuples are the name of the room, it's owner,
+     * Retrieves all available rooms and some some associate information.
+     * <p>This retrieves are the name of the room, it's owner,
      * the maximum number of players, and the actual number of players. 
      * @return A string with all the tuples specified.
      */
@@ -93,8 +97,8 @@ public class Room {
         return owner;
     }
     /**
-     * Counts the amount of rooms on the server
-     * @return The amount of rooms
+     * Counts the amount of rooms in the server.
+     * @return The amount of rooms.
      */
     public int serverFull(){
         String[] aux = dbconn.getDB();
@@ -151,8 +155,8 @@ public class Room {
     
     /**
      * Checks if the specified room is full.
-     * @param room The room's name that will be verified.
-     * @return A boolean stating either the room is full or not.
+     * @param room The name of the room that will be verified.
+     * @return A boolean stating if the room is full or not.
      */
     public boolean isRoomFull(String room){
         int players = 0;
@@ -187,7 +191,7 @@ public class Room {
     /**
      * Adds a player to a room.
      * @param room The room that the new player will be added.
-     * @param username The user username's that will be added.
+     * @param username The user that will be added.
      * @return the ID of the room if successful. -1 if not.
      */
     public int addPlayerRoom(String room, String username){
@@ -230,6 +234,7 @@ public class Room {
         }
         return roomID;
     }
+    
     /**
      * Updates the state of a player at specified room.
      * @param index the position of the player whose statel will be changed.
@@ -255,9 +260,9 @@ public class Room {
         return true;
     }
     /**
-     * Retrieves the players names on a certain Room.
+     * Retrieves the players on a certain Room.
      * @param room The room where the player names will be retrieved.
-     * @return A string if a all the players on the room.
+     * @return A string with all the players on the room.
      */
     public String getRoomPlayers(String room){
         String[] aux = dbconn.getDB();
@@ -283,9 +288,10 @@ public class Room {
         //System.out.println("getRoomPlayers(): "+players);
         return players;  
     }
+    
     /**
      * Retrieves the status of all the participating players of a certain room.
-     * @param room The room where all players are on.
+     * @param room The room where the players are on.
      * @return A string with the status of all the players.
      */
     public String getRoomStatus(String room){
@@ -312,7 +318,7 @@ public class Room {
     /**
      * Deletes a room from a database.
      * @param username The owner's username.
-     * @return either the operation was succesfful or not.
+     * @return If the operation was succesfful or not.
      */
     public String deleteRoom(String username){
         String[] aux = dbconn.getDB();
@@ -331,6 +337,7 @@ public class Room {
         }
         return "OK";
     }
+    
     /**
      * Allows a player to quit a room.
      * @param players The updated list of players.
@@ -365,6 +372,5 @@ public class Room {
         }
         return "OK";
     }
-    
     
 }

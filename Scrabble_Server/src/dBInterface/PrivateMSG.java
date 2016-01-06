@@ -17,9 +17,11 @@ import java.util.Date;
 
 /**
  * Sends private messsages to other registered users.
- * @author Flávio Dias
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
  * @author Hugo Pereira
- * @author José Carvalho
+ * @author Jose Carvalho
  */
 public class PrivateMSG {
     
@@ -40,7 +42,7 @@ public class PrivateMSG {
      * Besides it's real use, the object can be used to apply some 
      * tests. To do so, a boolean variable is modified and passed to this
      * method.
-     * @param testConfigured Specifies if it is a test situation or not 
+     * @param testConfigured Specifies if it is a test situation or not.
      */
     public void setTest(boolean testConfigured)
     {
@@ -79,9 +81,9 @@ public class PrivateMSG {
         return ret;
     }
         /**
-         * Retrieves the pending messages to the user.
+         * Retrieves pending messages to the user.
          * @param user The user with pending messages.
-         * @return The pending messages.
+         * @return The messages pending.
          */
         public String PrivMsgList(String user) {
         String[] aux = dbconn.getDB();
@@ -106,8 +108,9 @@ public class PrivateMSG {
             System.out.println("PrivMsgList() "+ex);
             return "ERRO";}
     }
+        
     /**
-     * Deletes the list of messages to a certain user.
+     * Deletes the list of messages of a certain user.
      * @param user The user whose list of messages will be deleted.
      * @return A status code representing the success of the operation.
      */
@@ -134,6 +137,7 @@ public class PrivateMSG {
         }
         return true;
     }
+    
     /**
      * Counts the number of pending messages.
      * @param user The user whose inbox will be counted.

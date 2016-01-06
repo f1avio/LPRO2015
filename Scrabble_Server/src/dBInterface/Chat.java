@@ -16,8 +16,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- *
- * @author HUGUETA
+ * Adds a message to th public chat.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 public class Chat {
     private boolean testConfigured;
@@ -29,7 +33,7 @@ public class Chat {
      * Besides it's real use, the object can be used to apply some 
      * tests. To do so, a boolean variable is modified and passed to this
      * method.
-     * @param testConfigured Specifies if it is a test situation or not 
+     * @param testConfigured Specifies if it is a test situation or not. 
      */
     public void setTest(boolean testConfigured)
     {
@@ -45,8 +49,8 @@ public class Chat {
     }
         
     /**
-     * Adds a message to the chat with a certain user.
-     * @param usernameChat The user that receives the message.
+     * Adds a message to the chat from a certain user.
+     * @param usernameChat The user that sends the message.
      * @param messageChat The content of the message.
      * @return A boolean stating if the operation was successful or not.
      */

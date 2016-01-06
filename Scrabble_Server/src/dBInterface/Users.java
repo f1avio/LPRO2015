@@ -12,8 +12,12 @@ import java.sql.Statement;
 import java.util.Arrays;
 
 /**
- *
- * @author HUGUETA
+ * Provides the methods necessary to manage connections of the users to the system.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 public class Users {
     
@@ -33,7 +37,7 @@ public class Users {
      * Besides it's real use, the object can be used to apply some 
      * tests. To do so, a boolean variable is modified and passed to this
      * method.
-     * @param testConfigured Specifies if it is a test situation or not 
+     * @param testConfigured Specifies if it is a test situation or not. 
      */
     public void setTest(boolean testConfigured)
     {
@@ -42,8 +46,8 @@ public class Users {
     
     /**
      * Verifies if the provided username already exists on the database.
-     * @param user a string that stores the username
-     * @return a boolean stating if it exists or not
+     * @param user A string that stores the username.
+     * @return A boolean stating if he exists or not.
      */        
     public boolean usernameExist(String user){
         boolean exist = false;
@@ -74,7 +78,7 @@ public class Users {
      * @param username The unique username that identifies the new user.
      * @param password The encrypted password that secures the user account.
      * @param email An email address unique to the user, so he can retrieve his password.
-     * @return A boolean stating if the operation was successful or not
+     * @return A boolean stating if the operation was successful or not.
      */
     public boolean insertUser(String username, String password, String email) {
         boolean state = false;
@@ -135,7 +139,7 @@ public class Users {
      * Changes the password or email of a certain user.
      * @param pass The new password that might be changed.
      * @param email The email that might be changed.
-     * @param username The username that indentifies the user.
+     * @param username The name that indentifies the user.
      * @return A status code reflecting the success of the operation.
      */
     public int changes(String pass, String email, String username){
@@ -165,8 +169,10 @@ public class Users {
     }
     
     /**
-     * Acknowledges that specified user is either online or offline.
-     * @param username The user username that will change is state.
+     * Changes the connectivity state of an user in the server.
+     * <p> This state represents his connection to the system. As such, he can
+     * be 'online' or 'offline';
+     * @param username The user that will change his state.
      * @param state The new state of the user, false if offline, true if online.
      * @return A boolean stating if the operation was sucessful or not.
      */
@@ -221,10 +227,10 @@ public class Users {
    /**
      * Returns the state of the specified user.
      * <p>
-     * The states recognized are NORMAL, or BAN/KICK when an admin recognizes
+     * The states recognized are NORMAL, and BAN or KICK when an admin recognizes
      * that this user is prejudicional to the community.
      * @param user The specified user.
-     * @return A string if the state of the user.
+     * @return A string with the state of the user.
      */
     public String getState(String user){
         String state = "";
@@ -252,10 +258,11 @@ public class Users {
         
         return state;
     }
+    
     /**
      * Changes the state of a user.
      * @param state The new state of the user.
-     * @param user The user that the state will be changed.
+     * @param user The user whose state will be changed.
      * @return A boolean stating if the operation was successful or not.
      */
     public boolean setState (String state, String user) {
@@ -298,7 +305,7 @@ public class Users {
     /**
      * Verifies if an user is an admin of the system.
      * @param user the user that will be verified
-     * @return A boolean stating either the user is an admin or not.
+     * @return A boolean stating if the user is an admin or not.
      */
     public boolean getAdmin(String user){
         boolean admin = false;
@@ -382,7 +389,7 @@ public class Users {
     }
     
     /**
-     * Retrieves the points of every registered user.
+     * Retrieves the number of points of every registered user.
      * <p> This list is sorted according to their position on the ranking.
      * @return An array with all the points sorted.
      */
@@ -472,7 +479,7 @@ public class Users {
     }
      
      /**
-      * Returns a list with the names of all registered users.
+      * Returns an array with the names of all registered users.
       * @return A list with the users names.
       */    
      public String getUsernameList(){
