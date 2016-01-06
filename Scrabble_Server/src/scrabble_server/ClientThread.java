@@ -5,11 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-/**@author  Adam Kopnicky
- *          Ewa Godlewska
- *          Flavio Dias
- *          Hugo Pereira
- *          Jose Carvalho
+/**
+ * Allocates a thread to a new client.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 class ClientThread extends Thread{
     
@@ -22,8 +24,9 @@ class ClientThread extends Thread{
     
     
     /**
-     * ServiceClient constructor that stores the parameter socket
-     * @param socket the socket that needs to be stored
+     * Stores the connectionsocket and an instance of the class ScrabbleServer.
+     * @param argServer The instance of the class ScrabbleServer.
+     * @param The connectionsocket.
      */
    public ClientThread(ScrabbleServer argServer, Socket argSocket)
     {
@@ -33,6 +36,10 @@ class ClientThread extends Thread{
         ID = connectionSocket.getPort();
     }
    
+   /**
+    * Sends a message to the client.
+    * @param msg The content of the message.
+    */
    public void send(String msg) {
         try {
             outToClient.writeUTF(msg);
@@ -41,7 +48,10 @@ class ClientThread extends Thread{
             System.out.println("[Server][Socket]" + "Exception [SocketClient : send(...)]");
         }
     }
-   
+   /**
+    * Return the port to which the socket is connected.
+    * @return The port.
+    */
    public int getID() {
         return ID;
     }
@@ -66,13 +76,19 @@ class ClientThread extends Thread{
         }
         
     }
-    
+    /**
+     * Opens a DataOutputStream and a DataInputStream instance.
+     * @throws IOException Exception produced by failed or interrupted I/O operations.
+     */
     public void open() throws IOException {
         outToClient = new DataOutputStream(connectionSocket.getOutputStream());
         outToClient.flush();
         inFromClient = new DataInputStream(connectionSocket.getInputStream());
     }
-    
+    /**
+     * Closes the socket, as well as the data input/output stream.
+     * @throws IOException Exception produced by failed or interrupted I/O operations.
+     */
     public void close() throws IOException {
         if (connectionSocket != null) {
             connectionSocket.close();

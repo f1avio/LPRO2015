@@ -32,21 +32,6 @@ public class DBconnection {
     int count = 0;
     
     /**
-     * @deprecated Use not recommended. Usual initialization preferred.
-     */
-    private static DBconnection instance = null;
-    
-    /**
-     * @deprecated Use not recommended. Usual initialization preferred.
-     * @return A new DBconnection object.
-     */
-    public static DBconnection getInstance(){
-        if (instance == null) {
-            instance = new DBconnection();
-        }
-        return instance;
-    }
-    /**
      * Configures some classes to operate under test conditions.
      *<p> List of configured classes: Chat, Room, Users and PrivateMSG.
      * @param y_n (de)activates the test conditions.
@@ -64,7 +49,7 @@ public class DBconnection {
      * <p> First it attempts to find the provided username on the database.
      * If it exists, it compares the provided password, previously encrypted, to
      * the one stored on the database.
-     * <p> At last, verifies if the user hasn't been expelled of the system.
+     * <p> At last, it verifies if the user hasn't been expelled of the system.
      * @param user The username that the visitor is attempting to use as login.
      * @param password The password provided by the visitor.
      * @return An integer, whose value depends of the method's results.
@@ -96,12 +81,13 @@ public class DBconnection {
             } else return 0;
         }else return 0; 
     }
+    
     /**
      * Attempts to signup a new user creating a new tuple on the specified database    
-     * @param user The user's username that will be registered on the system.
-     * @param password The password needed to login into the system
-     * @param email The user email, for administrative tasks
-     * @return  a standardized status value, notifying the degree of success of the implementation
+     * @param user The username that will be registered on the system.
+     * @param password The password needed to login into the system.
+     * @param email The user email, for administrative tasks.
+     * @return  a standardized status value, notifying the degree of success of the implementation.
      */
     public int signUser(String user, String password, String email)
     {
@@ -124,9 +110,9 @@ public class DBconnection {
     }
     
     /**
-     * Logs out the user from the system, deactivating his flag "isOnline"
-     * @param username the user's name that needs to log out
-     * @return a standardized status value, notifying the degree of success of the implementation
+     * Logs out the user from the system, deactivating his flag "isOnline".
+     * @param username the user that needs to log out.
+     * @return a standardized status value, notifying the degree of success of the implementation.
      */
     public int logoutUser(String username)
     {
@@ -152,6 +138,14 @@ public class DBconnection {
         return state;
     }
     
+    /**
+     * Changes the password and email of a user
+     * @param actualPass The user's actual password.
+     * @param newPass The new pass that will be stored.
+     * @param email The new email of the user.
+     * @param username The user whose parameters will be changed.
+     * @return A standardized status value, notifying the degree of success of the implementation.
+     */
     public int change(String actualPass, String newPass, String email, String username){
         int state=0;
         if(!actualPass.equals(database.getPassword(username))){
@@ -173,7 +167,7 @@ public class DBconnection {
     }
     /**
      * Returns a list of all the players and their status on a certain room.
-     * @param room The room name where this information will be checked.
+     * @param room The room where this information will be checked.
      * @return A string with all the players listed.
      */
     public String[] receiveRoomPlayers(String room){
@@ -213,19 +207,21 @@ public class DBconnection {
         //System.out.println("receiveRoomPlayers() "+Arrays.toString(players));
         return players;
     }
+    
     /**
-     * Return if a user is currently an host of a room.
-     * @param username The user's username that will ber verified.
-     * @return A boolean stating if the user is really a owner
+     * Returns if a user is currently an host of a room.
+     * @param username The user that will ber verified.
+     * @return A boolean stating if the user is really a owner of a room.
      */
     public boolean isHost(String username){
         //Room database = new Room();
         boolean ans = db.getHost(username);
         return ans;
     }
+    
     /**
-     * Adds a message to a certain user.
-     * @param usernameChat The user that will receive the message.
+     * Sends a new message to the general chat.
+     * @param usernameChat The user that sent the message.
      * @param messageChat The content of the message.
      * @return A boolean stating if the operation was successful or not.
      */
@@ -234,6 +230,7 @@ public class DBconnection {
         boolean addChat_MSG = missive.addChat_MSG(usernameChat,messageChat);
         return addChat_MSG;
     }
+    
     /**
      * Creates a new room in the system.
      * @param nPlayers The maximum number of players allowed in the room.
@@ -252,11 +249,12 @@ public class DBconnection {
         else
             return "NO";
     }
+    
     /**
      * Joins a user as a player to a certain room.
      * <p>It starts by verifying if the user is allowed to enter the room, and
      * if allowed, verifies if the room is already full.
-     * @param username The user's username that will be registered.
+     * @param username The user that will be registered.
      * @param ID the user's identification number.
      * @param roomName The room where he will enter.
      * @return An integer that stores the status of the operation.
@@ -302,6 +300,7 @@ public class DBconnection {
                return -1;
        }             
     }
+    
     /**
      * Allows a player to quit the room he is in.
      * <p>If the player that is leaving is also the host, the room will also be
@@ -343,9 +342,10 @@ public class DBconnection {
         }
         return ret;
     }
+    
     /**
      * Changes the state of a player on the room.
-     * <p> The player can switch between two states, "Wait" where he isn't fully
+     * <p> The player can switch between two states, "Wait", where he isn't fully
      * commited to start a game, so he simply waits for more players, or "Ready"
      * where he signals the host that he is ready to play.
      * @param username The user that intends to change his state.
@@ -374,6 +374,7 @@ public class DBconnection {
         //System.out.println("Roomstate: "+Arrays.toString(players));
         return players;
     }
+    
     /**
      *Retrieves the global rankings of the system. 
      * @return An array of strings with the complete information.
@@ -406,6 +407,7 @@ public class DBconnection {
         ret=pmsg.addPrivate_MSG(sender, receiver, text_msg);
         return ret;  
     }
+    
     /**
      * Retrieves a list with all the registered users.
      * @return A list with the names.
@@ -416,8 +418,9 @@ public class DBconnection {
        
         return infos;
    }
+    
     /**
-     * Returns the private messages stored on th database
+     * Returns the private messages stored on the database
      * @param user The receiver of the message.
      * @return The private messages stored on a string.
      */

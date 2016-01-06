@@ -5,12 +5,13 @@ import java.net.*;
 import dBInterface.*;
 import java.util.Arrays;
 
-
-/**@author  Adam Kopnicky
- *          Ewa Godlewska
- *          Flavio Dias
- *          Hugo Pereira
- *          Jose Carvalho
+/**
+ * Starts the server and attends the messages received from the clients.
+ * @author Adam Kopnicky 
+ * @author Ewa Godlewska 
+ * @author Flavio Dias 
+ * @author Hugo Pereira
+ * @author Jose Carvalho
  */
 public class ScrabbleServer  implements Runnable{
     
@@ -22,10 +23,13 @@ public class ScrabbleServer  implements Runnable{
     //DBconnection DBcon = DBconnection.getInstance();
     static int port;
     /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
-    private static final boolean debug = true;
+    private static final boolean debug = false;
     
     private static ScrabbleServer instance = null;
-    
+    /**
+     * Creates a new instance of the class ScrabbleServer.
+     * @return The instance of the class ScrabbleServer.
+     */
     public static ScrabbleServer getInstance(){
         if (instance == null) {
             getPort();
@@ -34,7 +38,10 @@ public class ScrabbleServer  implements Runnable{
         return instance;
     }
     
-    
+    /**
+     * Binds the port and configures the limit of supported users.
+     * @param port The port to which the socket will be binded.
+     */
     public ScrabbleServer(int port){
         try {
             clients = new ClientThread[50];
@@ -47,7 +54,7 @@ public class ScrabbleServer  implements Runnable{
             System.out.println("[Server][Socket]" + ioe);
         }
     }
-    
+
     public void run(){
         while (thread != null) {
             try {
@@ -59,14 +66,19 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
-
+    /**
+     * Start a new thread.
+     */
     public void start() {
         if (thread == null) {
             thread = new Thread(this);
             thread.start();
         }
     }
-    
+    /**
+     * @deprecated This function should be avoided.
+     * Stops the actual thread.
+     */
     public void stop() {
         if (thread != null) {
             thread.stop();
@@ -74,6 +86,11 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
+    /**
+     * Finds the client through his ID.
+     * @param ID The ID that will be verified.
+     * @return The position of the client in the array.
+     */
     public int findClient(int ID) {
         for (int i = 0; i < clientCount; i++) {
             if (clients[i].getID() == ID) {
@@ -83,6 +100,12 @@ public class ScrabbleServer  implements Runnable{
         return -1;
     }
     
+    /**
+     * Broadcast a message to all the clients.
+     * @param type The type of message.
+     * @param sender The sender of the message.
+     * @param content The content of the message.
+     */
     public void Announce(String type, String sender, String content) {
         //Message msg = new Message(type, sender, content, "All");
         String msg = type + "#" + sender + "#" + content + "#";
@@ -92,6 +115,11 @@ public class ScrabbleServer  implements Runnable{
         //System.out.println("<< Sending: " + msg);
     }
     
+    /**
+     * Broadcasts a message to all clients that entered a certain room.
+     * @param players The players that are in the room.
+     * @param msg The content of the message.
+     */
     public void AnnounceRoom(String[] players, String msg){
         int i = 0;
         String ret = "";
@@ -118,6 +146,11 @@ public class ScrabbleServer  implements Runnable{
         System.out.println("<< Sending: " + ret);
     }
     
+    /**
+     * Handles the messages received from the clients.
+     * @param ID The ID of the client.
+     * @param msg The content of the message.
+     */
     public synchronized void handle(int ID, String msg){
         char[] data = msg.toCharArray();
         String type = findType(data);
@@ -458,7 +491,10 @@ public class ScrabbleServer  implements Runnable{
         }
     
     }
-    
+    /**
+     * Terminates a connection with a client.
+     * @param ID The ID of the client.
+     */
     public synchronized void remove(int ID) {
         int pos = findClient(ID);
         if (pos >= 0) {
@@ -479,6 +515,11 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
+    /**
+     * Adds a new client to the system.
+     * @param socket The socket to which he is connected.
+     * @throws IOException Exception produced by failed or interrupted I/O operations.
+     */
     public void addThread(Socket socket) throws IOException {
 
         if (clientCount < clients.length) {
@@ -499,6 +540,11 @@ public class ScrabbleServer  implements Runnable{
         }
     }
     
+    /**
+     * Finds what type a message has been received.
+     * @param data The message to be analyzed.
+     * @return The type of message.
+     */
     public String findType(char data[]) {
         int i = 0;
         String type = "";
@@ -510,6 +556,13 @@ public class ScrabbleServer  implements Runnable{
         return type;
     }
     
+    /**
+     * Retrieves part of the message.
+     * @param data The complete message.
+     * @param i The index of the array where the search will start.
+     * @param nrParam The number of parts to retrieve.
+     * @return 
+     */
     public String findMessage(char data[],int i,int nrParam ){
         String message="";
         int j=1;
@@ -532,6 +585,9 @@ public class ScrabbleServer  implements Runnable{
         return message;
     }
     
+    /**
+     * Reads the port from a configuration file.
+     */
     static void getPort(){
         /*Step 0: Initialize the files*/
         BufferedReader inputStream = null;
@@ -565,7 +621,7 @@ public class ScrabbleServer  implements Runnable{
     
     /**
      * Initializes the database link and awaits for a connection of an new Client 
-     * @param args Stores the arguments passed through the terminal
+     * @param args Stores the arguments passed through the command line.
      */
     public static void main(String args[]) {
         DbSetup dbconn = new DbSetup();
