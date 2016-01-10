@@ -418,8 +418,11 @@ public class ClientProtocol implements Runnable {
                             case "FAIL":
                                 clientService.receiveSignup(0);
                                 break;
-                            default:
+                            case "EMAIL":
                                 clientService.receiveSignup(2);
+                                break;
+                            default:
+                                clientService.receiveSignup(3);
                         }
                         break;
                     }

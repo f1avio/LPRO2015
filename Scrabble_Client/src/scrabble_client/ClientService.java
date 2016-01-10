@@ -64,6 +64,12 @@ public class ClientService {
                 Iframe.setVisible(true);
                 break;
             }
+            case 2: {
+                JOptionPane.showMessageDialog(null, "Email is already in use.");
+                InitialFrame Iframe = new InitialFrame("signupP");
+                Iframe.setVisible(true);
+                break;
+            }
             default: {
                 JOptionPane.showMessageDialog(null, "Error");
                 InitialFrame Iframe = new InitialFrame("loginP");

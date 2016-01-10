@@ -6,7 +6,9 @@ import dBInterface.Users;
 import dBInterface.PrivateMSG;
 import java.util.Arrays;
 
-/**@author Adam Kopnicky 
+/**
+ * Provides the classes necessary to interface the server with the database.
+ * @author Adam Kopnicky 
  * @author Ewa Godlewska 
  * @author Flavio Dias 
  * @author Hugo Pereira
@@ -95,12 +97,18 @@ public class DBconnection {
         //Users database = new Users();
         boolean userExist;
         boolean signupRet;
-        
+        boolean emailExist;
         userExist = database.usernameExist(user);
+        emailExist = database.emailExist(email);
         
         if (userExist) {
             state = 0;
-        } else {
+        }
+        else if(emailExist)
+        {
+            state = 2;
+        }
+        else {
             signupRet = database.insertUser(user, password, email);
             if (signupRet) {
                 state = 1;

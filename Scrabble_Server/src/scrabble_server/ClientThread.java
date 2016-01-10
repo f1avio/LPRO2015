@@ -26,7 +26,7 @@ class ClientThread extends Thread{
     /**
      * Stores the connectionsocket and an instance of the class ScrabbleServer.
      * @param argServer The instance of the class ScrabbleServer.
-     * @param The connectionsocket.
+     * @param argSocket connectionsocket.
      */
    public ClientThread(ScrabbleServer argServer, Socket argSocket)
     {

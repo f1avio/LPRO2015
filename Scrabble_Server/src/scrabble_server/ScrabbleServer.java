@@ -251,6 +251,10 @@ public class ScrabbleServer  implements Runnable{
                         ret = "SIGNUP#OK#";
                         break;
                     }
+                    case 2: {
+                        ret = "SIGNUP#EMAIL#";
+                        break;
+                    }
                     default: {
                         ret = "SIGNUP#ERROR#";
                         break;
@@ -561,7 +565,7 @@ public class ScrabbleServer  implements Runnable{
      * @param data The complete message.
      * @param i The index of the array where the search will start.
      * @param nrParam The number of parts to retrieve.
-     * @return 
+     * @return The message found.
      */
     public String findMessage(char data[],int i,int nrParam ){
         String message="";

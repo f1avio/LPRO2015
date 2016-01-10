@@ -274,4 +274,17 @@ public class UsersTest extends TestCase {
         String result = instance.getUsernameList();
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of emailExist method, of class Users.
+     */
+    public void testEmailExist() {
+        System.out.println("emailExist");
+        String email = "saldos@continente.pt";
+        Users instance = new Users();
+        instance.setTest(true);
+        boolean expResult = true;
+        boolean result = instance.emailExist(email);
+        assertEquals(expResult, result);
+    }
 }

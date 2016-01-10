@@ -134,6 +134,36 @@ public class Users {
         }
         return state;
     }
+     
+    /**
+     * Checks if a particular email is already registered on the system.
+     * @param email The email that will be verified.
+     * @return A boolean stating if the email exists or not.
+     */
+    public boolean emailExist(String email){
+        boolean exist = false;
+        String[] aux = dbconn.getDB();
+        String query;
+        try(Connection con = DriverManager.getConnection(aux[1],aux[2],aux[3])) {
+            if(!testConfigured)
+                   query = "SELECT * FROM scrabble.accounts";
+            else
+                   query = "SELECT * FROM test.accounts";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                if(rs.getString("email").equals(email)){
+                    exist = true;
+                    break;
+                }
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("emailExist() " +ex);
+        }
+        return exist;
+    }
     
     /**
      * Changes the password or email of a certain user.
