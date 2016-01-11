@@ -3,6 +3,7 @@ package scrabble_server;
 import java.io.*;
 import java.net.*;
 import dBInterface.*;
+import email.*;
 import java.util.Arrays;
 
 /**
@@ -624,12 +625,55 @@ public class ScrabbleServer  implements Runnable{
     }
     
     /**
+     * Sets the private fields of the class Email.
+     */
+    public static void setEmailCredentials()
+    {
+       /*Step 0: Initialize the files*/
+        BufferedReader inputStream = null;
+        int i = 0;
+        String aux[] = new String[3];
+        String file = "emailAccount.txt";
+        try {
+            inputStream = new BufferedReader(new FileReader(file));
+            while ((aux[i] = inputStream.readLine()) != null) {
+                i++;
+            }
+        }catch (FileNotFoundException f)
+              {
+            System.err.println("Caught FileNotFoundException: " + f.getMessage());
+            } 
+        catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+            }  
+        finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException ex) {
+                    System.err.println("Caught IOException: " + ex.getMessage());
+                }
+            }
+        }
+        
+        //Calls the class.
+        Email.setAccountDetails(aux[0], aux[1]);
+    }
+       
+    /**
      * Initializes the database link and awaits for a connection of an new Client 
      * @param args Stores the arguments passed through the command line.
      */
     public static void main(String args[]) {
         DbSetup dbconn = new DbSetup();
         dbconn.setDB();
-        ScrabbleServer server = ScrabbleServer.getInstance();       
+        
+         //Checks some commands from the cmd
+         for (String arg : args) 
+           if (args.equals("-E")) 
+             setEmailCredentials(); 
+           
+        ScrabbleServer server = ScrabbleServer.getInstance();
+        
     }
 }
