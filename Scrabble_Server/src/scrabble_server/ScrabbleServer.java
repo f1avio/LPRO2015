@@ -13,6 +13,7 @@ import java.util.Arrays;
  * @author Flavio Dias 
  * @author Hugo Pereira
  * @author Jose Carvalho
+ * $Header$
  */
 public class ScrabbleServer  implements Runnable{
     
@@ -21,7 +22,8 @@ public class ScrabbleServer  implements Runnable{
      Thread thread = null;
      int clientCount = 0;
     DBconnection DBcon = new DBconnection();
-    //DBconnection DBcon = DBconnection.getInstance();
+    private static boolean send2Mail = false;
+    static Email email = new Email();
     static int port;
     /* FROM: http://stackoverflow.com/questions/1813853/ifdef-ifndef-in-java */
     private static final boolean debug = false;
@@ -249,7 +251,21 @@ public class ScrabbleServer  implements Runnable{
                         break;
                     }
                     case 1: {
-                        ret = "SIGNUP#OK#";
+                        //ret = "SIGNUP#OK#";
+                        /*Need to send a message to the user.*/
+                        if(send2Mail)
+                        {
+                            String content = "You have been accepted to participate on our game.\nWe hope you have fun.\n\nBest regards,\nGroup13";
+                            if(email.getMailSession(emailRegist, "Welcome to Scrabble Rabble.", content))
+                            {
+                                email.sendMail();
+                                ret = "SIGNUP#OK#";
+                            }
+                            else
+                                ret = "SIGNUP#NOTOK#";
+                        }
+                        else
+                            ret = "SIGNUP#OK#";
                         break;
                     }
                     case 2: {
@@ -658,6 +674,9 @@ public class ScrabbleServer  implements Runnable{
         
         //Calls the class.
         Email.setAccountDetails(aux[0], aux[1]);
+        email.setupMailServer();
+        //Set global parameter to know it should send emails.
+        send2Mail = true;
     }
        
     /**
@@ -670,9 +689,13 @@ public class ScrabbleServer  implements Runnable{
         
          //Checks some commands from the cmd
          for (String arg : args) 
-           if (args.equals("-E")) 
+           if (arg.equals("-E"))
+           {
+             //System.out.println("Will be sending emails Hooray");
              setEmailCredentials(); 
-           
+           } 
+         
+        //System.out.println("Args holds: "+Arrays.toString(args));
         ScrabbleServer server = ScrabbleServer.getInstance();
         
     }

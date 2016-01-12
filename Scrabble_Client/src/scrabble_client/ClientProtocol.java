@@ -421,8 +421,11 @@ public class ClientProtocol implements Runnable {
                             case "EMAIL":
                                 clientService.receiveSignup(2);
                                 break;
-                            default:
+                            case "NOTOK":
                                 clientService.receiveSignup(3);
+                                break;
+                            default:
+                                clientService.receiveSignup(4);
                         }
                         break;
                     }

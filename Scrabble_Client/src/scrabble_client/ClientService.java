@@ -53,7 +53,7 @@ public class ClientService {
     public void receiveSignup(int msg){
         switch (msg) {
             case 1: {
-                JOptionPane.showMessageDialog(null, "Regist Successful");
+                JOptionPane.showMessageDialog(null, "Regist Successful. An email was sent confirming the registry.");
                 InitialFrame Iframe = new InitialFrame("loginP");
                 Iframe.setVisible(true);
                 break;
@@ -67,6 +67,12 @@ public class ClientService {
             case 2: {
                 JOptionPane.showMessageDialog(null, "Email is already in use.");
                 InitialFrame Iframe = new InitialFrame("signupP");
+                Iframe.setVisible(true);
+                break;
+            }
+            case 3: {
+                JOptionPane.showMessageDialog(null, "Regist Successful, but we failed to send the email.");
+                InitialFrame Iframe = new InitialFrame("loginP");
                 Iframe.setVisible(true);
                 break;
             }

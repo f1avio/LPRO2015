@@ -52,7 +52,7 @@ public class Email {
     /**
      * Sets up the gmail server properties.
      */    
-    void setupMailServer()
+    public void setupMailServer()
     {
         System.out.println("\n 1st ===> setup Mail Server Properties..");
 	mailServerProperties = System.getProperties();
@@ -71,8 +71,9 @@ public class Email {
      * @param email The email address of the user.
      * @param subject The subject of the email.
      * @param content The content of the email.
+     * @return The success rate of the operation. 
      */
-    boolean getMailSession(String email, String subject, String content)
+    public boolean getMailSession(String email, String subject, String content)
     {
         try {
             System.out.println("\n\n 2nd ===> get Mail Session..");
@@ -96,7 +97,7 @@ public class Email {
     /**
      * Sends the email created on the getMailSession class.
      */
-    boolean sendMail(){
+    public boolean sendMail(){
         try {
             System.out.println("\n\n 3rd ===> Get Session and Send mail");
             Transport transport = getMailSession.getTransport("smtp");
